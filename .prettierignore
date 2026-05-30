@@ -1,0 +1,28 @@
+# Dependencies & build output
+node_modules/
+.next/
+out/
+build/
+dist/
+.vercel/
+
+# Test & coverage artifacts
+coverage/
+playwright-report/
+test-results/
+
+# Generated code (owned by openapi-typescript)
+src/lib/api/generated/
+
+# OpenAPI snapshot (mirror of the backend spec, refreshed via codegen)
+openapi.snapshot.json
+
+# Lockfiles & generated metadata
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+*.tsbuildinfo
+next-env.d.ts
+
+# Assets
+public/
