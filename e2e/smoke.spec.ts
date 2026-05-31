@@ -5,7 +5,7 @@ test.describe('foundation smoke', () => {
     await page.goto('/');
 
     await expect(
-      page.getByRole('heading', { name: /fund and build the open web/i })
+      page.getByRole('heading', { name: /discover opportunities/i })
     ).toBeVisible();
   });
 

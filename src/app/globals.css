@@ -8,7 +8,12 @@
 /* text-error-400, etc.). Ported from Boundless v1.                    */
 /* ------------------------------------------------------------------ */
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  /* Headings use TASA Orbiter (brand display font). The .woff2 files are not in
+     the repo yet, so the stack falls back to Plus Jakarta Sans until they land
+     via next/font/local. Swapping in the real face is then a one-line change. */
+  --font-heading:
+    'TASA Orbiter', var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --color-gray-50: #f7f7f7;
@@ -71,8 +76,12 @@
   --color-error-800: #800501;
   --color-error-900: #591000;
 
-  /* Brand teal accent washes */
+  /* Brand teal accent + dark marketing surfaces (brand kit palette) */
   --color-brand: #2eedaa;
+  --color-brand-hover: #2ad89b;
+  --color-brand-soft: #eafdf7;
+  --color-ink: #0c0f0b;
+  --color-ink-soft: #101510;
   --color-active-bg: rgba(46, 237, 170, 0.08);
   --color-active-bg2: rgba(46, 237, 170, 0.32);
 }
