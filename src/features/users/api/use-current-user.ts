@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { apiClient, unwrapData } from '@/lib/api';
 
-import type { User } from '../types';
+import type { Dashboard } from '../types';
 
 export const usersKeys = {
   all: ['users'] as const,
@@ -12,15 +12,15 @@ export const usersKeys = {
 };
 
 /**
- * Current authenticated user. `/api/users/me` has no `@ApiResponse` type on the
- * backend yet, so its generated response is untyped; the explicit `unwrapData<User>`
- * bridges it. Re-run `npm run codegen` once the endpoint is annotated, then the
- * type argument becomes redundant and can be dropped.
+ * Current user dashboard from `GET /api/users/me`. The `Dashboard` type is
+ * derived from the generated schema, so it stays in sync with the backend on
+ * every `npm run codegen`. `unwrapData` strips the `{ success, data, meta }`
+ * envelope and throws a typed `ApiError` on failure.
  */
 export function useCurrentUser() {
   return useQuery({
     queryKey: usersKeys.me(),
-    queryFn: async (): Promise<User> =>
-      unwrapData<User>(await apiClient.GET('/api/users/me')),
+    queryFn: async (): Promise<Dashboard> =>
+      unwrapData(await apiClient.GET('/api/users/me')),
   });
 }

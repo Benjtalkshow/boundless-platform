@@ -9,7 +9,7 @@ import { createQueryWrapper } from '@/test/utils';
 import { useCurrentUser } from './use-current-user';
 
 describe('useCurrentUser', () => {
-  it('unwraps the response envelope into the user data', async () => {
+  it('unwraps the response envelope into the dashboard data', async () => {
     const { result } = renderHook(() => useCurrentUser(), {
       wrapper: createQueryWrapper(),
     });
@@ -17,12 +17,13 @@ describe('useCurrentUser', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     // The default handler returns a `{ success, data, meta }` envelope; the
-    // client middleware unwraps it, so the hook only ever sees `data`.
-    expect(result.current.data).toEqual({
+    // client middleware unwraps it, so the hook surfaces the typed DashboardDto
+    // `data` (nested profile and stats included).
+    expect(result.current.data?.user).toMatchObject({
       id: 'user_1',
-      name: 'Ada Lovelace',
       email: 'ada@example.com',
     });
+    expect(result.current.data?.stats.followers).toBe(128);
   });
 
   it('throws a normalized ApiError when the envelope reports failure', async () => {

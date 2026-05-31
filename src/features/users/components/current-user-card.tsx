@@ -12,13 +12,19 @@ import { ApiError } from '@/lib/api';
 
 import { useCurrentUser } from '../api/use-current-user';
 
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
 /**
  * Smoke-slice surface: proves the typed client, envelope unwrap, and TanStack
- * Query render path end to end against `GET /api/users/me`.
+ * Query render path end to end against `GET /api/users/me` (DashboardDto).
  *
  * Branch on `query` directly instead of destructuring so TypeScript keeps the
- * react-query discriminated union intact and narrows `query.data` to `User`
- * under `isSuccess`.
+ * react-query discriminated union intact and narrows `query.data` to
+ * `Dashboard` under `isSuccess`.
  */
 export function CurrentUserCard() {
   const query = useCurrentUser();
@@ -48,18 +54,42 @@ export function CurrentUserCard() {
             </Button>
           </div>
         ) : query.isSuccess ? (
-          <dl className='grid gap-3 text-sm'>
-            <div className='grid gap-0.5'>
-              <dt className='text-muted-foreground'>Name</dt>
-              <dd className='font-medium'>{query.data.name}</dd>
+          <div className='grid gap-4'>
+            <dl className='grid gap-3 text-sm'>
+              <div className='grid gap-0.5'>
+                <dt className='text-muted-foreground'>Email</dt>
+                <dd className='font-medium'>{query.data.user.email}</dd>
+              </div>
+              <div className='grid gap-0.5'>
+                <dt className='text-muted-foreground'>Role</dt>
+                <dd className='font-medium capitalize'>
+                  {query.data.user.role}
+                </dd>
+              </div>
+              <div className='grid gap-0.5'>
+                <dt className='text-muted-foreground'>Member since</dt>
+                <dd className='font-medium'>
+                  {dateFormatter.format(new Date(query.data.user.createdAt))}
+                </dd>
+              </div>
+            </dl>
+            <div className='grid grid-cols-3 gap-3 border-t pt-4 text-center'>
+              <Stat label='Followers' value={query.data.stats.followers} />
+              <Stat label='Following' value={query.data.stats.following} />
+              <Stat label='Reputation' value={query.data.stats.reputation} />
             </div>
-            <div className='grid gap-0.5'>
-              <dt className='text-muted-foreground'>Email</dt>
-              <dd className='font-medium'>{query.data.email}</dd>
-            </div>
-          </dl>
+          </div>
         ) : null}
       </CardContent>
     </Card>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className='grid gap-0.5'>
+      <span className='text-lg font-semibold'>{value}</span>
+      <span className='text-xs text-muted-foreground'>{label}</span>
+    </div>
   );
 }

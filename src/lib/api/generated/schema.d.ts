@@ -132,110 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/users/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user profile */
-        get: operations["UserController_getProfile"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/public": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Public test endpoint */
-        get: operations["UserController_getPublic"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/optional": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Optional authentication test endpoint */
-        get: operations["UserController_getOptional"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/profile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user profile */
-        get: operations["ProfileController_getProfile"];
-        /** Update current user profile */
-        put: operations["ProfileController_updateProfile"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/profile/stats": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get user profile statistics */
-        get: operations["ProfileController_getProfileStats"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/profile/activity": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get user activity */
-        get: operations["ProfileController_getActivity"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/profile/avatar": {
+    "/api/notifications/test-marketing-cron": {
         parameters: {
             query?: never;
             header?: never;
@@ -244,8 +141,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Upload user avatar */
-        post: operations["ProfileController_uploadAvatar"];
+        post: operations["NotificationsController_triggerMarketingCron"];
         delete?: never;
         options?: never;
         head?: never;
@@ -320,16 +216,19 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/password": {
+    "/api/users/earnings/public": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        /** Change user password */
-        put: operations["SecurityController_changePassword"];
+        /**
+         * Get public earnings for a user (profile page)
+         * @description Returns visibility-filtered earnings for the given username: total earned, breakdown by source, and completed activities only. No pending/claimable amounts or entityIds.
+         */
+        get: operations["EarningsController_getEarningsPublic"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -337,24 +236,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/email/verify": {
+    "/api/users/earnings": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Get current user earnings
+         * @description Returns summary (total earned, pending/completed withdrawal), breakdown by source (hackathons, grants, crowdfunding, bounties), and activity feed.
+         */
+        get: operations["EarningsController_getEarnings"];
         put?: never;
-        /** Send email verification */
-        post: operations["SecurityController_sendEmailVerification"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/email/verify/{token}": {
+    "/api/users/earnings/withdraw": {
         parameters: {
             query?: never;
             header?: never;
@@ -363,15 +265,18 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Verify email with token */
-        post: operations["SecurityController_verifyEmail"];
+        /**
+         * Request withdrawal / claim
+         * @description Submit a withdrawal. Payout always goes to the user's linked wallet. Claiming (release flow) is for crowdfunding and grants; for crowdfunding, response may include pendingReleases to sign and submit via confirm-release. Hackathon winners do not claim here—admin releases and funds go to their wallet.
+         */
+        post: operations["EarningsController_withdraw"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/2fa/enable": {
+    "/api/users/earnings/withdraw/confirm-release": {
         parameters: {
             query?: never;
             header?: never;
@@ -380,83 +285,181 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Enable two-factor authentication */
-        post: operations["SecurityController_enable2FA"];
+        /**
+         * Submit signed release transaction (crowdfunding)
+         * @description After withdraw returns pendingReleases, creator signs the unsigned XDR with their wallet and submits here. On success, the milestone is marked released.
+         */
+        post: operations["EarningsController_confirmRelease"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/2fa/disable": {
+    "/api/users/me": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get current user dashboard with overview, chart, and activities graph */
+        get: operations["UserController_getProfile"];
         put?: never;
-        /** Disable two-factor authentication */
-        post: operations["SecurityController_disable2FA"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/2fa/verify": {
+    "/api/users/public": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Public test endpoint */
+        get: operations["UserController_getPublic"];
         put?: never;
-        /** Verify two-factor authentication code */
-        post: operations["SecurityController_verify2FA"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/password/reset": {
+    "/api/users/optional": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Optional authentication test endpoint */
+        get: operations["UserController_getOptional"];
         put?: never;
-        /** Request password reset */
-        post: operations["SecurityController_requestPasswordReset"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/password/reset/{token}": {
+    "/api/users/{username}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Get user profile by username
+         * @description Get a user profile by their username. Accessible to anyone without authentication.
+         */
+        get: operations["UserController_getUserByUsername"];
         put?: never;
-        /** Reset password with token */
-        post: operations["SecurityController_resetPassword"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/security/stellar/verify": {
+    "/api/users/{username}/followers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user followers
+         * @description Get a list of users who follow this profile
+         */
+        get: operations["UserController_getUserFollowers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/{username}/following": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get users followed by this profile
+         * @description Get a list of entities (users, projects, organizations) followed by this user
+         */
+        get: operations["UserController_getUserFollowing"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user profile */
+        get: operations["ProfileController_getProfile"];
+        /** Update current user profile */
+        put: operations["ProfileController_updateProfile"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/profile/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get user profile statistics */
+        get: operations["ProfileController_getProfileStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/profile/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get user activity */
+        get: operations["ProfileController_getActivity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/profile/avatar": {
         parameters: {
             query?: never;
             header?: never;
@@ -465,8 +468,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Verify Stellar wallet signature */
-        post: operations["SecurityController_verifyStellarWallet"];
+        /** Upload user avatar */
+        post: operations["ProfileController_uploadAvatar"];
         delete?: never;
         options?: never;
         head?: never;
@@ -568,8 +571,7 @@ export interface paths {
         /** Get paginated list of users (Admin only) */
         get: operations["UsersController_getUsers"];
         put?: never;
-        /** Create a new user (Admin only) */
-        post: operations["UsersController_createUser"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -604,6 +606,226 @@ export interface paths {
         };
         /** Get user profile by ID */
         get: operations["UsersController_getUserProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/single": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload a single file
+         * @description Upload a single file to Cloudinary with optional transformations and metadata
+         */
+        post: operations["UploadController_uploadSingle"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/multiple": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload multiple files
+         * @description Upload multiple files to Cloudinary with optional folder and tags
+         */
+        post: operations["UploadController_uploadMultiple"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/{publicId}/{resourceType}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a file
+         * @description Delete a file from Cloudinary storage
+         */
+        delete: operations["UploadController_deleteFile"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/info/{publicId}/{resourceType}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get file information
+         * @description Get detailed information about a file from Cloudinary
+         */
+        get: operations["UploadController_getFileInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search files
+         * @description Search files in Cloudinary with optional filters
+         */
+        get: operations["UploadController_searchFiles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/optimize/{publicId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Generate optimized URL
+         * @description Generate an optimized URL with transformations for a file
+         */
+        get: operations["UploadController_generateOptimizedUrl"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/responsive/{publicId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Generate responsive URLs
+         * @description Generate multiple URLs with different sizes for responsive images
+         */
+        get: operations["UploadController_generateResponsiveUrls"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/avatar/{publicId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Generate avatar URL
+         * @description Generate a square cropped avatar URL with automatic optimizations
+         */
+        get: operations["UploadController_generateAvatarUrl"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/logo/{publicId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Generate logo URL
+         * @description Generate a logo URL with fit cropping and automatic optimizations
+         */
+        get: operations["UploadController_generateLogoUrl"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/banner/{publicId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Generate banner URL
+         * @description Generate a banner URL with fill cropping and automatic optimizations
+         */
+        get: operations["UploadController_generateBannerUrl"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/upload/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get usage statistics
+         * @description Get Cloudinary usage statistics for the account
+         */
+        get: operations["UploadController_getUsageStats"];
         put?: never;
         post?: never;
         delete?: never;
@@ -804,7 +1026,5446 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/sign-in/social": {
+    "/api/follows/{entityType}/{entityId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["FollowsController_followEntity"];
+        delete: operations["FollowsController_unfollowEntity"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/follows/user/{userId}/following": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FollowsController_getUserFollowing"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/follows/entity/{entityType}/{entityId}/followers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FollowsController_getEntityFollowers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/follows/user/{userId}/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FollowsController_getFollowStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/follows/{entityType}/{entityId}/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FollowsController_isFollowing"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/chat/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get chat message history */
+        get: operations["ChatController_getMessages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List my conversations */
+        get: operations["MessagesController_listConversations"];
+        put?: never;
+        /** Start or get existing conversation */
+        post: operations["MessagesController_startOrGetConversation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/conversations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get one conversation (thread header) */
+        get: operations["MessagesController_getConversation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/conversations/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List messages in a conversation */
+        get: operations["MessagesController_listMessages"];
+        put?: never;
+        /** Send a message */
+        post: operations["MessagesController_sendMessage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/messages/conversations/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Mark conversation as read */
+        patch: operations["MessagesController_markConversationRead"];
+        trace?: never;
+    };
+    "/api/crowdfunding/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate campaign data
+         * @description Validate campaign data before creation. returns 200 if valid, 400 if invalid.
+         */
+        post: operations["CampaignsController_validateCampaign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List crowdfunding campaigns
+         * @description Get a paginated list of crowdfunding campaigns with optional filtering
+         */
+        get: operations["CampaignsController_getCampaigns"];
+        put?: never;
+        /**
+         * Create a crowdfunding campaign
+         * @description Create a new crowdfunding campaign. This will also create the associated project automatically.
+         */
+        post: operations["CampaignsController_createCampaign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/trigger-cron": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Trigger campaign transition cron
+         * @description Manually trigger the campaign transition cron job for testing purposes.
+         */
+        get: operations["CampaignsController_triggerCron"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List authenticated user's campaigns
+         * @description Get a paginated list of crowdfunding campaigns created by the authenticated user
+         */
+        get: operations["CampaignsController_getMyCampaigns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/s/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign by slug
+         * @description Get detailed information about a specific crowdfunding campaign by its URL slug
+         */
+        get: operations["CampaignsController_getCampaignBySlug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign details
+         * @description Get detailed information about a specific crowdfunding campaign
+         */
+        get: operations["CampaignsController_getCampaign"];
+        /**
+         * Update campaign
+         * @description Update a crowdfunding campaign. Only campaign owners can update campaigns.
+         */
+        put: operations["CampaignsController_updateCampaign"];
+        post?: never;
+        /**
+         * Delete campaign
+         * @description Delete a crowdfunding campaign. Only campaign owners can delete campaigns that are in draft/reviewing phase and have no contributions.
+         */
+        delete: operations["CampaignsController_deleteCampaign"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/statistics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign statistics
+         * @description Get funding statistics and progress for a campaign
+         */
+        get: operations["CampaignsController_getCampaignStatistics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/escrow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update escrow details
+         * @description Update escrow details including transaction hash, address, and status. Only campaign owners can update escrow details.
+         */
+        put: operations["CampaignsController_updateEscrowDetails"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all invitations for a campaign */
+        get: operations["CampaignsController_getInvitations"];
+        put?: never;
+        /** Invite a team member to the campaign */
+        post: operations["CampaignsController_inviteTeamMember"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/invitations/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Accept a campaign team invitation */
+        post: operations["CampaignsController_acceptInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/contribute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Contribute to campaign
+         * @description Make a contribution to a crowdfunding campaign
+         */
+        post: operations["ContributionsController_contributeToCampaign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/contributions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign contributions
+         * @description Get paginated list of contributions for a campaign
+         */
+        get: operations["ContributionsController_getCampaignContributions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/contributions/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get contribution statistics
+         * @description Get contribution statistics and analytics for a campaign
+         */
+        get: operations["ContributionsController_getContributionStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/milestones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign milestones
+         * @description Get all milestones for a crowdfunding campaign
+         */
+        get: operations["MilestonesController_getCampaignMilestones"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/milestones/{milestoneId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get milestone details
+         * @description Get detailed information about a specific milestone
+         */
+        get: operations["MilestonesController_getMilestone"];
+        /**
+         * Submit milestone for review
+         * @description Submit milestone with proof of work for review. Creators: Provide proof of work files/links and optional notes. Data will be strictly validated. Milestone will be marked as SUBMITTED status for admin review.
+         */
+        put: operations["MilestonesController_updateMilestone"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/milestones/{milestoneId}/validate-submission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate milestone submission data
+         * @description Strictly validate milestone submission data (proof of work files/links) for creator submissions without performing any side effects. Creators submit milestones for review with proof of work. Admin reviews and approves later. Returns validated data if successful, or detailed error messages if validation fails. Use this before blockchain interaction to ensure data integrity.
+         */
+        post: operations["MilestonesController_validateMilestoneSubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/{id}/milestones/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get milestone statistics
+         * @description Get milestone completion statistics for a campaign
+         */
+        get: operations["MilestonesController_getMilestoneStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user wallet */
+        get: operations["WalletController_getWallet"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/details": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get wallet details including balances and transactions */
+        get: operations["WalletController_getWalletDetails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sync wallet with blockchain */
+        post: operations["WalletController_syncWallet"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create a new wallet for the current user */
+        post: operations["WalletController_createWallet"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Activate wallet on Stellar with sponsored reserves
+         * @description Creates the on-chain account and configured trustlines (default: USDC) in a single sponsored transaction. The platform sponsor account pays all XLM reserves and the network fee. Idempotent: safe to retry if a prior call failed.
+         */
+        post: operations["WalletController_activate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/admin/reclaim-dormant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Admin: reclaim sponsor XLM from dormant zero-balance wallets
+         * @description Finds wallets that have been idle for the given window with zero on-chain balances, and merges each one back into the sponsor account. Frees ~1 XLM per account and ~0.5 XLM per trustline. Defaults to dryRun=true; set dryRun=false to actually submit. The wallet row is preserved (isActivated reset to false), so a returning user can re-activate at the same address.
+         */
+        post: operations["WalletController_reclaimDormant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/trustline/supported": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List assets that can have a trustline added (e.g. USDC, EURC) */
+        get: operations["WalletController_getSupportedTrustlines"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/trustline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a trustline for a supported asset (e.g. USDC) */
+        post: operations["WalletController_addTrustline"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/send/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Validate destination address before sending
+         * @description Returns whether the destination is a valid Stellar address, activated on the network, has a trustline for the given asset (for non-XLM), and whether the address requires a memo (e.g. exchange shared deposit address).
+         */
+        get: operations["WalletController_validateSendDestination"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send funds from your wallet to a Stellar address
+         * @description Sends funds from your Boundless wallet to a destination. Requires identity verification (KYC). Validates: your wallet is activated, destination is activated, destination has trustline for the asset (if not XLM), optional memo. Requires sufficient balance and XLM for network fee when sending non-XLM.
+         */
+        post: operations["WalletController_send"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/wallet/payout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send payout from platform (Admin only)
+         * @description Sends funds from the Boundless platform wallet to a destination. Validates: destination activated, trustline for asset, memo when required, platform balance. Idempotent when idempotencyKey is provided.
+         */
+        post: operations["WalletPayoutController_sendPayout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List comments with filters */
+        get: operations["CommentsController_listComments"];
+        put?: never;
+        /** Create a comment */
+        post: operations["CommentsController_createComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get comment by ID */
+        get: operations["CommentsController_getComment"];
+        /** Update comment (author only) */
+        put: operations["CommentsController_updateComment"];
+        post?: never;
+        /** Delete comment (author or moderator only) */
+        delete: operations["CommentsController_deleteComment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/entity/{entityType}/{entityId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get comments for an entity */
+        get: operations["CommentsController_getCommentsByEntity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/{id}/reactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get reactions for comment */
+        get: operations["CommentsController_getReactions"];
+        put?: never;
+        /** Add reaction to comment */
+        post: operations["CommentsController_addReaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/{id}/reactions/{reactionType}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove reaction from comment */
+        delete: operations["CommentsController_removeReaction"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/{id}/report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Report a comment */
+        post: operations["CommentsController_reportComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/queue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get moderation queue (moderators only) */
+        get: operations["CommentModerationController_getModerationQueue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all reports (moderators only) */
+        get: operations["CommentModerationController_getReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/reports/{id}/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resolve a report (moderators only) */
+        post: operations["CommentModerationController_resolveReport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a comment (moderators only) */
+        post: operations["CommentModerationController_approveComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject/Hide a comment (moderators only) */
+        post: operations["CommentModerationController_rejectComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/{id}/hide": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Hide a comment (moderators only) */
+        post: operations["CommentModerationController_hideComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/{id}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Restore a hidden comment (moderators only) */
+        post: operations["CommentModerationController_restoreComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/api/comments/moderation/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get moderation statistics (moderators only) */
+        get: operations["CommentModerationController_getModerationStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get published hackathons
+         * @description Retrieves a paginated list of published hackathons with optional filtering
+         */
+        get: operations["HackathonsController_getHackathons"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/fee-estimate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get fee estimate for prize pool
+         * @description Returns platform fee breakdown for a given total prize pool (USDC). Used by the Rewards step when creating a hackathon.
+         */
+        get: operations["HackathonsController_getFeeEstimate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/winners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon winners
+         * @description Retrieves ranked winners for a hackathon with prize details
+         */
+        get: operations["HackathonsController_getWinners"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get public judging results
+         * @description Retrieves aggregated judging results after results are published
+         */
+        get: operations["HackathonsController_getPublicResults"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon by ID or slug
+         * @description Retrieves a published hackathon by its ID or slug
+         */
+        get: operations["HackathonsController_getHackathon"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{slug}/contributors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List public partner contributors for a hackathon
+         * @description Returns confirmed partner contributions where the partner opted in to be shown publicly, plus the total amount contributed.
+         */
+        get: operations["HackathonsController_getPublicContributors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/follow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Follow or unfollow a hackathon
+         * @description Toggles follow status for a published hackathon
+         */
+        post: operations["HackathonsController_followHackathon"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/join": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Join a hackathon
+         * @description Register as a participant for a published hackathon
+         */
+        post: operations["HackathonsController_joinHackathon"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/leave": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Leave a hackathon
+         * @description Remove yourself as a participant from a hackathon
+         */
+        delete: operations["HackathonsController_leaveHackathon"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/participants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon participants
+         * @description Retrieve list of participants for a hackathon by ID or slug
+         */
+        get: operations["HackathonsController_getHackathonParticipants"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/submissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon submissions
+         * @description Retrieves submissions for a hackathon (organizer only)
+         */
+        get: operations["HackathonsSubmissionsController_getHackathonSubmissions"];
+        put?: never;
+        /**
+         * Create a hackathon submission
+         * @description Submit a project to a hackathon
+         */
+        post: operations["HackathonsSubmissionsController_createSubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/submissions/explore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Explore hackathon submissions
+         * @description Retrieves all submissions for a hackathon for public viewing
+         */
+        get: operations["HackathonsSubmissionsController_exploreHackathonSubmissions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/my-submission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get my submission for a hackathon
+         * @description Retrieve the current user's submission for a hackathon
+         */
+        get: operations["HackathonsSubmissionsController_getMySubmission"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/submissions/{submissionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a submission by ID
+         * @description Retrieve details of a specific submission
+         */
+        get: operations["HackathonsSubmissionsController_getSubmissionById"];
+        put?: never;
+        post?: never;
+        /**
+         * Withdraw a hackathon submission
+         * @description Delete your submission before the deadline
+         */
+        delete: operations["HackathonsSubmissionsController_deleteSubmission"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a hackathon submission
+         * @description Update your submission before the deadline
+         */
+        patch: operations["HackathonsSubmissionsController_updateSubmission"];
+        trace?: never;
+    };
+    "/api/hackathons/{id}/discussions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon discussions
+         * @description Retrieve real-time comments and discussions for a hackathon
+         */
+        get: operations["HackathonsDiscussionsController_getHackathonDiscussions"];
+        put?: never;
+        /**
+         * Post a comment in hackathon discussion
+         * @description Create a new comment in the hackathon discussion thread
+         */
+        post: operations["HackathonsDiscussionsController_createHackathonComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/discussions/{commentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a discussion comment
+         * @description Remove your own comment from the hackathon discussion
+         */
+        delete: operations["HackathonsDiscussionsController_deleteHackathonComment"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a discussion comment
+         * @description Edit your own comment in the hackathon discussion
+         */
+        patch: operations["HackathonsDiscussionsController_updateHackathonComment"];
+        trace?: never;
+    };
+    "/api/hackathons/discussions/{commentId}/react": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * React to a comment
+         * @description Add or toggle a reaction (like, love, etc.) to a discussion comment
+         */
+        post: operations["HackathonsDiscussionsController_reactToComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/discussions/{commentId}/replies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get comment replies
+         * @description Retrieve replies to a specific comment
+         */
+        get: operations["HackathonsDiscussionsController_getCommentReplies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon teams
+         * @description Retrieve all teams for a hackathon with optional filtering
+         */
+        get: operations["HackathonsTeamsController_getHackathonTeams"];
+        put?: never;
+        /**
+         * Create a team
+         * @description Create a new team for the hackathon. Team is closed by default unless skills are specified.
+         */
+        post: operations["HackathonsTeamsController_createTeam"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get team details
+         * @description Get detailed information about a specific team
+         */
+        get: operations["HackathonsTeamsController_getTeam"];
+        put?: never;
+        post?: never;
+        /**
+         * Disband a team (leader only)
+         * @description Disband the team and remove all members. Refuses if the team has already submitted — withdraw the submission first.
+         */
+        delete: operations["HackathonsTeamsController_disbandTeam"];
+        options?: never;
+        head?: never;
+        /**
+         * Update team
+         * @description Update team information (leader only). Team opens when skills are added, closes when removed.
+         */
+        patch: operations["HackathonsTeamsController_updateTeam"];
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/join": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Join a team
+         * @description Join an existing open team
+         */
+        post: operations["HackathonsTeamsController_joinTeam"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/members/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove a member from the team (leader only)
+         * @description Team leader removes a specific member. Leaders cannot remove themselves — they must transfer leadership first or disband the team.
+         */
+        delete: operations["HackathonsTeamsController_removeTeamMember"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/leave": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Leave a team
+         * @description Leave your current team. Leaders must transfer leadership first if team has other members.
+         */
+        post: operations["HackathonsTeamsController_leaveTeam"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/my-team": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get my team
+         * @description Get your team in this hackathon
+         */
+        get: operations["HackathonsTeamsController_getMyTeam"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/invite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Invite a user to join team
+         * @description Team leader can invite hackathon participants to join the team. Invitation expires in 7 days.
+         */
+        post: operations["HackathonsTeamsController_inviteToTeam"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/my-invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get my team invitations
+         * @description Get all team invitations received by the current user
+         */
+        get: operations["HackathonsTeamsController_getMyInvitations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/invitations/{inviteId}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Accept team invitation
+         * @description Accept a pending team invitation and join the team
+         */
+        post: operations["HackathonsTeamsController_acceptInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/invitations/{inviteId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reject team invitation
+         * @description Reject a pending team invitation
+         */
+        post: operations["HackathonsTeamsController_rejectInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/invitations/{inviteId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Cancel team invitation
+         * @description Team leader can cancel a pending invitation
+         */
+        delete: operations["HackathonsTeamsController_cancelInvitation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get team invitations
+         * @description Team leader can view all invitations sent by the team (pending, accepted, rejected)
+         */
+        get: operations["HackathonsTeamsController_getTeamInvitations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/roles/toggle-hired": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Toggle role hired status
+         * @description Team leader can toggle whether a role has been filled (hired) or is still open
+         */
+        patch: operations["HackathonsTeamsController_toggleRoleHiredStatus"];
+        trace?: never;
+    };
+    "/api/hackathons/{id}/teams/{teamId}/transfer-leadership": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Transfer team leadership
+         * @description Current team leader can transfer leadership to another team member. This action is logged in audit logs for accountability.
+         */
+        post: operations["HackathonsTeamsController_transferLeadership"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/draft/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon draft details
+         * @description Retrieves the current state of a hackathon draft for editing
+         */
+        get: operations["OrganizationHackathonsDraftsController_getDraft"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete hackathon draft
+         * @description Deletes a hackathon draft by ID for an organization
+         */
+        delete: operations["OrganizationHackathonsDraftsController_deleteDraft"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a specific step in hackathon draft
+         * @description Updates one step of the hackathon draft form with validation
+         */
+        patch: operations["OrganizationHackathonsDraftsController_updateDraftStep"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get organization's published hackathons
+         * @description Retrieves all published hackathons for an organization with pagination
+         */
+        get: operations["OrganizationHackathonsDraftsController_getOrganizationHackathons"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a new hackathon draft for an organization
+         * @description Creates a new hackathon in draft status that can be edited by organization members
+         */
+        post: operations["OrganizationHackathonsDraftsController_createDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/drafts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get organization's hackathon drafts
+         * @description Retrieves all draft hackathons for an organization that the user has access to
+         */
+        get: operations["OrganizationHackathonsDraftsController_getOrganizationDrafts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/draft/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Publish hackathon draft
+         * @description Validates and publishes a complete hackathon draft, making it publicly visible
+         */
+        put: operations["OrganizationHackathonsDraftsController_publishDraft"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/hackathons/{id}/announcement-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview the marketing announcement audience size
+         * @description Returns the number of recipients that would receive the launch announcement email if the hackathon were published right now. Useful for the publish UI.
+         */
+        get: operations["OrganizationHackathonsDraftsController_previewAnnouncementAudience"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/draft/{id}/escrow/retry-funding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Retry hackathon escrow funding
+         * @description Retries funding for a deployed escrow using stored escrow details
+         */
+        post: operations["OrganizationHackathonsDraftsController_retryEscrowFunding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/visibility": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update hackathon submission visibility settings
+         * @description Allows organizers to change who can view submissions and which statuses are visible.
+         */
+        patch: operations["OrganizationHackathonsSubmissionsController_updateVisibilitySettings"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/submissions/{submissionId}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Review a submission
+         * @description Update submission status (shortlist or move back to submitted). Organizer only.
+         */
+        patch: operations["OrganizationHackathonsSubmissionsController_reviewSubmission"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/participants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon participants (organization)
+         * @description Returns detailed participant data for organizers, including submission details.
+         */
+        get: operations["OrganizationHackathonsSubmissionsController_getOrganizationHackathonParticipants"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/submissions/{submissionId}/score-override": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Organizer: Override submission scoring
+         * @description Organizer directly assigns criterion-based scores to a submission. Validates rubric compliance but bypasses judge assignment and conflict-of-interest checks. Use when correcting judge scores or assigning administrative evaluations. Organizer only.
+         */
+        post: operations["OrganizationHackathonsSubmissionsController_scoreSubmissionOverride"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/submissions/{submissionId}/disqualify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disqualify a submission
+         * @description Mark a submission as disqualified with a reason. Organizer only.
+         */
+        post: operations["OrganizationHackathonsSubmissionsController_disqualifySubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/submissions/bulk-action": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Perform bulk action on submissions
+         * @description Update status of multiple submissions at once (shortlist, approve, disqualify). Organizer only.
+         */
+        post: operations["OrganizationHackathonsSubmissionsController_bulkSubmissionAction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/submissions/{submissionId}/rank": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Set submission rank
+         * @description Assign a rank to a submission for leaderboard positioning. Organizer only.
+         */
+        patch: operations["OrganizationHackathonsSubmissionsController_setSubmissionRank"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon analytics
+         * @description Retrieves summary metrics, trend data, and timeline for a hackathon. Organizer only.
+         */
+        get: operations["OrganizationHackathonsSubmissionsController_getAnalytics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/announcements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon announcements
+         * @description Retrieves all announcements for a hackathon. Drafts are only visible to organizers.
+         */
+        get: operations["HackathonsAnnouncementsController_getAnnouncements"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/announcements/{announcementId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get announcement details
+         * @description Retrieves details of a specific announcement
+         */
+        get: operations["HackathonsAnnouncementsController_getAnnouncement"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/announcements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a hackathon announcement
+         * @description Creates a new announcement for an organization hackathon
+         */
+        post: operations["OrganizationHackathonsAnnouncementsController_createAnnouncement"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/announcements/{announcementId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a hackathon announcement
+         * @description Deletes an announcement for an organization hackathon
+         */
+        delete: operations["OrganizationHackathonsAnnouncementsController_deleteAnnouncement"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a hackathon announcement
+         * @description Updates an existing announcement for an organization hackathon
+         */
+        patch: operations["OrganizationHackathonsAnnouncementsController_updateAnnouncement"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/announcements/{announcementId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish a draft announcement
+         * @description Publishes a draft announcement for an organization hackathon
+         */
+        post: operations["OrganizationHackathonsAnnouncementsController_publishAnnouncement"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/judging/criteria": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon judging criteria
+         * @description Retrieves the criteria used for judging this hackathon
+         */
+        get: operations["HackathonsJudgingController_getCriteria"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/judging/score": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Judge: Submit criterion-based scores
+         * @description Allows an assigned judge to submit criterion-based scores for a submission. Enforces: (1) judge assignment verification, (2) conflict-of-interest checks, (3) rubric compliance validation.
+         */
+        post: operations["HackathonsJudgingController_submitScore"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/judging/submissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get submissions for judging
+         * @description Retrieves shortlisted submissions with the current judge's scores and criteria
+         */
+        get: operations["HackathonsJudgingController_getJudgingSubmissions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/judges": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon judges
+         * @description Retrieves the list of judges assigned to the hackathon
+         */
+        get: operations["OrganizationHackathonsJudgingController_getJudges"];
+        put?: never;
+        /**
+         * Add a judge to a hackathon
+         * @description Assigns a user as a judge for the hackathon
+         */
+        post: operations["OrganizationHackathonsJudgingController_addJudge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/judges/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove a judge from a hackathon
+         * @description Removes a user from the judging panel
+         */
+        delete: operations["OrganizationHackathonsJudgingController_removeJudge"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get aggregated judging results
+         * @description Retrieves the ranked results for the hackathon based on judging scores
+         */
+        get: operations["OrganizationHackathonsJudgingController_getResults"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/submissions/{submissionId}/scores": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get individual judge scores for a submission
+         * @description Retrieves all judge scores and comments for a project
+         */
+        get: operations["OrganizationHackathonsJudgingController_getIndividualScores"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/winners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get winner ranking
+         * @description Retrieves the ranked results sorted by average score
+         */
+        get: operations["OrganizationHackathonsJudgingController_getWinnerRanking"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/coverage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Full judges × submissions coverage matrix
+         * @description Returns every shortlisted submission with the set of active judges who scored it, plus per-judge totals. Used by the organizer dashboard to render a heatmap that surfaces idle judges (columns of mostly empty cells) and orphan submissions (rows with 0-1 scores) at a glance — both block a defensible publish. The view-only `/completeness` endpoint stays unchanged for the publish-confirmation flow.
+         */
+        get: operations["OrganizationHackathonsJudgingController_judgingCoverage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/preview-allocation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview the allocator outcome before publishing
+         * @description Read-only dry run of the publish-results allocator. Returns the overall placements + per-track winners that would be stamped on publish, including EXCLUSIVE stacking effects (a track leader losing because they already claimed an overall placement). Also surfaces the publish gates (deadline, completeness, partner allocation) so the UI can render a "what is blocking publish?" panel without trying to publish.
+         */
+        get: operations["OrganizationHackathonsJudgingController_previewAllocation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/completeness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview judging completeness
+         * @description Returns which submissions are short any active judge, and which judges still have outstanding work. The frontend uses this to render the publish-results confirmation dialog before the organizer commits.
+         */
+        get: operations["OrganizationHackathonsJudgingController_judgingCompleteness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/publish-results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish results
+         * @description Finalizes the ranks and marks results as public. Rejects (400) if any active judge has not scored every shortlisted submission, unless the request body includes `acceptPartial: true`.
+         */
+        post: operations["OrganizationHackathonsJudgingController_publishResults"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List judge invitations for this hackathon */
+        get: operations["OrganizationHackathonsJudgingController_listInvitations"];
+        put?: never;
+        /**
+         * Invite a judge by email
+         * @description Sends an email-based invitation. The recipient is NOT added to the organization; on acceptance they become a hackathon-scoped judge only.
+         */
+        post: operations["OrganizationHackathonsJudgingController_inviteJudge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/invitations/{invitationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Cancel (revoke) a pending judge invitation */
+        delete: operations["OrganizationHackathonsJudgingController_cancelInvitation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{idOrSlug}/judging/invitations/{invitationId}/resend": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Resend a pending judge invitation
+         * @description Rotates the invitation token so any previously-leaked link is invalidated, then re-emails the recipient.
+         */
+        post: operations["OrganizationHackathonsJudgingController_resendInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List my pending judge invitations
+         * @description Returns pending, non-expired invitations sent to the authenticated user's email.
+         */
+        get: operations["JudgeController_myInvitations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/invitations/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview an invitation by token
+         * @description Public endpoint so an invitee can see who invited them and which hackathon before signing in. Reveals only the invitation summary — never anything that requires auth.
+         */
+        get: operations["JudgeController_previewInvitation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/invitations/{token}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Accept a judge invitation
+         * @description Creates the HackathonJudge assignment. The authenticated user is NOT added to the hosting organization — judge access is hackathon-scoped only.
+         */
+        post: operations["JudgeController_acceptInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/invitations/{token}/decline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Decline a judge invitation */
+        post: operations["JudgeController_declineInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List hackathons I'm assigned to judge
+         * @description Returns all hackathons where the authenticated user has an active judge assignment.
+         */
+        get: operations["JudgeController_myHackathons"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get judge-scoped hackathon overview
+         * @description Returns hackathon overview tailored to a judge: dates, criteria, my progress. Never includes peer signals or organization-management data.
+         */
+        get: operations["JudgeController_overview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}/submissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List submissions for scoring
+         * @description Returns shortlisted submissions with only the calling judge's own scores. Peer-derived signals (averageScore, judgeCount) are intentionally omitted to preserve blind scoring.
+         */
+        get: operations["JudgeController_submissions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}/submissions/{submissionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get one submission with my score
+         * @description Returns a single submission plus the calling judge's own score (if any). Peer scores remain hidden until results are published.
+         */
+        get: operations["JudgeController_submission"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}/submissions/{submissionId}/neighbors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Queue neighbors for the scoring page
+         * @description Returns the previous and next submissions in the canonical queue, plus the next unscored one (wrapping to the start if needed), plus totals. Single round trip so the scoring page can render "X of N" and auto-advance without fetching the full queue.
+         */
+        get: operations["JudgeController_neighbors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}/criteria": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get judging criteria for this hackathon */
+        get: operations["JudgeController_criteria"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Final results for this hackathon
+         * @description Returns the published ranking. Returns `{ resultsPublished: false, results: [] }` until the organizer publishes — never leaks scores prematurely.
+         */
+        get: operations["JudgeController_results"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/judge/hackathons/{hackathonId}/submissions/{submissionId}/score": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit (or update) my scores for a submission
+         * @description Upserts the calling judge's scores for the given submission. Rubric validation and the judging window are enforced by the underlying service.
+         */
+        post: operations["JudgeController_score"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/statistics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon statistics (organizers only)
+         * @description Retrieves participation and engagement statistics for a hackathon. Only organizers of the hackathon can access this.
+         */
+        get: operations["OrganizationHackathonsUpdatesController_getHackathonStatistics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/content": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update published hackathon content
+         * @description Updates published hackathon information and/or collaboration data.
+         */
+        patch: operations["OrganizationHackathonsUpdatesController_updatePublishedContent"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/schedule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update published hackathon schedule
+         * @description Updates published hackathon timeline and/or participation settings.
+         */
+        patch: operations["OrganizationHackathonsUpdatesController_updatePublishedSchedule"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/financial": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update published hackathon financial settings
+         * @description Updates published hackathon rewards data with escrow safety checks.
+         */
+        patch: operations["OrganizationHackathonsUpdatesController_updatePublishedFinancial"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/financial/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Preview financial update cost (dry-run)
+         * @description Calculates the exact USDC cost of a proposed reward update without
+         *     making any changes to escrow state or the wallet.
+         *
+         *     Returns a per-tier breakdown plus the total additional funding required,
+         *     the current wallet balance, and whether the balance is sufficient.
+         *
+         *     Call this **before** `PATCH /financial` to power a confirmation step in
+         *     the UI and avoid surprising the organizer with an insufficient-balance error.
+         */
+        post: operations["OrganizationHackathonsUpdatesController_previewPublishedFinancial"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/advanced-settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update published hackathon advanced settings
+         * @description Updates published hackathon advanced settings in metadata for frontend behavior controls.
+         */
+        patch: operations["OrganizationHackathonsUpdatesController_updatePublishedAdvancedSettings"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/rewards/trigger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Trigger reward distribution (organizer)
+         * @description Start a new reward distribution workflow. Requirements:
+         *           - Hackathon results must be published
+         *           - You must be the hackathon organizer
+         *           - Idempotency key prevents duplicate processing (same key = same distribution returned)
+         *
+         *           Milestone A: Creates immutable snapshot of winners + totals, moves to PENDING_ADMIN_REVIEW.
+         *           Milestone B will add execution/release phase.
+         */
+        post: operations["OrganizationHackathonsRewardsController_triggerRewardDistribution"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/rewards/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get reward distribution status (organizer)
+         * @description Fetch the current status of the active reward distribution.
+         *           Returns latest PENDING_ADMIN_REVIEW, APPROVED, REJECTED, or EXECUTING state.
+         */
+        get: operations["OrganizationHackathonsRewardsController_getRewardDistributionStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/rewards/escrow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hackathon escrow details (organizer)
+         * @description Fetches current balance and milestones for the hackathon escrow from the indexer.
+         *           Requires organizer permissions.
+         */
+        get: operations["OrganizationHackathonsRewardsController_getHackathonEscrow"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export hackathon data (organizer only)
+         * @description Export hackathon data as a **CSV** or a **branded PDF**.
+         *
+         *     **CSV** — A multi-section spreadsheet-compatible file with UTF-8 BOM for
+         *     Excel compatibility. Sections: Overview, Prize Tiers, Participants, Submissions, Winners, Judging.
+         *
+         *     **PDF** — A professionally branded Boundless report including cover header,
+         *     key-metric stat cards, and data tables. Dark brand palette with mint accent.
+         *
+         *     Use the `dataset` param to limit which sections are included.
+         *
+         *     > Only hackathon organizers (organization managers) can use this endpoint.
+         */
+        get: operations["OrganizationHackathonsExportController_exportHackathon"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/partners/invite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Invite a partner to contribute to the hackathon prize pool */
+        post: operations["OrganizationHackathonsPartnersController_invite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/partners/contributions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List partner contributions for a hackathon */
+        get: operations["OrganizationHackathonsPartnersController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/partners/contributions/{contributionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Cancel a pending partner invitation */
+        delete: operations["OrganizationHackathonsPartnersController_cancel"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/partners/contributions/{contributionId}/allocations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get allocation summary for a contribution
+         * @description Returns the pledged amount, allocatable (after Trustless Work fee), already allocated, remaining unallocated, and the list of individual allocations.
+         */
+        get: operations["OrganizationHackathonsPartnersController_getAllocations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/partners/contributions/{contributionId}/allocate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Allocate a partner contribution into prize tiers
+         * @description Distributes the contribution amount into one or more prize tiers — either inflating existing tiers or creating new ones. The sum of allocations cannot exceed the remaining allocatable amount.
+         */
+        post: operations["OrganizationHackathonsPartnersController_allocate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{hackathonId}/partners/allocations/{allocationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Undo a single allocation
+         * @description Reverses an allocation, decrementing the prize tier amount and removing the tier if it was created by the allocation and no longer has any remaining amount.
+         */
+        delete: operations["OrganizationHackathonsPartnersController_undoAllocation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/partners/contribute/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get partner invitation details by token (public, tokenized) */
+        get: operations["PartnersContributeController_getByToken"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/partners/contribute/{token}/prepare-fund-tx": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Build an unsigned Trustless Work fund-escrow transaction
+         * @description Validates the contribution window, calls Trustless Work, and returns an unsigned XDR for the partner wallet to sign locally. The Trustless Work API key never leaves the backend.
+         */
+        post: operations["PartnersContributeController_prepareFundTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/partners/contribute/{token}/submit-tx": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit a partner-signed transaction and confirm the contribution
+         * @description Forwards the signed XDR to Trustless Work, then marks the contribution confirmed using the Stellar transaction hash returned.
+         */
+        post: operations["PartnersContributeController_submitTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{idOrSlug}/tracks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List hackathon tracks
+         * @description Returns the public list of tracks for a hackathon. Archived tracks are hidden by default; pass includeArchived=true to see them (useful for organizer dashboards).
+         */
+        get: operations["HackathonsTracksController_listTracks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/tracks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tracks (organizer view)
+         * @description Returns the full set of tracks for this hackathon, including archived ones by default. Use ?includeArchived=false to hide them.
+         */
+        get: operations["OrganizationHackathonsTracksController_list"];
+        put?: never;
+        /** Create a track */
+        post: operations["OrganizationHackathonsTracksController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/tracks/{trackId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a track
+         * @description Hard-deletes the track if no submissions are entered. If submissions have already opted in, archives the track instead (preserves history).
+         */
+        delete: operations["OrganizationHackathonsTracksController_remove"];
+        options?: never;
+        head?: never;
+        /** Update a track */
+        patch: operations["OrganizationHackathonsTracksController_update"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/tracks/{trackId}/bulk-opt-in": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Opt in every existing submission into this track
+         * @description Retrofit tool for hackathons where tracks were added after submissions exist. Inserts a SubmissionTrackEntry for every non-disqualified submission. Idempotent. Auto-bumps `tracksMaxPerSubmission` if needed so submitters can still edit their submissions afterwards.
+         */
+        post: operations["OrganizationHackathonsTracksController_bulkOptIn"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getOrganizations"];
+        put?: never;
+        post: operations["OrganizationsController_createOrganization"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getMyOrganizations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/profile/{idOrSlug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get organization profile (public)
+         * @description Returns public profile for the organization page: name, logo, description, and key stats. Resolve by organization ID or slug.
+         */
+        get: operations["OrganizationsController_getOrganizationProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search organizations */
+        get: operations["OrganizationsController_searchOrganizations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get organization by ID
+         * @description Retrieve detailed information about a specific organization
+         */
+        get: operations["OrganizationsController_getOrganization"];
+        put: operations["OrganizationsController_updateOrganization"];
+        post?: never;
+        delete: operations["OrganizationsController_deleteOrganization"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{id}/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getOrganizationMembers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{id}/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getOrganizationStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MembersController_getMembers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/members/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["MembersController_addMember"];
+        delete: operations["MembersController_removeMember"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/members/{userId}/role": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["MembersController_updateMemberRole"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/members/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MembersController_getMyMembership"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["InvitationsController_getInvitations"];
+        put?: never;
+        post: operations["InvitationsController_inviteMember"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/invitations/{invitationId}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["InvitationsController_acceptInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/invitations/{invitationId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["InvitationsController_rejectInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/invitations/{invitationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["InvitationsController_cancelInvitation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/invitations/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["InvitationsController_getMyInvitations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/votes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VotesController_getVotes"];
+        put?: never;
+        post: operations["VotesController_createVote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/votes/{projectId}/{entityType}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["VotesController_removeVote"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/votes/count/{projectId}/{entityType}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VotesController_getVoteCounts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/votes/my-vote/{projectId}/{entityType}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["VotesController_getUserVote"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/votes/project/{projectId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get project votes
+         * @description Get project votes. Use includeVoters=true for comprehensive data including voter list and vote counts.
+         */
+        get: operations["VotesController_getProjectVotes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/leaderboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get community leaderboard entries */
+        get: operations["LeaderboardController_getLeaderboard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/blog-posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all blog posts with pagination and filters */
+        get: operations["BlogPostsController_listBlogPosts"];
+        put?: never;
+        /** Create a new blog post */
+        post: operations["BlogPostsController_createBlogPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/blog-posts/id/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get blog post by ID */
+        get: operations["BlogPostsController_getBlogPostById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/blog-posts/slug/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get blog post by slug */
+        get: operations["BlogPostsController_getBlogPostBySlug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/blog-posts/{id}/related": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get related blog posts */
+        get: operations["BlogPostsController_getRelatedPosts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/blog-posts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update a blog post */
+        put: operations["BlogPostsController_updateBlogPost"];
+        post?: never;
+        /** Delete a blog post */
+        delete: operations["BlogPostsController_deleteBlogPost"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ai/generate-excerpt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate excerpt from content */
+        post: operations["AiController_generateExcerpt"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ai/generate-reading-time": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate reading time estimate from content */
+        post: operations["AiController_generateReadingTime"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ai/generate-seo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate SEO settings from content */
+        post: operations["AiController_generateSEO"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ai/generate-tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate tags from content */
+        post: operations["AiController_generateTags"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ai/generate-category": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate category from content */
+        post: operations["AiController_generateCategory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get admin overview data (Admin only)
+         * @description Retrieves comprehensive overview data including metrics and charts for the admin dashboard
+         */
+        get: operations["AdminController_getOverview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all users (Admin only)
+         * @description Retrieves a paginated list of all users with optional filtering
+         */
+        get: operations["AdminController_getUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export all users as CSV (Admin only)
+         * @description Downloads a CSV file containing all platform users and newsletter-only subscribers
+         */
+        get: operations["AdminController_exportUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users/{usernameOrId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user details (Admin only)
+         * @description Retrieves detailed information about a specific user by username or ID
+         */
+        get: operations["AdminController_getUserDetails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users/{usernameOrId}/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user statistics (Admin only)
+         * @description Retrieves comprehensive statistics for a specific user
+         */
+        get: operations["AdminController_getUserStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users/{usernameOrId}/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user activity (Admin only)
+         * @description Retrieves activity history for a specific user
+         */
+        get: operations["AdminController_getUserActivity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users/{usernameOrId}/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user projects (Admin only)
+         * @description Retrieves all projects created by a specific user
+         */
+        get: operations["AdminController_getUserProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/organizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all organizations (Admin only)
+         * @description Retrieves a paginated list of all organizations with member counts
+         */
+        get: operations["AdminController_getOrganizations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/organizations/{orgId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get organization details (Admin only)
+         * @description Retrieves detailed information about an organization including members and hackathons
+         */
+        get: operations["AdminController_getOrganizationDetails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/users/{usernameOrId}/organizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user organizations (Admin only)
+         * @description Retrieves all organizations a user is a member of
+         */
+        get: operations["AdminController_getUserOrganizations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all blog posts including drafts (Admin only) */
+        get: operations["AdminBlogsController_listAllBlogPosts"];
+        put?: never;
+        /** Create a new blog post (Admin only) */
+        post: operations["AdminBlogsController_createBlogPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get blog post by ID (Admin only) */
+        get: operations["AdminBlogsController_getBlogPostById"];
+        /** Update a blog post (Admin only) */
+        put: operations["AdminBlogsController_updateBlogPost"];
+        post?: never;
+        /**
+         * Soft delete a blog post (Admin only)
+         * @description Marks the blog post as deleted without removing it from database
+         */
+        delete: operations["AdminBlogsController_deleteBlogPost"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/{id}/permanent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Permanently delete a blog post (Admin only)
+         * @description Permanently removes the blog post from database
+         */
+        delete: operations["AdminBlogsController_permanentlyDeleteBlogPost"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/{id}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Restore a soft-deleted blog post (Admin only) */
+        post: operations["AdminBlogsController_restoreBlogPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/tags/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all tags with post counts (Admin only) */
+        get: operations["AdminBlogsController_getAllTags"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/tags/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get tag by slug (Admin only) */
+        get: operations["AdminBlogsController_getTagBySlug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/tags/unused": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete all unused tags (Admin only)
+         * @description Removes tags that are not associated with any blog posts
+         */
+        delete: operations["AdminBlogsController_deleteUnusedTags"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/blog-posts/scheduled/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Manually trigger publishing of scheduled posts (Admin only) */
+        post: operations["AdminBlogsController_publishScheduledPosts"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List crowdfunding campaigns */
+        get: operations["AdminCrowdfundingController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/user/{usernameOrId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List crowdfunding campaigns by user */
+        get: operations["AdminCrowdfundingController_listByUser"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/{campaignId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get crowdfunding campaign by ID */
+        get: operations["AdminCrowdfundingController_getCampaign"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/pending": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List crowdfunding campaigns pending admin review */
+        get: operations["AdminCrowdfundingController_listPending"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/{campaignId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a crowdfunding campaign */
+        post: operations["AdminCrowdfundingController_approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/{campaignId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject a crowdfunding campaign */
+        post: operations["AdminCrowdfundingController_reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/{campaignId}/request-revision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Request revisions for a crowdfunding campaign */
+        post: operations["AdminCrowdfundingController_requestRevision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/{campaignId}/review-note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add an admin review note for a campaign */
+        post: operations["AdminCrowdfundingController_addReviewNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/crowdfunding/{campaignId}/assign-reviewer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Assign a reviewer to a campaign */
+        post: operations["AdminCrowdfundingController_assignReviewer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List all milestones grouped by campaign
+         * @description Retrieves all milestones organized by their campaigns with pagination
+         */
+        get: operations["AdminMilestonesController_listAllMilestonesByCampaign"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones/pending": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get pending milestone review queue */
+        get: operations["AdminMilestonesController_listPendingMilestones"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones/{milestoneId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get milestone detail for review */
+        get: operations["AdminMilestonesController_getMilestoneForReview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones/{milestoneId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a milestone submission */
+        post: operations["AdminMilestonesController_approveMilestone"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones/{milestoneId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject a milestone submission */
+        post: operations["AdminMilestonesController_rejectMilestone"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones/{milestoneId}/request-resubmission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Request milestone resubmission with changes */
+        post: operations["AdminMilestonesController_requestResubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/milestones/{milestoneId}/review-note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a review note to milestone */
+        post: operations["AdminMilestonesController_addReviewNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/escrow/{campaignId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get escrow information and transaction history for campaign */
+        get: operations["AdminEscrowController_getEscrowInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/escrow/{campaignId}/action": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Execute manual escrow action (testnet only)
+         * @description Manually trigger escrow actions like release, refund, pause, or resume. This is intended for testnet use only.
+         */
+        post: operations["AdminEscrowController_executeEscrowAction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/disputes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get dispute dashboard with filtering */
+        get: operations["AdminDisputesController_listDisputes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/disputes/{disputeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get detailed dispute information */
+        get: operations["AdminDisputesController_getDisputeDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/disputes/{disputeId}/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Assign dispute to an admin */
+        post: operations["AdminDisputesController_assignDispute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/disputes/{disputeId}/note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add note or message to dispute
+         * @description Add a communication to the dispute. Can be internal (admin only) or external (visible to parties).
+         */
+        post: operations["AdminDisputesController_addDisputeNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/disputes/{disputeId}/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resolve a dispute with a final decision */
+        post: operations["AdminDisputesController_resolveDispute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/disputes/{disputeId}/escalate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Escalate dispute to arbitration */
+        post: operations["AdminDisputesController_escalateDispute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/hackathons/rewards/queue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get reward distribution queue (admin)
+         * @description Fetch all reward distributions in queue, filterable by status.
+         *           Pagination via limit/offset.
+         *           Statuses: PENDING_ADMIN_REVIEW, APPROVED, REJECTED, EXECUTING, COMPLETED, FAILED, PARTIAL_SUCCESS
+         */
+        get: operations["AdminHackathonsRewardsController_getRewardQueue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/hackathons/rewards/{hackathonId}/rewards/{distributionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get reward distribution detail (admin)
+         * @description Fetch full details of a specific reward distribution
+         */
+        get: operations["AdminHackathonsRewardsController_getRewardDistributionDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/hackathons/rewards/{hackathonId}/rewards/{distributionId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Approve reward distribution (admin)
+         * @description Approve a pending reward distribution.
+         *           Moves to APPROVED state, locks for Milestone B execution.
+         *           Can include optional admin note.
+         */
+        post: operations["AdminHackathonsRewardsController_approveRewardDistribution"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/hackathons/rewards/{hackathonId}/rewards/{distributionId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reject reward distribution (admin)
+         * @description Reject a pending reward distribution.
+         *           Moves to REJECTED state; organizer sees reason and can re-trigger with fixes.
+         *           Requires rejection reason (visible to organizer) and optional internal admin note.
+         */
+        post: operations["AdminHackathonsRewardsController_rejectRewardDistribution"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/hackathons/rewards/{hackathonId}/rewards/{distributionId}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sync reward distribution with on-chain (admin)
+         * @description Manually trigger indexer sync for this distribution. Updates executionRecords from escrow released flags.
+         */
+        post: operations["AdminHackathonsRewardsController_syncRewardDistribution"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/manual-projects/pending": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List pending manual project submissions */
+        get: operations["AdminManualProjectsController_listPendingManualProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/manual-projects/{projectId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a pending manual project */
+        post: operations["AdminManualProjectsController_approveManualProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/manual-projects/{projectId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject a pending manual project */
+        post: operations["AdminManualProjectsController_rejectManualProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/manual-projects/{projectId}/request-changes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Request changes for a pending manual project */
+        post: operations["AdminManualProjectsController_requestChanges"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/project-edits/pending": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List pending major project edits */
+        get: operations["AdminProjectEditsController_listPendingProjectEdits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/project-edits/{editId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a pending major project edit */
+        post: operations["AdminProjectEditsController_approveProjectEdit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/project-edits/{editId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject a pending major project edit */
+        post: operations["AdminProjectEditsController_rejectProjectEdit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get wallet statistics */
+        get: operations["AdminWalletsController_getStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List user wallets */
+        get: operations["AdminWalletsController_listWallets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/user/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get wallets for a specific user */
+        get: operations["AdminWalletsController_getByUserId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get detailed wallet info */
+        get: operations["AdminWalletsController_getDetails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/{id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sponsor-activate a wallet by ID (creates account + configured trustlines, default USDC)
+         * @description All XLM reserves paid by the platform sponsor account. Idempotent: re-running on an already-activated wallet returns success without submitting. Used by the admin dashboard "Activate" button.
+         */
+        post: operations["AdminWalletsController_activateWallet"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/users/{userId}/sponsor-activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sponsor-activate a single user (account + USDC trustline)
+         * @description Uses the sponsor account to create the on-chain account and add the configured trustlines (default USDC). User pays no XLM. Idempotent: safe to retry. Use this for hackathon participants who need to receive USDC payouts.
+         */
+        post: operations["AdminWalletsController_sponsorActivateUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/hackathons/{hackathonId}/sponsor-activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Enqueue sponsor activation for every participant of a hackathon
+         * @description Aggregates all distinct user IDs from HackathonSubmission.participantId and teamMembers[], then enqueues a BullMQ job that activates each wallet (account + USDC trustline). Returns immediately with a job ID. Poll the status URL for progress; idempotent re-runs are safe.
+         */
+        post: operations["AdminWalletsController_sponsorActivateHackathon"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/wallets/jobs/sponsor-activation/{jobId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get status of a sponsor-activation job
+         * @description Returns BullMQ job state (waiting | active | completed | failed | delayed | paused), progress {processed, total, activated, alreadyActivated, failed}, returnvalue (full summary when complete), and failedReason.
+         */
+        get: operations["AdminWalletsController_getSponsorActivationJobStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/healthz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Liveness probe
+         * @description Returns 200 if the process is alive. No downstream checks. Use for orchestrator restart decisions.
+         */
+        get: operations["HealthController_liveness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/readyz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Readiness probe
+         * @description Returns 200 only when Postgres and Redis are reachable. Use for orchestrator traffic-drain decisions, not for restart.
+         */
+        get: operations["HealthController_readiness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/didit/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get current verification state for the authenticated user
+         * @description Returns a normalized verification state the frontend uses to decide what to render: the verify button is shown only when `canStartNew` is true (states: not_started, declined, abandoned, expired). For `in_review` the response includes a `reviewWindow` with the SLA in business days.
+         */
+        get: operations["DiditController_getStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/didit/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Didit redirect target (post-verification)
+         * @description Didit redirects the user here after the hosted KYC flow. We resolve authoritative status from the DB (the query string from Didit is not trusted) and 302 to the frontend with `?state=...`. State maps directly to the values returned by GET /didit/status.
+         */
+        get: operations["DiditController_callback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/didit/create-session": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create verification session
+         * @description Creates a Didit verification session. Returns session_token and verification_url for the frontend SDK. Authenticated user id is sent as vendor_data unless user_id is provided.
+         */
+        post: operations["DiditController_createSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/didit/webhook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Didit webhook
+         * @description Receives verification completion events from Didit. Verifies X-Signature-V2 when DIDIT_WEBHOOK_SECRET is set. Updates user verification status and DiditVerificationSession.
+         */
+        post: operations["DiditController_webhook"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/prices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get USD prices for all supported assets
+         * @description Returns per-unit USD prices for XLM, USDC, EURC and USDGLO. Resolved from the Reflector on-chain oracle, with CoinGecko and stablecoin-peg fallbacks. Cached for 5 minutes (matches Reflector update cadence).
+         */
+        get: operations["PricesController_getAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/prices/debug": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Per-provider price resolution (diagnostic)
+         * @description Bypasses the cache and pings Reflector + CoinGecko for every supported asset. Returns what each provider returned alongside which one the resolution chain would have picked. Use to verify both price paths are live.
+         */
+        get: operations["PricesController_getDebug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/prices/{symbol}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get USD price for a single asset
+         * @description Convenience lookup — internally reads from the same cached map as the list endpoint.
+         */
+        get: operations["PricesController_getOne"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/drafts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create a project draft (stepped form) */
+        post: operations["ProjectsController_createDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/{id}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update a project draft (stepped form autosave) */
+        patch: operations["ProjectsController_saveDraft"];
+        trace?: never;
+    };
+    "/api/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List public projects (PRD products directory) */
+        get: operations["ProjectsController_listPublicProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search public projects */
+        get: operations["ProjectsController_searchPublicProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/featured": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List featured projects */
+        get: operations["ProjectsController_listFeaturedProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/{id}/edits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List edit history for your project */
+        get: operations["ProjectsController_listProjectEdits"];
+        put?: never;
+        /** Submit a major/minor edit for your project */
+        post: operations["ProjectsController_submitProjectEdit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish/submit a project draft (Review & Submit) */
+        post: operations["ProjectsController_publishProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List my projects */
+        get: operations["ProjectsController_getMyProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get public project by slug */
+        get: operations["ProjectsController_getPublicProjectBySlug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/me/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get my project by ID */
+        get: operations["ProjectsController_getProject"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/subscribe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Subscribe to the newsletter
+         * @description Subscribe an email address to the newsletter. Sends a confirmation email (double opt-in). Rate limited to 5 requests per minute.
+         */
+        post: operations["NewsletterController_subscribe"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/confirm/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Confirm newsletter subscription
+         * @description Confirm a newsletter subscription via the token sent in the confirmation email. Redirects to the frontend on success.
+         */
+        get: operations["NewsletterController_confirmSubscription"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/unsubscribe/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Unsubscribe by token
+         * @description Unsubscribe from the newsletter using the one-click unsubscribe token from emails. Redirects to the frontend.
+         */
+        get: operations["NewsletterController_unsubscribeByToken"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/unsubscribe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Unsubscribe by email
+         * @description Legacy unsubscribe endpoint. Unsubscribe a subscriber by their email address.
+         */
+        post: operations["NewsletterController_unsubscribe"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update subscription preferences
+         * @description Update topic tag preferences for a subscriber. Valid tags: bounties, hackathons, grants, updates.
+         */
+        patch: operations["NewsletterController_updatePreferences"];
+        trace?: never;
+    };
+    "/api/newsletter/tracking/open/{campaignId}/{subscriberId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Track email open
+         * @description Open tracking pixel endpoint. Returns a 1x1 transparent GIF and records the open event. Used in campaign emails.
+         */
+        get: operations["NewsletterController_trackOpen"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/tracking/click/{campaignId}/{subscriberId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Track email link click
+         * @description Click tracking endpoint. Records the click event and redirects the subscriber to the target URL.
+         */
+        get: operations["NewsletterController_trackClick"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/subscribers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List newsletter subscribers
+         * @description Get a paginated list of newsletter subscribers with optional filters by status, source, tags, and search.
+         */
+        get: operations["NewsletterController_getSubscribers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get newsletter statistics
+         * @description Get subscriber counts by status, subscription sources, and campaign statistics (sent, opens, clicks).
+         */
+        get: operations["NewsletterController_getStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export subscribers as CSV
+         * @description Download a CSV file of subscribers with optional status and tag filters.
+         */
+        get: operations["NewsletterController_exportSubscribers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/subscribers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a subscriber
+         * @description Permanently delete a newsletter subscriber by ID.
+         */
+        delete: operations["NewsletterController_deleteSubscriber"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/campaigns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List newsletter campaigns
+         * @description Get a paginated list of newsletter campaigns, ordered by most recent first.
+         */
+        get: operations["NewsletterController_getCampaigns"];
+        put?: never;
+        /**
+         * Create a new campaign
+         * @description Create a new newsletter campaign draft. Use {{name}} placeholder in content for personalization. Target specific subscribers using tags.
+         */
+        post: operations["NewsletterController_createCampaign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/campaigns/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign details
+         * @description Get detailed information about a specific campaign, including the most recent 100 send logs.
+         */
+        get: operations["NewsletterController_getCampaign"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/newsletter/campaigns/{id}/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send a campaign
+         * @description Send a campaign to all matching subscribers. Delivers in batches of 10 with 1-second delays. Cannot re-send an already sent campaign.
+         */
+        post: operations["NewsletterController_sendCampaign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/queues/dlq/depth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Current DLQ depth (admin only) */
+        get: operations["DlqAdminController_getDepth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/queues/dlq": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List parked DLQ entries (admin only) */
+        get: operations["DlqAdminController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/queues/dlq/{jobId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Fetch a single parked DLQ entry (admin only) */
+        get: operations["DlqAdminController_getOne"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/queues/dlq/{jobId}/replay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Re-enqueue a parked DLQ entry on its original queue
+         * @description The DLQ row is removed on success. Replay uses the original queue's normal retry budget, so a job that died after 3 retries gets another 3 retries on replay.
+         */
+        post: operations["DlqAdminController_replay"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/sign-in/social": {
         parameters: {
             query?: never;
             header?: never;
@@ -821,7 +6482,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/get-session": {
+    "/api/auth/get-session": {
         parameters: {
             query?: never;
             header?: never;
@@ -838,7 +6499,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/sign-out": {
+    "/api/auth/sign-out": {
         parameters: {
             query?: never;
             header?: never;
@@ -855,7 +6516,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/sign-up/email": {
+    "/api/auth/sign-up/email": {
         parameters: {
             query?: never;
             header?: never;
@@ -872,7 +6533,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/sign-in/email": {
+    "/api/auth/sign-in/email": {
         parameters: {
             query?: never;
             header?: never;
@@ -889,7 +6550,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/reset-password": {
+    "/api/auth/reset-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -906,7 +6567,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/verify-email": {
+    "/api/auth/verify-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Verify the current user's password */
+        post: operations["verifyPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/verify-email": {
         parameters: {
             query?: never;
             header?: never;
@@ -1017,7 +6695,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/send-verification-email": {
+    "/api/auth/send-verification-email": {
         parameters: {
             query?: never;
             header?: never;
@@ -1034,7 +6712,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/change-email": {
+    "/api/auth/change-email": {
         parameters: {
             query?: never;
             header?: never;
@@ -1050,7 +6728,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/change-password": {
+    "/api/auth/change-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -1067,7 +6745,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/update-user": {
+    "/api/auth/update-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -1084,7 +6762,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/delete-user": {
+    "/api/auth/delete-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -1101,7 +6779,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/request-password-reset": {
+    "/api/auth/request-password-reset": {
         parameters: {
             query?: never;
             header?: never;
@@ -1118,7 +6796,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/reset-password/{token}": {
+    "/api/auth/reset-password/{token}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1135,7 +6813,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/list-sessions": {
+    "/api/auth/list-sessions": {
         parameters: {
             query?: never;
             header?: never;
@@ -1152,7 +6830,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/revoke-session": {
+    "/api/auth/revoke-session": {
         parameters: {
             query?: never;
             header?: never;
@@ -1264,7 +6942,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/revoke-sessions": {
+    "/api/auth/revoke-sessions": {
         parameters: {
             query?: never;
             header?: never;
@@ -1373,7 +7051,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/revoke-other-sessions": {
+    "/api/auth/revoke-other-sessions": {
         parameters: {
             query?: never;
             header?: never;
@@ -1482,7 +7160,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/link-social": {
+    "/api/auth/link-social": {
         parameters: {
             query?: never;
             header?: never;
@@ -1499,7 +7177,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/list-accounts": {
+    "/api/auth/list-accounts": {
         parameters: {
             query?: never;
             header?: never;
@@ -1516,7 +7194,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/delete-user/callback": {
+    "/api/auth/delete-user/callback": {
         parameters: {
             query?: never;
             header?: never;
@@ -1629,7 +7307,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/unlink-account": {
+    "/api/auth/unlink-account": {
         parameters: {
             query?: never;
             header?: never;
@@ -1740,7 +7418,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/refresh-token": {
+    "/api/auth/refresh-token": {
         parameters: {
             query?: never;
             header?: never;
@@ -1858,7 +7536,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/get-access-token": {
+    "/api/auth/get-access-token": {
         parameters: {
             query?: never;
             header?: never;
@@ -1898,11 +7576,8 @@ export interface paths {
                             tokenType?: string;
                             idToken?: string;
                             accessToken?: string;
-                            refreshToken?: string;
                             /** Format: date-time */
                             accessTokenExpiresAt?: string;
-                            /** Format: date-time */
-                            refreshTokenExpiresAt?: string;
                         };
                     };
                 };
@@ -1976,7 +7651,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/account-info": {
+    "/api/auth/account-info": {
         parameters: {
             query?: never;
             header?: never;
@@ -2089,7 +7764,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/ok": {
+    "/api/auth/ok": {
         parameters: {
             query?: never;
             header?: never;
@@ -2194,7 +7869,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/error": {
+    "/api/auth/error": {
         parameters: {
             query?: never;
             header?: never;
@@ -2296,7 +7971,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/sign-in/username": {
+    "/api/auth/sign-in/username": {
         parameters: {
             query?: never;
             header?: never;
@@ -2426,7 +8101,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/is-username-available": {
+    "/api/auth/is-username-available": {
         parameters: {
             query?: never;
             header?: never;
@@ -2525,7 +8200,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/get-totp-uri": {
+    "/api/auth/two-factor/get-totp-uri": {
         parameters: {
             query?: never;
             header?: never;
@@ -2636,7 +8311,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/verify-totp": {
+    "/api/auth/two-factor/verify-totp": {
         parameters: {
             query?: never;
             header?: never;
@@ -2749,7 +8424,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/send-otp": {
+    "/api/auth/two-factor/send-otp": {
         parameters: {
             query?: never;
             header?: never;
@@ -2853,7 +8528,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/verify-otp": {
+    "/api/auth/two-factor/verify-otp": {
         parameters: {
             query?: never;
             header?: never;
@@ -2995,7 +8670,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/verify-backup-code": {
+    "/api/auth/two-factor/verify-backup-code": {
         parameters: {
             query?: never;
             header?: never;
@@ -3157,7 +8832,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/generate-backup-codes": {
+    "/api/auth/two-factor/generate-backup-codes": {
         parameters: {
             query?: never;
             header?: never;
@@ -3274,7 +8949,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/enable": {
+    "/api/auth/two-factor/enable": {
         parameters: {
             query?: never;
             header?: never;
@@ -3390,7 +9065,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/two-factor/disable": {
+    "/api/auth/two-factor/disable": {
         parameters: {
             query?: never;
             header?: never;
@@ -3501,7 +9176,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/one-tap/callback": {
+    "/api/auth/one-tap/callback": {
         parameters: {
             query?: never;
             header?: never;
@@ -3609,7 +9284,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/email-otp/send-verification-otp": {
+    "/api/auth/email-otp/send-verification-otp": {
         parameters: {
             query?: never;
             header?: never;
@@ -3626,7 +9301,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/email-otp/check-verification-otp": {
+    "/api/auth/email-otp/check-verification-otp": {
         parameters: {
             query?: never;
             header?: never;
@@ -3643,7 +9318,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/email-otp/verify-email": {
+    "/api/auth/email-otp/verify-email": {
         parameters: {
             query?: never;
             header?: never;
@@ -3763,7 +9438,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/sign-in/email-otp": {
+    "/api/auth/sign-in/email-otp": {
         parameters: {
             query?: never;
             header?: never;
@@ -3780,7 +9455,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/forget-password/email-otp": {
+    "/api/auth/email-otp/request-password-reset": {
         parameters: {
             query?: never;
             header?: never;
@@ -3789,7 +9464,24 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Forget password with email and OTP */
+        /** @description Request password reset with email and OTP */
+        post: operations["requestPasswordResetWithEmailOTP"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/forget-password/email-otp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Deprecated: Use /email-otp/request-password-reset instead. */
         post: operations["forgetPasswordWithEmailOTP"];
         delete?: never;
         options?: never;
@@ -3797,7 +9489,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/email-otp/reset-password": {
+    "/api/auth/email-otp/reset-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -3814,7 +9506,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/create": {
+    "/api/auth/organization/create": {
         parameters: {
             query?: never;
             header?: never;
@@ -3933,7 +9625,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/update": {
+    "/api/auth/organization/update": {
         parameters: {
             query?: never;
             header?: never;
@@ -4052,7 +9744,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/delete": {
+    "/api/auth/organization/delete": {
         parameters: {
             query?: never;
             header?: never;
@@ -4161,7 +9853,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/set-active": {
+    "/api/auth/organization/set-active": {
         parameters: {
             query?: never;
             header?: never;
@@ -4178,7 +9870,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/get-full-organization": {
+    "/api/auth/organization/get-full-organization": {
         parameters: {
             query?: never;
             header?: never;
@@ -4195,7 +9887,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/list": {
+    "/api/auth/organization/list": {
         parameters: {
             query?: never;
             header?: never;
@@ -4297,7 +9989,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/invite-member": {
+    "/api/auth/organization/invite-member": {
         parameters: {
             query?: never;
             header?: never;
@@ -4314,7 +10006,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/cancel-invitation": {
+    "/api/auth/organization/cancel-invitation": {
         parameters: {
             query?: never;
             header?: never;
@@ -4413,7 +10105,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/accept-invitation": {
+    "/api/auth/organization/accept-invitation": {
         parameters: {
             query?: never;
             header?: never;
@@ -4525,7 +10217,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/get-invitation": {
+    "/api/auth/organization/get-invitation": {
         parameters: {
             query?: never;
             header?: never;
@@ -4640,7 +10332,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/reject-invitation": {
+    "/api/auth/organization/reject-invitation": {
         parameters: {
             query?: never;
             header?: never;
@@ -4752,7 +10444,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/list-invitations": {
+    "/api/auth/organization/list-invitations": {
         parameters: {
             query?: never;
             header?: never;
@@ -4844,7 +10536,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/get-active-member": {
+    "/api/auth/organization/get-active-member": {
         parameters: {
             query?: never;
             header?: never;
@@ -4951,7 +10643,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/check-slug": {
+    "/api/auth/organization/check-slug": {
         parameters: {
             query?: never;
             header?: never;
@@ -5050,7 +10742,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/remove-member": {
+    "/api/auth/organization/remove-member": {
         parameters: {
             query?: never;
             header?: never;
@@ -5168,7 +10860,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/update-member-role": {
+    "/api/auth/organization/update-member-role": {
         parameters: {
             query?: never;
             header?: never;
@@ -5185,7 +10877,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/leave": {
+    "/api/auth/organization/leave": {
         parameters: {
             query?: never;
             header?: never;
@@ -5284,7 +10976,122 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/list-user-invitations": {
+    "/api/auth/organization/list-user-invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List all invitations a user has received */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id: string;
+                            email: string;
+                            role: string;
+                            organizationId: string;
+                            organizationName: string;
+                            /** @description The ID of the user who created the invitation */
+                            inviterId: string;
+                            /** @description The ID of the team associated with the invitation */
+                            teamId?: string | null;
+                            status: string;
+                            expiresAt: string;
+                            createdAt: string;
+                        }[];
+                    };
+                };
+                /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized. Due to missing or invalid authentication. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Forbidden. You do not have permission to access this resource or to perform this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            message?: string;
+                        };
+                    };
+                };
+                /** @description Not Found. The requested resource was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            message?: string;
+                        };
+                    };
+                };
+                /** @description Too Many Requests. You have exceeded the rate limit. Try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            message?: string;
+                        };
+                    };
+                };
+                /** @description Internal Server Error. This is a problem with the server that you cannot fix. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            message?: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/organization/list-members": {
         parameters: {
             query?: never;
             header?: never;
@@ -5376,7 +11183,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/list-members": {
+    "/api/auth/organization/get-active-member-role": {
         parameters: {
             query?: never;
             header?: never;
@@ -5468,99 +11275,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organization/get-active-member-role": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            message: string;
-                        };
-                    };
-                };
-                /** @description Unauthorized. Due to missing or invalid authentication. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            message: string;
-                        };
-                    };
-                };
-                /** @description Forbidden. You do not have permission to access this resource or to perform this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            message?: string;
-                        };
-                    };
-                };
-                /** @description Not Found. The requested resource was not found. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            message?: string;
-                        };
-                    };
-                };
-                /** @description Too Many Requests. You have exceeded the rate limit. Try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            message?: string;
-                        };
-                    };
-                };
-                /** @description Internal Server Error. This is a problem with the server that you cannot fix. */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            message?: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/organization/has-permission": {
+    "/api/auth/organization/has-permission": {
         parameters: {
             query?: never;
             header?: never;
@@ -5677,7 +11392,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/set-role": {
+    "/api/auth/admin/set-role": {
         parameters: {
             query?: never;
             header?: never;
@@ -5694,7 +11409,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/get-user": {
+    "/api/auth/admin/get-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5711,7 +11426,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/create-user": {
+    "/api/auth/admin/create-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5728,7 +11443,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/update-user": {
+    "/api/auth/admin/update-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5745,7 +11460,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/list-users": {
+    "/api/auth/admin/list-users": {
         parameters: {
             query?: never;
             header?: never;
@@ -5762,7 +11477,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/list-user-sessions": {
+    "/api/auth/admin/list-user-sessions": {
         parameters: {
             query?: never;
             header?: never;
@@ -5779,7 +11494,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/unban-user": {
+    "/api/auth/admin/unban-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5796,7 +11511,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/ban-user": {
+    "/api/auth/admin/ban-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5813,7 +11528,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/impersonate-user": {
+    "/api/auth/admin/impersonate-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5830,7 +11545,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/stop-impersonating": {
+    "/api/auth/admin/stop-impersonating": {
         parameters: {
             query?: never;
             header?: never;
@@ -5922,7 +11637,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/revoke-user-session": {
+    "/api/auth/admin/revoke-user-session": {
         parameters: {
             query?: never;
             header?: never;
@@ -5939,7 +11654,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/revoke-user-sessions": {
+    "/api/auth/admin/revoke-user-sessions": {
         parameters: {
             query?: never;
             header?: never;
@@ -5956,7 +11671,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/remove-user": {
+    "/api/auth/admin/remove-user": {
         parameters: {
             query?: never;
             header?: never;
@@ -5973,7 +11688,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/set-user-password": {
+    "/api/auth/admin/set-user-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -5990,7 +11705,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/has-permission": {
+    "/api/auth/admin/has-permission": {
         parameters: {
             query?: never;
             header?: never;
@@ -6107,7 +11822,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/generate-register-options": {
+    "/api/auth/passkey/generate-register-options": {
         parameters: {
             query?: never;
             header?: never;
@@ -6124,7 +11839,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/generate-authenticate-options": {
+    "/api/auth/passkey/generate-authenticate-options": {
         parameters: {
             query?: never;
             header?: never;
@@ -6141,7 +11856,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/verify-registration": {
+    "/api/auth/passkey/verify-registration": {
         parameters: {
             query?: never;
             header?: never;
@@ -6158,7 +11873,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/verify-authentication": {
+    "/api/auth/passkey/verify-authentication": {
         parameters: {
             query?: never;
             header?: never;
@@ -6175,7 +11890,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/list-user-passkeys": {
+    "/api/auth/passkey/list-user-passkeys": {
         parameters: {
             query?: never;
             header?: never;
@@ -6277,7 +11992,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/delete-passkey": {
+    "/api/auth/passkey/delete-passkey": {
         parameters: {
             query?: never;
             header?: never;
@@ -6389,7 +12104,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/passkey/update-passkey": {
+    "/api/auth/passkey/update-passkey": {
         parameters: {
             query?: never;
             header?: never;
@@ -6502,18 +12217,2843 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/sign-in/magic-link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Sign in with magic link */
+        post: operations["signInWithMagicLink"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/magic-link/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Verify magic link */
+        get: operations["verifyMagicLink"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         NotificationPreferencesDto: Record<string, never>;
+        UpdatePrivacySettingsDto: {
+            /**
+             * @description Public profile
+             * @example true
+             */
+            publicProfile: boolean;
+            /**
+             * @description Email visibility
+             * @example true
+             */
+            emailVisibility: boolean;
+            /**
+             * @description Location visibility
+             * @example true
+             */
+            locationVisibility: boolean;
+            /**
+             * @description Company visibility
+             * @example true
+             */
+            companyVisibility: boolean;
+            /**
+             * @description Website visibility
+             * @example true
+             */
+            websiteVisibility: boolean;
+            /**
+             * @description Social links visibility
+             * @example true
+             */
+            socialLinksVisibility: boolean;
+        };
+        UpdateAppearanceSettingsDto: {
+            /**
+             * @description Theme
+             * @example light
+             * @enum {string}
+             */
+            theme: "light" | "dark" | "auto";
+        };
+        PublicEarningsSummaryDto: {
+            /**
+             * @description All-time total earned (normalized, e.g. USDC 7 decimals)
+             * @example 50000
+             */
+            totalEarned: number;
+        };
+        EarningsBreakdownDto: {
+            /**
+             * @description Total from hackathons
+             * @example 20000
+             */
+            hackathons: number;
+            /**
+             * @description Total from grants
+             * @example 10000
+             */
+            grants: number;
+            /**
+             * @description Total from crowdfunding
+             * @example 15000
+             */
+            crowdfunding: number;
+            /**
+             * @description Total from bounties
+             * @example 5000
+             */
+            bounties: number;
+        };
+        PublicEarningActivityDto: {
+            /** @description Unique activity id */
+            id: string;
+            /**
+             * @description Earnings source category
+             * @enum {string}
+             */
+            source: "hackathons" | "grants" | "crowdfunding" | "bounties";
+            /**
+             * @description Human-readable title
+             * @example Winner of Stellar Hackathon Q1
+             */
+            title: string;
+            /**
+             * @description Amount (normalized)
+             * @example 5000
+             */
+            amount: number;
+            /**
+             * @description Currency code
+             * @example USDC
+             */
+            currency: string;
+            /**
+             * @description When the earning occurred (ISO date string)
+             * @example 2024-01-19T14:30:00Z
+             */
+            occurredAt: string;
+        };
+        PublicEarningsResponseDto: {
+            summary: components["schemas"]["PublicEarningsSummaryDto"];
+            breakdown: components["schemas"]["EarningsBreakdownDto"];
+            /** @description Verified activity history (completed only) */
+            activities: components["schemas"]["PublicEarningActivityDto"][];
+        };
+        EarningsSummaryDto: {
+            /**
+             * @description All-time total earned (normalized, e.g. USDC 7 decimals)
+             * @example 50000
+             */
+            totalEarned: number;
+            /**
+             * @description Amount currently claimable / pending withdrawal
+             * @example 10000
+             */
+            pendingWithdrawal: number;
+            /**
+             * @description Amount already paid out (completed withdrawals)
+             * @example 40000
+             */
+            completedWithdrawal: number;
+        };
+        EarningActivityDto: {
+            /** @description Unique activity id (e.g. submissionId or milestoneId) */
+            id: string;
+            /**
+             * @description Earnings source category
+             * @enum {string}
+             */
+            source: "hackathons" | "grants" | "crowdfunding" | "bounties";
+            /**
+             * @description Human-readable title
+             * @example Winner of Stellar Hackathon Q1
+             */
+            title: string;
+            /**
+             * @description Amount (normalized)
+             * @example 5000
+             */
+            amount: number;
+            /**
+             * @description Currency code
+             * @example USDC
+             */
+            currency: string;
+            /**
+             * @description Activity status
+             * @enum {string}
+             */
+            status: "pending" | "claimable" | "completed";
+            /**
+             * @description When the earning occurred (ISO date string)
+             * @example 2024-01-19T14:30:00Z
+             */
+            occurredAt: string;
+            /** @description Entity id for claim (e.g. submissionId, milestoneId) */
+            entityId?: string;
+        };
+        EarningsResponseDto: {
+            summary: components["schemas"]["EarningsSummaryDto"];
+            breakdown: components["schemas"]["EarningsBreakdownDto"];
+            /** @description Activity feed */
+            activities: components["schemas"]["EarningActivityDto"][];
+        };
+        WithdrawItemDto: {
+            /**
+             * @description Source of the claimable (crowdfunding or grants; user claims release to wallet)
+             * @enum {string}
+             */
+            source: "crowdfunding" | "grants";
+            /** @description Entity id (e.g. milestoneId for crowdfunding or grants) */
+            entityId: string;
+        };
+        WithdrawRequestDto: {
+            /** @description Items to claim (source + entityId). Only crowdfunding supported (grants not yet). Payout goes to user's linked wallet. */
+            items?: components["schemas"]["WithdrawItemDto"][];
+        };
+        ConfirmReleaseDto: {
+            /** @description Signed XDR from creator/grantee wallet (release milestone transaction from real wallet) */
+            signedXdr: string;
+            /** @description Entity id (e.g. crowdfunding milestone id) */
+            entityId: string;
+            /**
+             * @description Source of the claimable (only crowdfunding supported for confirm-release)
+             * @example crowdfunding
+             * @enum {string}
+             */
+            source: "crowdfunding";
+        };
+        ConfirmReleaseResponseDto: {
+            /**
+             * @description Whether the release was submitted successfully
+             * @example true
+             */
+            success: boolean;
+            /** @description Transaction hash once the release is executed on-chain */
+            transactionHash?: string;
+            /**
+             * @description Human-readable message
+             * @example Release submitted successfully
+             */
+            message?: string;
+        };
+        DashboardUserStatsDto: {
+            followers: number;
+            following: number;
+        };
+        DashboardUserDto: {
+            id: string;
+            name: string | null;
+            email: string;
+            username: string | null;
+            displayUsername: string | null;
+            image: string | null;
+            role: string;
+            /** Format: date-time */
+            createdAt: string;
+            stats?: components["schemas"]["DashboardUserStatsDto"];
+        };
+        UserStatsDto: {
+            projectsCreated: number;
+            projectsFunded: number;
+            totalContributed: number;
+            commentsPosted: number;
+            votes: number;
+            grants: number;
+            hackathons: number;
+            followers: number;
+            following: number;
+            reputation: number;
+            communityScore: number;
+        };
+        ChartDataPointDto: {
+            /** @description Date in YYYY-MM-DD format */
+            date: string;
+            /** @description Count for that date */
+            count: number;
+        };
+        ChartDto: {
+            data: components["schemas"]["ChartDataPointDto"][];
+        };
+        ActivitiesGraphDto: {
+            data: components["schemas"]["ChartDataPointDto"][];
+        };
+        ActivityProjectDto: {
+            id: string;
+            title: string;
+            banner?: string | null;
+            logo?: string | null;
+        };
+        ActivityOrganizationDto: {
+            id: string;
+            name: string;
+        };
+        RecentActivityDto: {
+            id: string;
+            type: string;
+            userId: string;
+            projectId?: string | null;
+            organizationId?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            project?: components["schemas"]["ActivityProjectDto"];
+            organization?: components["schemas"]["ActivityOrganizationDto"];
+        };
+        DashboardDto: {
+            /** @description User profile data */
+            user: components["schemas"]["DashboardUserDto"];
+            stats: components["schemas"]["UserStatsDto"];
+            chart: components["schemas"]["ChartDto"];
+            activitiesGraph: components["schemas"]["ActivitiesGraphDto"];
+            /** @description Recent activities */
+            recentActivities: components["schemas"]["RecentActivityDto"][];
+        };
         UpdateProfileDto: Record<string, never>;
-        ChangePasswordDto: Record<string, never>;
-        CreateUserDto: Record<string, never>;
         UpdateUserDto: Record<string, never>;
+        UploadResponseDto: Record<string, never>;
+        MultipleUploadResponseDto: Record<string, never>;
+        FileInfoResponseDto: Record<string, never>;
+        SearchFilesResponseDto: Record<string, never>;
+        OptimizedUrlResponseDto: Record<string, never>;
+        ResponsiveUrlsResponseDto: Record<string, never>;
+        UsageStatsResponseDto: Record<string, never>;
         RegisterDto: Record<string, never>;
         LoginDto: Record<string, never>;
         RefreshTokenDto: Record<string, never>;
+        VerifySignatureDto: Record<string, never>;
+        CreateConversationDto: {
+            /** @description User ID of the other participant */
+            otherUserId: string;
+        };
+        CreateMessageDto: {
+            /** @description Message text */
+            body: string;
+        };
+        ContactDto: Record<string, never>;
+        CreateCampaignDto: {
+            /**
+             * @description Title of the campaign
+             * @example Web3 Campaign
+             */
+            title: string;
+            /**
+             * @description Logo of the campaign
+             * @example https://example.com/logo.png
+             */
+            logo: string;
+            /**
+             * @description Vision of the campaign
+             * @example Web3 Campaign
+             */
+            vision: string;
+            /**
+             * @description Banner image URL of the campaign
+             * @example https://example.com/banner.png
+             */
+            banner: string;
+            /**
+             * @description Category of the campaign
+             * @example web3
+             */
+            category: string;
+            /**
+             * @description Details of the campaign
+             * @example Web3 Campaign
+             */
+            details: string;
+            /**
+             * @description Funding amount of the campaign
+             * @example 1000
+             */
+            fundingAmount: number;
+            /**
+             * @description Github URL of the campaign
+             * @example https://github.com/example/project
+             */
+            githubUrl: string;
+            /**
+             * @description Gitlab URL of the campaign
+             * @example https://gitlab.com/example/project
+             */
+            gitlabUrl: string;
+            /**
+             * @description Bitbucket URL of the campaign
+             * @example https://bitbucket.com/example/project
+             */
+            bitbucketUrl: string;
+            /**
+             * @description Project website of the campaign
+             * @example https://example.com/project
+             */
+            projectWebsite: string;
+            /**
+             * @description Demo video of the campaign
+             * @example https://example.com/demo.mp4
+             */
+            demoVideo: string;
+            /**
+             * @description Milestones of the campaign
+             * @example [
+             *       {
+             *         "name": "Milestone 1",
+             *         "description": "Milestone 1 description",
+             *         "startDate": "2025-01-01",
+             *         "endDate": "2025-01-02",
+             *         "amount": 1000
+             *       }
+             *     ]
+             */
+            milestones: string[];
+            /**
+             * @description Team of the campaign
+             * @example [
+             *       {
+             *         "name": "John Doe",
+             *         "role": "Developer",
+             *         "email": "john.doe@example.com",
+             *         "linkedin": "https://linkedin.com/in/john-doe",
+             *         "twitter": "https://twitter.com/john-doe"
+             *       }
+             *     ]
+             */
+            team: string[];
+            /**
+             * @description Contact of the campaign
+             * @example {
+             *       "primary": "john.doe",
+             *       "backup": "john.doe@example.com"
+             *     }
+             */
+            contact: components["schemas"]["ContactDto"];
+            /**
+             * @description Social links of the campaign
+             * @example [
+             *       {
+             *         "platform": "twitter",
+             *         "url": "https://twitter.com/john-doe"
+             *       }
+             *     ]
+             */
+            socialLinks: string[];
+            /**
+             * @description Escrow contract ID for the campaign
+             * @example CCAJPWPKSR6FY5Q5RYT5E3EIZQNDMDFYVVKJ656C5SUOIXQOQ4JQVWGV
+             */
+            escrowId?: string;
+            /**
+             * @description Transaction hash of the deployed escrow contract
+             * @example a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
+             */
+            transactionHash?: string;
+        };
+        UpdateCampaignDto: {
+            /**
+             * @description Title of the campaign
+             * @example Web3 Campaign
+             */
+            title?: string;
+            /**
+             * @description Logo of the campaign
+             * @example https://example.com/logo.png
+             */
+            logo?: string;
+            /**
+             * @description Vision of the campaign
+             * @example Web3 Campaign
+             */
+            vision?: string;
+            /**
+             * @description Banner image URL of the campaign
+             * @example https://example.com/banner.png
+             */
+            banner?: string;
+            /**
+             * @description Category of the campaign
+             * @example web3
+             */
+            category?: string;
+            /**
+             * @description Details of the campaign
+             * @example Web3 Campaign
+             */
+            details?: string;
+            /**
+             * @description Funding amount of the campaign
+             * @example 1000
+             */
+            fundingAmount?: number;
+            /**
+             * @description Github URL of the campaign
+             * @example https://github.com/example/project
+             */
+            githubUrl?: string;
+            /**
+             * @description Gitlab URL of the campaign
+             * @example https://gitlab.com/example/project
+             */
+            gitlabUrl?: string;
+            /**
+             * @description Bitbucket URL of the campaign
+             * @example https://bitbucket.com/example/project
+             */
+            bitbucketUrl?: string;
+            /**
+             * @description Project website of the campaign
+             * @example https://example.com/project
+             */
+            projectWebsite?: string;
+            /**
+             * @description Demo video of the campaign
+             * @example https://example.com/demo.mp4
+             */
+            demoVideo?: string;
+            /**
+             * @description Milestones of the campaign
+             * @example [
+             *       {
+             *         "name": "Milestone 1",
+             *         "description": "Milestone 1 description",
+             *         "startDate": "2025-01-01",
+             *         "endDate": "2025-01-02",
+             *         "amount": 1000
+             *       }
+             *     ]
+             */
+            milestones?: string[];
+            /**
+             * @description Team of the campaign
+             * @example [
+             *       {
+             *         "name": "John Doe",
+             *         "role": "Developer",
+             *         "email": "john.doe@example.com",
+             *         "linkedin": "https://linkedin.com/in/john-doe",
+             *         "twitter": "https://twitter.com/john-doe"
+             *       }
+             *     ]
+             */
+            team?: string[];
+            /**
+             * @description Contact of the campaign
+             * @example {
+             *       "primary": "john.doe",
+             *       "backup": "john.doe@example.com"
+             *     }
+             */
+            contact?: components["schemas"]["ContactDto"];
+            /**
+             * @description Social links of the campaign
+             * @example [
+             *       {
+             *         "platform": "twitter",
+             *         "url": "https://twitter.com/john-doe"
+             *       }
+             *     ]
+             */
+            socialLinks?: string[];
+            /**
+             * @description Escrow contract ID for the campaign
+             * @example CCAJPWPKSR6FY5Q5RYT5E3EIZQNDMDFYVVKJ656C5SUOIXQOQ4JQVWGV
+             */
+            escrowId?: string;
+            /**
+             * @description Transaction hash of the deployed escrow contract
+             * @example a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
+             */
+            transactionHash?: string;
+        };
+        UpdateEscrowDto: {
+            /**
+             * @description Transaction hash of the deployed escrow contract
+             * @example a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
+             */
+            transactionHash?: string;
+            /**
+             * @description Escrow contract address
+             * @example CCAJPWPKSR6FY5Q5RYT5E3EIZQNDMDFYVVKJ656C5SUOIXQOQ4JQVWGV
+             */
+            escrowAddress?: string;
+            /**
+             * @description Trustless Work status
+             * @example deployed
+             * @enum {string}
+             */
+            trustlessWorkStatus?: "pending" | "deployed" | "funded" | "failed";
+            /**
+             * @description Escrow type
+             * @example multi-release
+             * @enum {string}
+             */
+            escrowType?: "single-release" | "multi-release";
+        };
+        InviteTeamMemberDto: {
+            /**
+             * @description The email address of the team member to invite
+             * @example user@example.com
+             */
+            email: string;
+            /**
+             * @description The role of the team member in the campaign
+             * @example Developer
+             */
+            role: string;
+        };
+        ContributeCampaignDto: {
+            /**
+             * @description Amount of the contribution
+             * @example 100
+             */
+            amount: number;
+            /**
+             * @description Optional message from the contributor
+             * @example I love this campaign!
+             */
+            message?: string;
+            /**
+             * @description Whether to make this contribution anonymous
+             * @default false
+             * @example false
+             */
+            anonymous: boolean;
+        };
+        ValidateMilestoneSubmissionDto: {
+            /**
+             * @description Array of proof of work file URLs (documents, images, reports, etc.) - must be valid URLs with http, https, or ipfs protocol
+             * @example [
+             *       "https://example.com/report.pdf",
+             *       "https://example.com/screenshot.png"
+             *     ]
+             */
+            proofOfWorkFiles: string[];
+            /**
+             * @description Array of proof of work links (GitHub PRs, demos, deployed sites, etc.) - must be valid URLs
+             * @example [
+             *       "https://github.com/user/repo/pull/123",
+             *       "https://demo.example.com"
+             *     ]
+             */
+            proofOfWorkLinks: string[];
+            /**
+             * @description Additional notes about the submission - optional but must be at least 10 characters if provided
+             * @example Successfully deployed the MVP with all core features implemented and tested.
+             */
+            submissionNotes?: string;
+        };
+        UpdateMilestoneDto: {
+            /** @description Array of proof of work file URLs (documents, images, etc.) */
+            proofOfWorkFiles: string[];
+            /** @description Array of proof of work links (GitHub PRs, demos, etc.) */
+            proofOfWorkLinks: string[];
+            /** @description Additional notes about the submission */
+            submissionNotes?: string;
+        };
+        ReclaimDormantDto: {
+            /**
+             * @description Minimum days a wallet must have been idle to be eligible. Default 90.
+             * @example 90
+             */
+            minIdleDays?: number;
+            /**
+             * @description Maximum number of wallets to reclaim in this call. Hard-capped at 100.
+             * @example 25
+             */
+            maxToProcess?: number;
+            /**
+             * @description When true (default), report what would be reclaimed without submitting transactions. Set false to actually merge accounts.
+             * @example true
+             */
+            dryRun?: boolean;
+        };
+        AddTrustlineDto: {
+            /**
+             * @description Asset code to add a trustline for (e.g. USDC, EURC)
+             * @example USDC
+             */
+            assetCode: string;
+        };
+        UserSendDto: {
+            /**
+             * @description Stellar destination public key (G...)
+             * @example GABCD...
+             */
+            destinationPublicKey: string;
+            /**
+             * @description Amount to send (positive number)
+             * @example 100.5
+             */
+            amount: number;
+            /**
+             * @description Asset code (XLM, USDC, EURC, etc.)
+             * @example USDC
+             */
+            currency: string;
+            /** @description Memo (required by some exchanges). Max 28 bytes UTF-8. */
+            memo?: string;
+            /** @description If true, request fails when memo is missing (e.g. exchange requires it) */
+            memoRequired?: boolean;
+            /** @description Idempotency key to prevent duplicate sends */
+            idempotencyKey?: string;
+        };
+        SendPayoutDto: {
+            /**
+             * @description Stellar destination public key (G...)
+             * @example GABCD...
+             */
+            destinationPublicKey: string;
+            /**
+             * @description Amount to send (positive number)
+             * @example 100.5
+             */
+            amount: number;
+            /**
+             * @description Asset code (XLM, USDC, EURC, etc. – must be supported on network)
+             * @example USDC
+             */
+            currency: string;
+            /** @description Memo (required by some exchanges). Max 28 bytes UTF-8. */
+            memo?: string;
+            /**
+             * @description Memo type
+             * @enum {string}
+             */
+            memoType?: "text" | "id";
+            /** @description If true, request fails when memo is missing (e.g. exchange requires it) */
+            memoRequired?: boolean;
+            /** @description Idempotency key to prevent duplicate payouts */
+            idempotencyKey?: string;
+            /** @description Reference for audit (e.g. earnings-payout-123) */
+            reference?: string;
+        };
+        CreateCommentDto: {
+            /**
+             * @description Comment content
+             * @example This is a great project!
+             */
+            content: string;
+            /**
+             * @description Entity type for the comment
+             * @example PROJECT
+             * @enum {string}
+             */
+            entityType: "PROJECT" | "BOUNTY" | "CROWDFUNDING_CAMPAIGN" | "GRANT" | "GRANT_APPLICATION" | "HACKATHON" | "HACKATHON_SUBMISSION" | "BLOG_POST";
+            /**
+             * @description Entity ID for the comment
+             * @example cm12345abcde
+             */
+            entityId: string;
+            /**
+             * @description Parent comment ID for threaded replies
+             * @example cm12345abcde
+             */
+            parentId?: string;
+        };
+        UpdateCommentDto: Record<string, never>;
+        AddReactionDto: {
+            /**
+             * @description Type of reaction
+             * @example LIKE
+             * @enum {string}
+             */
+            reactionType: "LIKE" | "DISLIKE" | "LOVE" | "LAUGH" | "THUMBS_UP" | "THUMBS_DOWN" | "FIRE" | "ROCKET";
+        };
+        ReportCommentDto: {
+            /**
+             * @description Reason for reporting the comment
+             * @example SPAM
+             * @enum {string}
+             */
+            reason: "SPAM" | "HARASSMENT" | "HATE_SPEECH" | "INAPPROPRIATE_CONTENT" | "COPYRIGHT_VIOLATION" | "OTHER";
+            /**
+             * @description Additional details about the report
+             * @example This comment contains unsolicited advertising
+             */
+            description?: string;
+        };
+        ResolveReportDto: {
+            /**
+             * @description Resolution status for the report
+             * @example RESOLVED
+             * @enum {string}
+             */
+            status: "PENDING" | "REVIEWED" | "RESOLVED" | "DISMISSED";
+            /**
+             * @description Moderator notes about the resolution
+             * @example Comment was reviewed and found to violate community guidelines
+             */
+            resolution?: string;
+        };
+        HackathonsListResponseDto: Record<string, never>;
+        FeeEstimateResponseDto: {
+            /**
+             * @description Total prize pool (USDC)
+             * @example 5000
+             */
+            totalPool: number;
+            /**
+             * @description Fee rate as decimal
+             * @example 0.023
+             */
+            feeRate: number;
+            /**
+             * @description Fee rate as percentage
+             * @example 2.3
+             */
+            feeRatePercent: number;
+            /**
+             * @description Fee amount (USDC)
+             * @example 115
+             */
+            feeAmount: number;
+            /**
+             * @description Total to pay (prize pool + fee)
+             * @example 5115
+             */
+            totalFunds: number;
+            /**
+             * @description Display label for the fee
+             * @example Platform Fee (2.3%)
+             */
+            feeLabel: string;
+        };
+        ParticipantDto: {
+            /** @description Username of the participant */
+            username: string;
+            /** @description Avatar URL of the participant */
+            avatar?: Record<string, never>;
+        };
+        HackathonWinnerDto: {
+            /** @description Rank of the winner (1, 2, 3, etc.) */
+            rank: number;
+            /** @description Name of the project */
+            projectName: string;
+            /** @description Name of the team */
+            teamName?: Record<string, never>;
+            /** @description Logo of the project */
+            logo?: Record<string, never>;
+            /** @description List of participants */
+            participants: components["schemas"]["ParticipantDto"][];
+            /** @description Prize information */
+            prize: string;
+            /** @description Submission ID */
+            submissionId: string;
+        };
+        HackathonWinnersResponseDto: {
+            /** @description Hackathon ID */
+            hackathonId: string;
+            /** @description List of winners */
+            winners: components["schemas"]["HackathonWinnerDto"][];
+        };
+        PublicAggregatedJudgingResultDto: {
+            submissionId: string;
+            projectName: string;
+            teamId?: Record<string, never>;
+            participantId: string;
+            status: string;
+            /** Format: date-time */
+            submittedAt: string;
+            averageScore: number;
+            totalScore: number;
+            judgeCount: number;
+            expectedJudgeCount: number;
+            judgingProgress: string;
+            rank?: Record<string, never>;
+            isComplete: boolean;
+            isPending: boolean;
+            hasDisagreement: boolean;
+        };
+        JudgingResultsMetadataDto: {
+            sortedBy: string;
+            includesVariance: boolean;
+            includesIndividualScores: boolean;
+            includesProgressTracking: boolean;
+            onlyWinners?: boolean;
+        };
+        PublicJudgingResultsResponseDto: {
+            hackathonId: string;
+            totalSubmissions: number;
+            submissionsScoredCount: number;
+            submissionsPendingCount: number;
+            averageScoreAcrossAll: number;
+            resultsPublished: boolean;
+            judgesAssigned: number;
+            results: components["schemas"]["PublicAggregatedJudgingResultDto"][];
+            /** Format: date-time */
+            generatedAt: string;
+            /** @description Manual winner assignments override (submissionId -> rank) */
+            winnerOverrides?: {
+                [key: string]: number;
+            };
+            metadata: components["schemas"]["JudgingResultsMetadataDto"];
+        };
+        CreatorRelationDto: {
+            id: string;
+            name: string;
+            username?: string;
+            image?: string;
+        };
+        OrganizationRelationDto: {
+            id: string;
+            name: string;
+            logo?: string;
+            slug?: string;
+        };
+        HackathonResponseDto: {
+            createdBy: components["schemas"]["CreatorRelationDto"];
+            organization?: components["schemas"]["OrganizationRelationDto"];
+        };
+        ParticipationResponseDto: Record<string, never>;
+        ParticipantResponseDto: Record<string, never>;
+        HackathonParticipantsResponseDto: {
+            participants: components["schemas"]["ParticipantResponseDto"][];
+        };
+        TeamMemberDto: {
+            /**
+             * @description User ID of the team member
+             * @example user_1234567890
+             */
+            userId: string;
+            /**
+             * @description Name of the team member
+             * @example John Doe
+             */
+            name: string;
+            /**
+             * @description Username of the team member
+             * @example johndoe
+             */
+            username?: string;
+            /**
+             * @description Role of the team member in the project
+             * @example Full Stack Developer
+             */
+            role: string;
+            /**
+             * @description Avatar URL of the team member
+             * @example https://example.com/avatar.png
+             */
+            avatar?: string;
+        };
+        SubmissionLinkDto: {
+            /**
+             * @description Type of link. Each fixed type (github, demo, video, document, presentation) can be used at most once per submission. Use "other" for additional links, up to a maximum of 5.
+             * @example github
+             * @enum {string}
+             */
+            type: "github" | "demo" | "video" | "document" | "presentation" | "other";
+            /**
+             * @description URL of the link
+             * @example https://github.com/username/project
+             */
+            url: string;
+            /**
+             * @description Optional description of the link
+             * @example Main repository with source code
+             */
+            description?: string;
+        };
+        SocialLinksDto: {
+            /**
+             * @description GitHub profile or repository
+             * @example https://github.com/username
+             */
+            github?: string;
+            /**
+             * @description Telegram username or group
+             * @example https://t.me/username
+             */
+            telegram?: string;
+            /**
+             * @description Twitter/X handle
+             * @example https://twitter.com/username
+             */
+            twitter?: string;
+            /**
+             * @description Email address
+             * @example contact@example.com
+             */
+            email?: string;
+        };
+        SubmissionResponseDto: {
+            id: string;
+            hackathonId: string;
+            projectId: string;
+            participantId: string;
+            organizationId: string;
+            /** @enum {string} */
+            participationType: "INDIVIDUAL" | "TEAM";
+            teamId?: string;
+            teamName?: string;
+            teamMembers?: components["schemas"]["TeamMemberDto"][];
+            projectName: string;
+            category: string;
+            description: string;
+            logo?: string;
+            banner?: string;
+            videoUrl?: string;
+            introduction?: string;
+            links: components["schemas"]["SubmissionLinkDto"][];
+            socialLinks?: components["schemas"]["SocialLinksDto"];
+            status: string;
+            rank?: number;
+            /** @description Track entries this submission has opted into. Each entry carries the track slug/name and a wonRank stamped when the submission won that track (null until results are published). */
+            trackEntries?: unknown[][];
+            tagline?: string;
+            builtWith?: string[];
+            screenshots?: string[];
+            license?: string;
+            /** Format: date-time */
+            codeAttestedAt?: string;
+            /** Format: date-time */
+            registeredAt: string;
+            /** Format: date-time */
+            submittedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CreateSubmissionDto: {
+            /**
+             * @description Organization ID
+             * @example org_1234567890
+             */
+            organizationId: string;
+            /**
+             * @description Project ID (must be owned by the user or organization). If not provided, a base project will be created automatically.
+             * @example proj_1234567890
+             */
+            projectId?: string;
+            /**
+             * @description Type of participation
+             * @example INDIVIDUAL
+             * @enum {string}
+             */
+            participationType: "INDIVIDUAL" | "TEAM";
+            /**
+             * @deprecated
+             * @description [Ignored by backend.] Team ID is snapshotted from the user's authoritative team record at submission time. Field accepted for backwards compatibility only.
+             * @example team_1234567890
+             */
+            teamId?: string;
+            /**
+             * @deprecated
+             * @description [Ignored by backend.] Team name is snapshotted from the user's authoritative team record at submission time.
+             * @example Awesome Hackers
+             */
+            teamName?: string;
+            /**
+             * @deprecated
+             * @description [Ignored by backend.] Team members are snapshotted from the user's authoritative team record at submission time. Sending this field has no effect.
+             */
+            teamMembers?: components["schemas"]["TeamMemberDto"][];
+            /**
+             * @description Project name for the submission
+             * @example DeFi Lending Platform
+             */
+            projectName: string;
+            /**
+             * @description Category of the project
+             * @example DeFi
+             */
+            category: string;
+            /**
+             * @description Detailed description of the project
+             * @example A decentralized lending platform built on Stellar...
+             */
+            description: string;
+            /**
+             * @description Project logo URL
+             * @example https://example.com/logo.png
+             */
+            logo?: string;
+            /**
+             * @description Project banner image URL (wide hero image)
+             * @example https://example.com/banner.png
+             */
+            banner?: string;
+            /**
+             * @description Video demonstration URL
+             * @example https://youtube.com/watch?v=xyz
+             */
+            videoUrl?: string;
+            /**
+             * @description Brief introduction to the project
+             * @example We built a platform that allows users to...
+             */
+            introduction?: string;
+            /** @description Links to project resources. Each fixed link type (github, demo, video, document, presentation) can appear at most once. Use "other" for additional links, up to a maximum of 5. */
+            links: components["schemas"]["SubmissionLinkDto"][];
+            /** @description Social links for the project */
+            socialLinks?: components["schemas"]["SocialLinksDto"];
+            /**
+             * @description Optional list of track ids to enter. Only allowed when the hackathon has prizeStructure != OVERALL_ONLY. Capped at Hackathon.tracksMaxPerSubmission.
+             * @example [
+             *       "trk_abc",
+             *       "trk_def"
+             *     ]
+             */
+            trackIds?: string[];
+            /**
+             * @description Per-track answers. Keyed by trackId; each value is { promptAnswer?, customAnswers?, artifacts? }. Phase B.
+             * @example {
+             *       "trk_abc": {
+             *         "promptAnswer": "We focused on a one-tap escrow flow.",
+             *         "customAnswers": {
+             *           "q_audience": "Freelancers"
+             *         },
+             *         "artifacts": {
+             *           "figma": "https://figma.com/file/..."
+             *         }
+             *       }
+             *     }
+             */
+            trackAnswers?: Record<string, never>;
+            /**
+             * @description Short elevator pitch shown on cards / sidebars / judge queue. Max ~160 chars.
+             * @example Trustless escrow for one-time freelance gigs on Stellar.
+             */
+            tagline?: string;
+            /**
+             * @description Free-form tech-stack tags. Max 20 entries, 40 chars each.
+             * @example [
+             *       "Soroban",
+             *       "Stellar SDK",
+             *       "Next.js",
+             *       "TrustlessWork SDK"
+             *     ]
+             */
+            builtWith?: string[];
+            /** @description Up to 5 screenshot URLs for the project gallery. */
+            screenshots?: string[];
+            /**
+             * @description License the submission ships under.
+             * @enum {string}
+             */
+            license?: "MIT" | "Apache-2.0" | "GPL-3.0" | "BSD-3" | "PROPRIETARY" | "OTHER";
+            /** @description Submitter attests the code is original or properly attributed. Required to mark a submission SUBMITTED (vs DRAFT). */
+            codeAttested?: boolean;
+        };
+        UpdateSubmissionDto: {
+            /**
+             * @description Project name for the submission
+             * @example DeFi Lending Platform
+             */
+            projectName?: string;
+            /**
+             * @description Category of the project
+             * @example DeFi
+             */
+            category?: string;
+            /**
+             * @description Detailed description of the project
+             * @example A decentralized lending platform built on Stellar...
+             */
+            description?: string;
+            /**
+             * @description Project logo URL
+             * @example https://example.com/logo.png
+             */
+            logo?: string;
+            /**
+             * @description Project banner image URL (wide hero image)
+             * @example https://example.com/banner.png
+             */
+            banner?: string;
+            /**
+             * @description Video demonstration URL
+             * @example https://youtube.com/watch?v=xyz
+             */
+            videoUrl?: string;
+            /**
+             * @description Brief introduction to the project
+             * @example We built a platform that allows users to...
+             */
+            introduction?: string;
+            /** @description Links to project resources. Each fixed link type (github, demo, video, document, presentation) can appear at most once. Use "other" for additional links, up to a maximum of 5. */
+            links?: components["schemas"]["SubmissionLinkDto"][];
+            /** @description Social links for the project */
+            socialLinks?: components["schemas"]["SocialLinksDto"];
+            /** @description Team members (for team submissions) */
+            teamMembers?: components["schemas"]["TeamMemberDto"][];
+            /** @description Replace the submission's track picks. Omit to leave existing entries untouched; pass an empty array to clear all picks. */
+            trackIds?: string[];
+            /** @description Per-track answers, same shape as on create. Phase B. */
+            trackAnswers?: Record<string, never>;
+            tagline?: string;
+            builtWith?: string[];
+            screenshots?: string[];
+            /** @enum {string} */
+            license?: "MIT" | "Apache-2.0" | "GPL-3.0" | "BSD-3" | "PROPRIETARY" | "OTHER";
+            codeAttested?: boolean;
+        };
+        TeamMemberResponseDto: {
+            /** @description User ID */
+            userId: string;
+            /** @description Username */
+            username: string;
+            /** @description Display name */
+            name: string;
+            /** @description Role in team (e.g. leader, member) */
+            role: string;
+            /** @description Profile image URL */
+            image?: string;
+            /** @description When the member joined the team (ISO string) */
+            joinedAt: string;
+        };
+        LookingForRoleDto: {
+            /**
+             * @description Role title (e.g. "Frontend Developer", "UI Designer")
+             * @example Frontend Developer
+             */
+            role: string;
+            /**
+             * @description Optional free-form skills associated with this role
+             * @example [
+             *       "React",
+             *       "TypeScript"
+             *     ]
+             */
+            skills?: unknown[][];
+        };
+        TeamRoleResponseDto: {
+            /** @description Skill/role name */
+            skill: string;
+            /** @description Whether this role has been filled */
+            hired: boolean;
+        };
+        TeamResponseDto: {
+            /**
+             * @description Team ID
+             * @example team_1234567890
+             */
+            id: string;
+            /**
+             * @description Team name
+             * @example Stellar Innovators
+             */
+            teamName: string;
+            /** @description Team description */
+            description: string;
+            /** @description Hackathon ID */
+            hackathonId: string;
+            /** @description Team leader information */
+            leader: Record<string, never>;
+            /** @description Team members */
+            members: components["schemas"]["TeamMemberResponseDto"][];
+            /**
+             * @description Current number of members
+             * @example 3
+             */
+            memberCount: number;
+            /**
+             * @description Maximum team size allowed
+             * @example 5
+             */
+            maxSize: number;
+            /** @description Roles the team is looking for, with optional free-form skills */
+            lookingFor?: components["schemas"]["LookingForRoleDto"][];
+            /** @description Hired status per role (when using lookingFor) */
+            rolesStatus?: components["schemas"]["TeamRoleResponseDto"][];
+            /** @description Contact information (e.g. telegram, discord, email) */
+            contactInfo?: Record<string, never>;
+            /**
+             * @description Whether team is accepting new members
+             * @example true
+             */
+            isOpen: boolean;
+            /** @description Team creation date */
+            createdAt: string;
+            /** @description Last update date */
+            updatedAt: string;
+        };
+        TeamListResponseDto: {
+            /** @description List of teams */
+            teams: components["schemas"]["TeamResponseDto"][];
+            /** @description Pagination metadata */
+            pagination: Record<string, never>;
+        };
+        CreateTeamDto: {
+            /**
+             * @description Team name
+             * @example Stellar Innovators
+             */
+            teamName: string;
+            /**
+             * @description Team description
+             * @example We are building the next generation DeFi platform
+             */
+            description: string;
+            /** @description Roles the team is looking for. Each entry is a role title with optional free-form skills. Team will be CLOSED unless at least one role is specified. The number of roles is bounded by the hackathon's teamMin/teamMax (excluding the leader). */
+            lookingFor?: components["schemas"]["LookingForRoleDto"][];
+            /**
+             * @description Contact information for interested members
+             * @example {
+             *       "telegram": "@teamlead",
+             *       "discord": "lead#1234"
+             *     }
+             */
+            contactInfo?: Record<string, never>;
+        };
+        UpdateTeamDto: {
+            /**
+             * @description Updated team name
+             * @example Stellar Innovators Pro
+             */
+            teamName?: string;
+            /** @description Updated team description */
+            description?: string;
+            /** @description Roles the team is looking for. Set to empty array to close the team. Each entry is a role title with optional free-form skills. */
+            lookingFor?: components["schemas"]["LookingForRoleDto"][];
+            /** @description Updated contact information */
+            contactInfo?: Record<string, never>;
+            /** @description Explicitly set team open/closed status. Can only be true if lookingFor is not empty. */
+            isOpen?: boolean;
+        };
+        InviteToTeamDto: {
+            /**
+             * @description User ID or username of the person to invite
+             * @example user_1234567890
+             */
+            inviteeIdentifier: string;
+            /**
+             * @description Optional message to include with the invitation
+             * @example We would love to have you on our team!
+             */
+            message?: string;
+        };
+        TeamInvitationResponseDto: {
+            /**
+             * @description Invitation ID
+             * @example inv_1234567890
+             */
+            id: string;
+            /**
+             * @description Team ID
+             * @example team_1234567890
+             */
+            teamId: string;
+            /** @description Hackathon information */
+            hackathon: Record<string, never>;
+            /** @description Invitee information */
+            invitee: Record<string, never>;
+            /** @description Inviter information */
+            inviter: Record<string, never>;
+            /**
+             * @description Invitation status
+             * @example pending
+             * @enum {string}
+             */
+            status: "pending" | "accepted" | "rejected" | "expired";
+            /**
+             * @description Optional message from inviter
+             * @example We would love to have you on our team!
+             */
+            message?: Record<string, never>;
+            /**
+             * @description Role in the team
+             * @example member
+             */
+            role: Record<string, never>;
+            /**
+             * Format: date-time
+             * @description Invitation expiration date
+             * @example 2026-01-30T12:00:00.000Z
+             */
+            expiresAt: string;
+            /**
+             * Format: date-time
+             * @description Invitation creation date
+             * @example 2026-01-23T12:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * @description Date when invitation was responded to
+             * @example 2026-01-24T12:00:00.000Z
+             */
+            respondedAt?: Record<string, never>;
+        };
+        TeamInvitationListResponseDto: {
+            /** @description List of invitations */
+            invitations: components["schemas"]["TeamInvitationResponseDto"][];
+            /**
+             * @description Total count
+             * @example 5
+             */
+            total: number;
+        };
+        InvitationActionResponseDto: {
+            /**
+             * @description Success message
+             * @example Successfully accepted team invitation
+             */
+            message: string;
+            /**
+             * @description Team ID that was joined (only for accept)
+             * @example team_1234567890
+             */
+            teamId: string;
+            /** @description Updated invitation */
+            invitation: components["schemas"]["TeamInvitationResponseDto"];
+        };
+        ToggleRoleHiredDto: {
+            /**
+             * @description Skill/role name to toggle hired status
+             * @example Rust Developer
+             */
+            skill: string;
+        };
+        TransferLeadershipDto: {
+            /**
+             * @description User ID of the new team leader (must be an existing member)
+             * @example user_1234567890
+             */
+            newLeaderId: string;
+            /**
+             * @description Optional reason for the leadership transfer
+             * @example Stepping down to focus on development tasks
+             */
+            reason?: string;
+        };
+        LeadershipTransferResponseDto: {
+            /**
+             * @description Success message
+             * @example Leadership successfully transferred
+             */
+            message: string;
+            /** @description Updated team with new leader */
+            team: components["schemas"]["TeamResponseDto"];
+            /**
+             * @description Previous leader ID
+             * @example user_1234567890
+             */
+            previousLeaderId: string;
+            /**
+             * @description New leader ID
+             * @example user_0987654321
+             */
+            newLeaderId: string;
+            /**
+             * Format: date-time
+             * @description Timestamp of the transfer
+             * @example 2026-02-16T10:30:00.000Z
+             */
+            transferredAt: string;
+        };
+        HackathonDraftResponseDto: Record<string, never>;
+        UpdateHackathonDraftDto: Record<string, never>;
+        PublishDraftDto: Record<string, never>;
+        PublishHackathonResponseDto: Record<string, never>;
+        UpdateVisibilitySettingsDto: {
+            /**
+             * @description Who can view hackathon submissions
+             * @example PUBLIC
+             * @enum {string}
+             */
+            submissionVisibility?: "PUBLIC" | "PARTICIPANTS_ONLY";
+            /**
+             * @description Which submission statuses are visible to others. ALL exposes SUBMITTED and SHORTLISTED. ACCEPTED_SHORTLISTED exposes only SHORTLISTED. HIDDEN_UNTIL_RESULTS hides every submission from non-owners and non-organizers until the hackathon results are published, then exposes only SHORTLISTED. DISQUALIFIED is never visible to anyone other than the owner or an organizer.
+             * @example ACCEPTED_SHORTLISTED
+             * @enum {string}
+             */
+            submissionStatusVisibility?: "ALL" | "ACCEPTED_SHORTLISTED" | "HIDDEN_UNTIL_RESULTS";
+        };
+        ReviewSubmissionDto: {
+            /**
+             * @description ID of the assigned judge performing the review
+             * @example user_1234567890
+             */
+            judgeId: string;
+            /**
+             * @description Review action
+             * @example SHORTLISTED
+             * @enum {string}
+             */
+            status: "SHORTLISTED" | "SUBMITTED";
+            /**
+             * @description Reviewer notes or feedback
+             * @example Great project with innovative approach
+             */
+            notes?: string;
+            /**
+             * @description Rank/position for the submission
+             * @example 1
+             */
+            rank?: number;
+            /**
+             * @description Whether this is an organizational override (bypasses COI and assignment checks)
+             * @default false
+             */
+            isOrganizerOverride: boolean;
+        };
+        OrganizationHackathonParticipantsResponseDto: Record<string, never>;
+        DisqualifySubmissionDto: {
+            /**
+             * @description Reason for disqualification
+             * @example Submission does not meet hackathon requirements
+             */
+            disqualificationReason: string;
+        };
+        BulkSubmissionActionDto: {
+            /**
+             * @description Array of submission IDs
+             * @example [
+             *       "sub_1234567890",
+             *       "sub_0987654321"
+             *     ]
+             */
+            submissionIds: string[];
+            /**
+             * @description Action to perform
+             * @example SHORTLISTED
+             * @enum {string}
+             */
+            action: "SHORTLISTED" | "SUBMITTED" | "DISQUALIFIED";
+            /**
+             * @description Reason (required for DISQUALIFIED action)
+             * @example Does not meet requirements
+             */
+            reason?: string;
+        };
+        SummaryMetricsDto: {
+            /** @example 120 */
+            participantsCount: number;
+            /** @example 45 */
+            submissionsCount: number;
+            /** @example 6 */
+            activeJudges: number;
+            /** @example 3 */
+            completedMilestones: number;
+        };
+        TrendPointDto: {
+            /** @example 2026-02-01 */
+            date: string;
+            /** @example 5 */
+            count: number;
+        };
+        TrendsDto: {
+            submissionsOverTime: components["schemas"]["TrendPointDto"][];
+            participantSignupsOverTime: components["schemas"]["TrendPointDto"][];
+        };
+        TimelinePhaseDto: {
+            /** @example Registration */
+            phase: string;
+            /** @example Individuals and teams are signing up to participate in the hackathon. */
+            description: string;
+            /** @example 2026-01-20 */
+            date: string;
+            /** @enum {string} */
+            status: "upcoming" | "ongoing" | "completed";
+        };
+        HackathonAnalyticsResponseDto: {
+            /** @example hack_1234567890 */
+            hackathonId: string;
+            summary: components["schemas"]["SummaryMetricsDto"];
+            trends: components["schemas"]["TrendsDto"];
+            timeline: components["schemas"]["TimelinePhaseDto"][];
+        };
+        AnnouncementAuthorDto: {
+            id: string;
+            name: string;
+            image?: string;
+            username?: string;
+        };
+        AnnouncementResponseDto: {
+            id: string;
+            hackathonId: string;
+            title: string;
+            content: string;
+            isDraft: boolean;
+            isPinned: boolean;
+            /** Format: date-time */
+            publishedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            author: components["schemas"]["AnnouncementAuthorDto"];
+        };
+        CreateAnnouncementDto: {
+            /**
+             * @description Title of the announcement
+             * @example Hackathon Starts Now!
+             */
+            title: string;
+            /**
+             * @description Content of the announcement in Markdown
+             * @example # Welcome
+             *
+             *     We are excited to start...
+             */
+            content: string;
+            /**
+             * @description Whether the announcement is a draft
+             * @default true
+             */
+            isDraft: boolean;
+            /**
+             * @description Whether the announcement should be pinned
+             * @default false
+             */
+            isPinned: boolean;
+        };
+        UpdateAnnouncementDto: {
+            /**
+             * @description Title of the announcement
+             * @example Hackathon Starts Now!
+             */
+            title?: string;
+            /**
+             * @description Content of the announcement in Markdown
+             * @example # Welcome
+             *
+             *     We are excited to start...
+             */
+            content?: string;
+            /** @description Whether the announcement is a draft */
+            isDraft?: boolean;
+            /** @description Whether the announcement should be pinned */
+            isPinned?: boolean;
+        };
+        CriterionDto: Record<string, never>;
+        CriterionScoreDto: {
+            /**
+             * @description Criterion ID or name
+             * @example Technical Complexity
+             */
+            criterionId: string;
+            /**
+             * @description Score for this criterion (0-10)
+             * @example 8.5
+             */
+            score: number;
+            /**
+             * @description Optional comment for this criterion
+             * @example Great technical implementation
+             */
+            comment?: string;
+        };
+        ScoreSubmissionDto: {
+            /**
+             * @description Submission ID being judged
+             * @example sub_1234567890
+             */
+            submissionId: string;
+            /** @description Scores for each individual criterion */
+            criteriaScores: components["schemas"]["CriterionScoreDto"][];
+            /**
+             * @description Optional ID of the judge to attribute this score to (defaults to calling user)
+             * @example user_123
+             */
+            judgeId?: string;
+            /**
+             * @description Optional admin notes
+             * @example Score adjusted per appeal
+             */
+            notes?: string;
+            /**
+             * @description Whether this is an organizational override (bypasses COI and assignment checks)
+             * @default false
+             */
+            isOrganizerOverride: boolean;
+        };
+        UserDetailsDto: {
+            id: string;
+            email: string;
+            name: string;
+            username: string;
+            image?: string;
+        };
+        JudgingSubmissionParticipantDto: {
+            id: string;
+            userId: string;
+            user: components["schemas"]["UserDetailsDto"];
+            participationType: string;
+            teamId?: string;
+            teamName?: string;
+            teamMembers?: Record<string, never>[];
+        };
+        JudgingSubmissionDataDto: {
+            id: string;
+            projectName: string;
+            category: string;
+            description: string;
+            logo?: string;
+            videoUrl?: string;
+            introduction?: string;
+            links?: Record<string, never>[];
+            socialLinks?: {
+                [key: string]: unknown;
+            };
+            submissionDate: string;
+            status: string;
+            rank?: number;
+        };
+        IndividualJudgingResultDto: {
+            judgeId: string;
+            judgeName: string;
+            criteriaScores: components["schemas"]["CriterionScoreDto"][];
+            totalScore: number;
+            /** Format: date-time */
+            submittedAt: string;
+        };
+        JudgingSubmissionDto: {
+            participant: components["schemas"]["JudgingSubmissionParticipantDto"];
+            submission: components["schemas"]["JudgingSubmissionDataDto"];
+            myScore?: components["schemas"]["IndividualJudgingResultDto"];
+            averageScore: Record<string, never> | null;
+            judgeCount: number;
+        };
+        JudgingPaginationDto: {
+            page: number;
+            limit: number;
+            total: number;
+            totalPages: number;
+        };
+        JudgingSubmissionsResponseDto: {
+            submissions: components["schemas"]["JudgingSubmissionDto"][];
+            criteria: components["schemas"]["CriterionDto"][];
+            pagination: components["schemas"]["JudgingPaginationDto"];
+            /** @description Number of submissions in this hackathon that the calling judge has already scored. Independent of pagination so the progress strip is accurate even when the user is on page 2. */
+            scoredCount?: number;
+        };
+        AddJudgeDto: {
+            /**
+             * @description Email address of the user to be assigned as a judge
+             * @example judge@example.com
+             */
+            email: string;
+        };
+        JudgeResponseDto: {
+            id: string;
+            userId: string;
+            name: string;
+            image?: Record<string, never>;
+        };
+        IndividualScoreDto: {
+            judgeId: string;
+            judgeName: string;
+            score: number;
+        };
+        ScoreRangeDto: {
+            min: number;
+            max: number;
+        };
+        CriteriaBreakdownDto: {
+            criterionId: string;
+            averageScore: number;
+            min: number;
+            max: number;
+            variance: number;
+        };
+        AggregatedJudgingResultDto: {
+            submissionId: string;
+            projectName: string;
+            teamId?: Record<string, never>;
+            participantId: string;
+            status: string;
+            /** Format: date-time */
+            submittedAt: string;
+            averageScore: number;
+            totalScore: number;
+            judgeCount: number;
+            expectedJudgeCount: number;
+            judgingProgress: string;
+            individualScores: components["schemas"]["IndividualScoreDto"][];
+            scoreVariance: number;
+            scoreRange: components["schemas"]["ScoreRangeDto"];
+            criteriaBreakdown: components["schemas"]["CriteriaBreakdownDto"][];
+            rank?: Record<string, never>;
+            computedRank?: number;
+            prize?: string;
+            isComplete: boolean;
+            isPending: boolean;
+            hasDisagreement: boolean;
+            trackIds?: string[];
+        };
+        JudgingResultsResponseDto: {
+            hackathonId: string;
+            totalSubmissions: number;
+            submissionsScoredCount: number;
+            submissionsPendingCount: number;
+            averageScoreAcrossAll: number;
+            resultsPublished: boolean;
+            judgesAssigned: number;
+            results: components["schemas"]["AggregatedJudgingResultDto"][];
+            /** Format: date-time */
+            generatedAt: string;
+            /** @description Manual winner assignments override (submissionId -> rank) */
+            winnerOverrides?: {
+                [key: string]: number;
+            };
+            metadata: components["schemas"]["JudgingResultsMetadataDto"];
+        };
+        InviteJudgeDto: {
+            /** @example judge@example.com */
+            email: string;
+            /** @description Optional public display name for the judge */
+            displayName?: string;
+            /** @description Personal message included in the invitation email */
+            message?: string;
+            /** @description Override expiry in days (default 14). Maximum 60 to prevent indefinite invitations. */
+            expiresInDays?: number;
+        };
+        AcceptJudgeInvitationDto: {
+            /** @description Optional display name override. If omitted, the inviter-provided displayName (or the user’s account name) is used. */
+            displayName?: string;
+        };
+        PublishedInfoFormDataDto: {
+            /** @example Web3 Innovation Hackathon */
+            name: string;
+            /** @example https://example.com/banner.png */
+            banner: string;
+            /** @example Build products for the decentralized future. */
+            description: string;
+            categories: ("DeFi" | "NFTs" | "DAOs" | "Layer 2" | "Cross-chain" | "Web3 Gaming" | "Social Tokens" | "Infrastructure" | "Privacy" | "Sustainability" | "Real World Assets" | "Other")[];
+            /**
+             * @example virtual
+             * @enum {string}
+             */
+            venueType: "virtual" | "physical";
+            /** @example Build the future of Web3 */
+            tagline: string;
+            /** @example Nigeria */
+            country?: string;
+            /** @example Lagos */
+            state?: string;
+            /** @example Ikeja */
+            city?: string;
+            /** @example Eko Convention Center */
+            venueName?: string;
+            /** @example Plot 1415 Adetokunbo Ademola St */
+            venueAddress?: string;
+            /** @example web3-innovation-hackathon */
+            slug?: string;
+        };
+        PublishedSponsorPartnerDto: {
+            /** @example sp-1 */
+            id: string;
+            /** @example Stellar Foundation */
+            name?: string;
+            /** @example https://example.com/logo.png */
+            logo?: string;
+            /** @example https://stellar.org */
+            link?: string;
+        };
+        PublishedCollaborationFormDataDto: {
+            /** @example organizer@boundless.dev */
+            contactEmail: string;
+            /** @example @boundless */
+            telegram?: string;
+            /** @example boundless-hackathon */
+            discord?: string;
+            /**
+             * @example [
+             *       "https://x.com/boundless"
+             *     ]
+             */
+            socialLinks: string[];
+            sponsorsPartners: components["schemas"]["PublishedSponsorPartnerDto"][];
+        };
+        UpdatePublishedHackathonContentDto: {
+            information?: components["schemas"]["PublishedInfoFormDataDto"];
+            collaboration?: components["schemas"]["PublishedCollaborationFormDataDto"];
+        };
+        PublishedPhaseDto: {
+            /** @example Building Phase */
+            name: string;
+            /** @example 2026-04-01T00:00:00.000Z */
+            startDate: string;
+            /** @example 2026-04-10T00:00:00.000Z */
+            endDate: string;
+            /** @example Core build phase for teams */
+            description?: string;
+        };
+        PublishedTimelineFormDataDto: {
+            /** @example 2026-04-01T00:00:00.000Z */
+            startDate?: string;
+            /** @example 2026-04-15T00:00:00.000Z */
+            submissionDeadline?: string;
+            /** @example Africa/Lagos */
+            timezone?: string;
+            /**
+             * @description Optional. When null, registration stays open until submission deadline.
+             * @example 2026-04-02T00:00:00.000Z
+             */
+            registrationDeadline?: string;
+            /**
+             * @description Optional judging deadline. When null, no judging phase is rendered on the timeline.
+             * @example 2026-04-18T00:00:00.000Z
+             */
+            judgingDeadline?: string;
+            phases?: components["schemas"]["PublishedPhaseDto"][];
+        };
+        PublishedParticipantFormDataDto: {
+            /** @enum {string} */
+            participantType: "individual" | "team" | "team_or_individual";
+            /** @example 2 */
+            teamMin?: number;
+            /** @example 5 */
+            teamMax?: number;
+            /**
+             * @description Optional cap on total participants. null = unlimited. Can be updated after publishing.
+             * @example 200
+             */
+            maxParticipants?: number;
+            /** @example true */
+            require_github?: boolean;
+            /** @example false */
+            require_demo_video?: boolean;
+            /** @example true */
+            require_other_links?: boolean;
+            detailsTab?: boolean;
+            participantsTab?: boolean;
+            resourcesTab?: boolean;
+            submissionTab?: boolean;
+            announcementsTab?: boolean;
+            discussionTab?: boolean;
+            winnersTab?: boolean;
+            sponsorsTab?: boolean;
+            joinATeamTab?: boolean;
+            rulesTab?: boolean;
+        };
+        UpdatePublishedHackathonScheduleDto: {
+            timeline?: components["schemas"]["PublishedTimelineFormDataDto"];
+            participation?: components["schemas"]["PublishedParticipantFormDataDto"];
+        };
+        PublishedPrizeTierDto: {
+            /** @example tier-1 */
+            id: string;
+            /** @example 1st Place */
+            place: string;
+            /** @example 5000 */
+            prizeAmount: string;
+            /** @example USDC */
+            currency?: string;
+            /** @example Top overall project */
+            description?: string;
+            /**
+             * @description Display rank / ordering of the tier (1 = highest)
+             * @example 1
+             */
+            rank?: number;
+            /** @example 70 */
+            passMark: number;
+            /** @enum {string} */
+            kind?: "OVERALL" | "TRACK";
+            /** @description Required when kind=TRACK. References a HackathonTrack id. */
+            trackId?: string;
+        };
+        PublishedRewardsFormDataDto: {
+            prizeTiers: components["schemas"]["PublishedPrizeTierDto"][];
+            /**
+             * @description Manual winner assignments override (submissionId -> rank)
+             * @example {
+             *       "sub-1": 1,
+             *       "sub-2": 2
+             *     }
+             */
+            winnerOverrides?: {
+                [key: string]: number;
+            };
+            /** @enum {string} */
+            prizeStructure?: "OVERALL_ONLY" | "OVERALL_AND_TRACKS" | "TRACKS_ONLY";
+            tracksMaxPerSubmission?: number;
+        };
+        UpdatePublishedHackathonFinancialDto: {
+            rewards: components["schemas"]["PublishedRewardsFormDataDto"];
+        };
+        AdvancedSettingsFormDataDto: {
+            /** @example true */
+            isPublic: boolean;
+            /** @example false */
+            allowLateRegistration: boolean;
+            /** @example true */
+            requireApproval: boolean;
+            /** @example 500 */
+            maxParticipants?: number;
+            /** @example hackathons.boundless.dev */
+            customDomain?: string;
+            /** @example true */
+            enableDiscord: boolean;
+            /** @example https://discord.gg/boundless */
+            discordInviteLink?: string;
+            /** @example true */
+            enableTelegram: boolean;
+            /** @example https://t.me/boundless */
+            telegramInviteLink?: string;
+        };
+        UpdatePublishedHackathonAdvancedSettingsDto: {
+            advancedSettings: components["schemas"]["AdvancedSettingsFormDataDto"];
+        };
+        CreateRewardDistributionDto: {
+            /**
+             * @description Client-supplied UUID for idempotent triggering. Duplicate requests with same key return existing distribution.
+             * @example a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6
+             */
+            idempotencyKey: string;
+            /**
+             * @description Optional organizer note (max 500 chars) explaining the distribution context
+             * @example Allocating sponsors tier to finalists
+             */
+            organizerNote?: string;
+        };
+        WinnerSnapshot: {
+            /** @description Submission ID of the winner */
+            submissionId: string;
+            /** @description Rank of the winner (1-based) */
+            rank: number;
+            /** @description Display name of the submission/team */
+            submissionTitle: string;
+            /** @description Prize tier this winner maps to */
+            prizeTierName: string;
+            /** @description Prize amount in USDC (7 decimals) */
+            prizeAmount: number;
+            /** @description Wallet public keys (Stellar) for prize distribution - comma-separated for teams, single address for individuals. Fetched from user.wallet.publicKey. */
+            walletAddresses: string;
+        };
+        RewardDistributionSnapshot: {
+            /**
+             * @description Client-supplied idempotency key (UUID) for replay safety. Duplicate trigger with same key returns existing distribution.
+             * @example a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6
+             */
+            idempotencyKey: string;
+            /** @description Array of winners ranked and assigned to tiers at trigger time */
+            winners: components["schemas"]["WinnerSnapshot"][];
+            /** @description Total prize pool in USDC (7 decimals) */
+            totalPrizePool: number;
+            /** @description Platform fee (7 decimals) */
+            platformFee: number;
+            /** @description Total funding required (prizePool + platformFee) */
+            totalRequired: number;
+            /** @description Currency code (hardcoded: USDC) */
+            currency: string;
+            /** @description Hackathon escrow address where funds will be released from (captures state at trigger) */
+            escrowAddress: string;
+            /** @description SHA256 checksum of winners array (prevents tampering) */
+            winnersChecksum: string;
+            /**
+             * @description ISO timestamp when snapshot was created
+             * @example 2024-01-19T14:30:00Z
+             */
+            snapshotAt: string;
+            /** @description Organizer-supplied note explaining reward distribution context */
+            organizerNote: string | null;
+        };
+        RewardDistributionResponseDto: {
+            /** @description UUID of the distribution record (only at trigger; null for status-only) */
+            distributionId: Record<string, never> | null;
+            /**
+             * @description Current status of the distribution
+             * @enum {string}
+             */
+            status: "NOT_TRIGGERED" | "PENDING_ADMIN_REVIEW" | "APPROVED" | "REJECTED" | "EXECUTING" | "COMPLETED" | "FAILED" | "PARTIAL_SUCCESS";
+            /** @description Immutable snapshot of winners and totals */
+            snapshot: components["schemas"]["RewardDistributionSnapshot"];
+            /** @description Admin rejection reason (if status = REJECTED) */
+            rejectionReason?: Record<string, never> | null;
+            /** @description Admin note (if status = APPROVED/REJECTED) */
+            adminNote?: Record<string, never> | null;
+            /** @description ID of the admin who approved/rejected (null if pending) */
+            adminUserId?: Record<string, never> | null;
+            /**
+             * @description ISO timestamp of admin decision (null if pending)
+             * @example 2024-01-19T15:45:00Z
+             */
+            adminDecisionAt?: Record<string, never> | null;
+            /**
+             * @description ISO timestamp when distribution was triggered
+             * @example 2024-01-19T14:30:00Z
+             */
+            triggeredAt: string;
+            /**
+             * @description ISO timestamp of last status update
+             * @example 2024-01-19T15:45:00Z
+             */
+            updatedAt?: string;
+        };
+        HackathonEscrowMilestoneDto: {
+            description: string;
+            amount: number;
+            receiver: string;
+            status: string;
+            evidence: string;
+            flags?: Record<string, never>;
+        };
+        HackathonEscrowResponseDto: {
+            contractId: string;
+            escrowAddress: string;
+            balance: number;
+            milestones: components["schemas"]["HackathonEscrowMilestoneDto"][];
+            isFunded: boolean;
+            canUpdate: boolean;
+        };
+        InvitePartnerDto: {
+            /** @example sponsor@partner.io */
+            partnerEmail: string;
+            /** @example Acme Corp */
+            partnerName: string;
+            /** @example https://cdn.example.com/logo.png */
+            partnerLogo?: string;
+            /** @example https://acme.io */
+            partnerLink?: string;
+            /**
+             * @description Pledged amount in USDC
+             * @example 1000
+             */
+            pledgedAmount: number;
+            /**
+             * @default USDC
+             * @example USDC
+             */
+            currency: string;
+            /** @description Optional message included in the invite */
+            message?: string;
+            /**
+             * @description Whether the partner is shown publicly on the hackathon page
+             * @default true
+             */
+            showPublicly: boolean;
+        };
+        AllocationTargetDto: {
+            /** @description Existing prize tier id to inflate. Either tierId or newTier must be set. */
+            tierId?: string;
+            /**
+             * @description Create a new prize tier with this label. Either tierId or newTier must be set.
+             * @example Best AI Project
+             */
+            newTierLabel?: string;
+            /** @description Optional description for the new tier */
+            newTierDescription?: string;
+            /** @description Net amount (USDC) to add to the tier */
+            amount: number;
+        };
+        AllocateContributionDto: {
+            /** @description One or more tiers to allocate this contribution into */
+            targets: components["schemas"]["AllocationTargetDto"][];
+        };
+        PrepareFundTransactionDto: {
+            /** @description Stellar address of the partner wallet that will sign the transaction */
+            signerAddress: string;
+        };
+        SubmitSignedTransactionDto: {
+            /** @description Signed transaction XDR returned by the partner wallet */
+            signedXdr: string;
+        };
+        TrackCustomQuestionDto: {
+            /** @description Stable id, unique within the track. */
+            id: string;
+            /** @description Question label shown on the submission form. */
+            label: string;
+            /**
+             * @description Input type. 'short' = single-line, 'long' = textarea, 'url' = URL field.
+             * @enum {string}
+             */
+            type: "short" | "long" | "url";
+            /** @description Optional maxLength override (defaults: short=200, long=1000). */
+            maxLength?: number;
+            /** @description Whether an answer is required. */
+            required?: boolean;
+        };
+        TrackRequiredArtifactDto: {
+            /** @description Stable id, unique within the track. */
+            id: string;
+            /** @description Artifact label (e.g. "Figma file URL"). */
+            label: string;
+            /**
+             * @description Artifact type — drives the placeholder + light hint UI.
+             * @enum {string}
+             */
+            type: "figma" | "github" | "video" | "pdf" | "url";
+            /** @description Whether submitting this artifact is required. */
+            required?: boolean;
+        };
+        TrackResponseDto: {
+            id: string;
+            hackathonId: string;
+            slug: string;
+            name: string;
+            description?: string;
+            type?: string;
+            /** @enum {string} */
+            eligibility: "OPT_IN" | "OPEN";
+            displayOrder: number;
+            isArchived: boolean;
+            /** @description Count of submissions that have opted into this track. Useful for organizer dashboards. */
+            entryCount: number;
+            /** @description Per-track customization (Phase B). */
+            prompt?: string;
+            customQuestions?: components["schemas"]["TrackCustomQuestionDto"][];
+            requiredArtifacts?: components["schemas"]["TrackRequiredArtifactDto"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CreateTrackDto: {
+            /**
+             * @description Human-readable track name shown on the hackathon page.
+             * @example Best UI/UX
+             */
+            name: string;
+            /**
+             * @description URL-safe handle, unique within the hackathon. Auto-generated from name if omitted.
+             * @example best-ui-ux
+             */
+            slug?: string;
+            /**
+             * @description Short blurb shown in the track picker and on results.
+             * @example Best end-to-end user experience and visual polish.
+             */
+            description?: string;
+            /**
+             * @description Free-form classifier for badge styling. Common values: skill, technology, theme, special.
+             * @example skill
+             */
+            type?: string;
+            /**
+             * @description OPT_IN (default): submitters explicitly enter. OPEN: every submission auto-eligible.
+             * @default OPT_IN
+             * @enum {string}
+             */
+            eligibility: "OPT_IN" | "OPEN";
+            /**
+             * @description Sort order. Lower numbers render first. Defaults to 0.
+             * @example 10
+             */
+            displayOrder?: number;
+            /**
+             * @description Single open-ended prompt shown on the submission form. When set, the submitter must answer to opt in.
+             * @example Why does this project fit Best UI/UX?
+             */
+            prompt?: string;
+            customQuestions?: components["schemas"]["TrackCustomQuestionDto"][];
+            requiredArtifacts?: components["schemas"]["TrackRequiredArtifactDto"][];
+        };
+        UpdateTrackDto: {
+            name?: string;
+            slug?: string;
+            description?: string;
+            type?: string;
+            /** @enum {string} */
+            eligibility?: "OPT_IN" | "OPEN";
+            displayOrder?: number;
+            /** @description Soft-archive instead of delete when entries already exist. Cannot be unset via this endpoint; recreate the track if needed. */
+            isArchived?: boolean;
+            /** @description Single open-ended prompt. */
+            prompt?: string;
+            customQuestions?: components["schemas"]["TrackCustomQuestionDto"][];
+            requiredArtifacts?: components["schemas"]["TrackRequiredArtifactDto"][];
+        };
+        CreateOrganizationDto: Record<string, never>;
+        OrganizationProfileStatsDto: {
+            /**
+             * @description Number of projects under this organization
+             * @example 12
+             */
+            projectsCount: number;
+            /**
+             * @description Total hackathons run by this organization
+             * @example 5
+             */
+            totalHackathons: number;
+            /**
+             * @description Total bounties offered by this organization
+             * @example 8
+             */
+            totalBounties: number;
+            /**
+             * @description Total grants (projects with grants) under this organization
+             * @example 3
+             */
+            totalGrants: number;
+        };
+        OrganizationProfileDto: {
+            /**
+             * @description Organization ID
+             * @example org_1234567890
+             */
+            id: string;
+            /**
+             * @description Organization name
+             * @example Tech Innovators
+             */
+            name: string;
+            /**
+             * @description Organization slug
+             * @example tech-innovators
+             */
+            slug: string;
+            /**
+             * @description Logo URL
+             * @example https://example.com/logo.png
+             */
+            logoUrl: string;
+            /**
+             * @description Organization description (from about or tagline)
+             * @example We are a community of developers building the future.
+             */
+            description: string;
+            /** @description Key stats for the organization profile */
+            stats: components["schemas"]["OrganizationProfileStatsDto"];
+        };
+        UpdateOrganizationDto: Record<string, never>;
+        UpdateMemberRoleDto: Record<string, never>;
+        InviteMemberDto: Record<string, never>;
+        CreateVoteDto: {
+            /** @description ID of the project being voted on */
+            projectId: string;
+            /**
+             * @description Type of entity being voted on
+             * @enum {string}
+             */
+            entityType: "PROJECT" | "CROWDFUNDING_CAMPAIGN" | "HACKATHON_SUBMISSION" | "GRANT";
+            /**
+             * @description Type of vote (UPVOTE or DOWNVOTE)
+             * @default UPVOTE
+             * @enum {string}
+             */
+            voteType: "UPVOTE" | "DOWNVOTE";
+            /**
+             * @description Weight of the vote
+             * @default 1
+             */
+            weight: number;
+        };
+        CreateBlogPostDto: {
+            /**
+             * @description Blog post title
+             * @example Getting Started with Stellar Smart Contracts
+             */
+            title: string;
+            /**
+             * @description Blog post content in markdown format
+             * @example # Introduction
+             *
+             *     This tutorial will teach you...
+             */
+            content: string;
+            /**
+             * @description Short excerpt or summary
+             * @example Learn how to build your first smart contract on Stellar
+             */
+            excerpt?: string;
+            /**
+             * @description Cover image URL
+             * @example https://res.cloudinary.com/demo/image/upload/v1234567890/post-cover.jpg
+             */
+            coverImage?: string;
+            /**
+             * @description Post status
+             * @default DRAFT
+             * @example DRAFT
+             * @enum {string}
+             */
+            status: "DRAFT" | "PUBLISHED" | "ARCHIVED" | "SCHEDULED";
+            /**
+             * @description Post tags
+             * @example [
+             *       "smart-contracts",
+             *       "soroban",
+             *       "tutorial"
+             *     ]
+             */
+            tags?: string[];
+            /**
+             * @description Post categories
+             * @example [
+             *       "tutorials"
+             *     ]
+             */
+            categories?: string[];
+            /**
+             * @description Mark as featured post
+             * @default false
+             * @example false
+             */
+            isFeatured: boolean;
+            /**
+             * @description Pin post to top
+             * @default false
+             * @example false
+             */
+            isPinned: boolean;
+            /**
+             * @description Reading time in minutes (auto-calculated if not provided)
+             * @example 5
+             */
+            readingTime?: number;
+            /** @description SEO title (overrides post title) */
+            seoTitle?: string;
+            /** @description SEO meta description */
+            seoDescription?: string;
+            /**
+             * @description SEO keywords
+             * @example [
+             *       "stellar",
+             *       "blockchain",
+             *       "smart contracts"
+             *     ]
+             */
+            seoKeywords?: string[];
+            /**
+             * @description Schedule publication date (for SCHEDULED status)
+             * @example 2025-12-31T10:00:00Z
+             */
+            scheduledFor?: string;
+            /**
+             * @description Generate AI content (excerpt, reading time, SEO, tags, category) if not provided
+             * @default false
+             * @example true
+             */
+            generateAI: boolean;
+        };
+        UpdateBlogPostDto: Record<string, never>;
+        MetricDataDto: {
+            /**
+             * @description The metric value
+             * @example 1250
+             */
+            value: number;
+            /**
+             * @description Percentage change
+             * @example 12.5
+             */
+            change: number;
+            /**
+             * @description Type of change
+             * @example positive
+             * @enum {string}
+             */
+            changeType: "positive" | "negative" | "neutral";
+            /**
+             * @description Metric label
+             * @example Total Users
+             */
+            label: string;
+            /**
+             * @description Additional description
+             * @example Active users in the platform
+             */
+            description?: string;
+        };
+        HackathonMetricDataDto: {
+            /**
+             * @description The metric value
+             * @example 1250
+             */
+            value: number;
+            /**
+             * @description Percentage change
+             * @example 12.5
+             */
+            change: number;
+            /**
+             * @description Type of change
+             * @example positive
+             * @enum {string}
+             */
+            changeType: "positive" | "negative" | "neutral";
+            /**
+             * @description Metric label
+             * @example Total Users
+             */
+            label: string;
+            /**
+             * @description Additional description
+             * @example Active users in the platform
+             */
+            description?: string;
+            /**
+             * @description Additional hackathon info
+             * @example 3 active, 7 upcoming
+             */
+            additionalInfo?: string;
+        };
+        OverviewMetricsDto: {
+            totalUsers: components["schemas"]["MetricDataDto"];
+            organizations: components["schemas"]["MetricDataDto"];
+            projects: components["schemas"]["MetricDataDto"];
+            hackathons: components["schemas"]["HackathonMetricDataDto"];
+        };
+        OverviewChartDataDto: {
+            data: components["schemas"]["ChartDataPointDto"][];
+            /**
+             * @description Time range for the chart
+             * @example 7d
+             * @enum {string}
+             */
+            timeRange: "7d" | "30d" | "90d";
+        };
+        AdminOverviewResponseDto: {
+            metrics: components["schemas"]["OverviewMetricsDto"];
+            chart: components["schemas"]["OverviewChartDataDto"];
+            /**
+             * @description Last updated timestamp
+             * @example 2025-12-26T10:30:00Z
+             */
+            lastUpdated: string;
+        };
+        AdminCrowdfundingRejectDto: {
+            /**
+             * @description Reason for rejection
+             * @example Campaign does not meet requirements
+             */
+            reason?: string;
+        };
+        AdminCrowdfundingRequestRevisionDto: {
+            /**
+             * @description Message for the creator explaining requested revisions
+             * @example Please update the project description to be more detailed
+             */
+            message: string;
+            /**
+             * @description Optional structured reasons
+             * @example [
+             *       "incomplete_description",
+             *       "missing_team_info"
+             *     ]
+             */
+            reasons?: string[];
+        };
+        AdminCrowdfundingNoteDto: {
+            /**
+             * @description Short admin note or comment
+             * @example Reviewed initial submission
+             */
+            note: string;
+        };
+        AdminCrowdfundingAssignDto: {
+            /**
+             * @description Reviewer (user) id to assign
+             * @example 550e8400-e29b-41d4-a716-446655440000
+             */
+            reviewerId: string;
+        };
+        ApproveMilestoneDto: {
+            /**
+             * @description Optional approval notes
+             * @example Milestone completed successfully
+             */
+            notes?: string;
+        };
+        RejectMilestoneDto: {
+            /**
+             * @description Rejection reason
+             * @example Incomplete deliverables
+             */
+            reason: string;
+            /**
+             * @description Detailed feedback for rejection
+             * @example The submitted work does not meet the project requirements. Please revise and resubmit.
+             */
+            feedback: string;
+            /**
+             * @description Deadline for resubmission
+             * @example 2025-02-01
+             */
+            resubmissionDeadline?: string;
+        };
+        RequestMilestoneResubmissionDto: {
+            /**
+             * @description Feedback explaining what needs to change
+             * @example Please improve the documentation and add more test cases
+             */
+            feedback: string;
+            /**
+             * @description Deadline for resubmission
+             * @example 2025-02-15
+             */
+            resubmissionDeadline: string;
+        };
+        AddMilestoneReviewNoteDto: {
+            /**
+             * @description Review note content
+             * @example Reviewed the code quality and found it satisfactory
+             */
+            note: string;
+        };
+        ManualEscrowActionDto: {
+            /**
+             * @description Type of escrow action to execute
+             * @example RELEASE
+             * @enum {string}
+             */
+            action: "RELEASE" | "REFUND" | "PAUSE" | "RESUME";
+            /**
+             * @description Amount to transfer (for RELEASE/REFUND)
+             * @example 1000
+             */
+            amount?: number;
+            /**
+             * @description Optional notes for this action
+             * @example Releasing funds for completed milestone
+             */
+            notes?: string;
+            /**
+             * @description Recipient address (for RELEASE/REFUND)
+             * @example GAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+             */
+            recipientAddress?: string;
+        };
+        AssignDisputeDto: {
+            /**
+             * @description Admin user ID to assign dispute to
+             * @example 550e8400-e29b-41d4-a716-446655440000
+             */
+            adminId: string;
+        };
+        AddDisputeNoteDto: {
+            /**
+             * @description Message content
+             * @example Contacted the project creator for more information
+             */
+            message: string;
+            /**
+             * @description Whether this is an internal note (not visible to parties)
+             * @example false
+             */
+            isInternal?: boolean;
+        };
+        ResolveDisputeDto: {
+            /**
+             * @description Resolution type
+             * @example APPROVED_WITH_CONDITIONS
+             * @enum {string}
+             */
+            resolution: "APPROVED_WITH_CONDITIONS" | "REQUIRE_RESUBMISSION" | "PARTIAL_REFUND" | "FULL_REFUND" | "DISMISSED" | "ARBITRATION";
+            /**
+             * @description Detailed notes explaining the resolution
+             * @example Approved with condition that milestone is completed by next week
+             */
+            resolutionNotes: string;
+        };
+        EscalateDisputeDto: {
+            /**
+             * @description Reason for escalation to arbitration
+             * @example Parties cannot agree on resolution terms
+             */
+            reason: string;
+        };
+        AdminRewardQueueItemDto: {
+            /** @description Distribution ID (UUID) */
+            distributionId: string;
+            /** @description Hackathon ID this distribution belongs to */
+            hackathonId: string;
+            /** @description Hackathon name */
+            hackathonName: string;
+            /** @description Organization ID (for context) */
+            organizationId: string;
+            /** @description Organization name */
+            organizationName: string;
+            /**
+             * @description Current status
+             * @enum {string}
+             */
+            status: "NOT_TRIGGERED" | "PENDING_ADMIN_REVIEW" | "APPROVED" | "REJECTED" | "EXECUTING" | "COMPLETED" | "FAILED" | "PARTIAL_SUCCESS";
+            /** @description Number of winners in snapshot */
+            winnerCount: number;
+            /** @description Total funding required (USDC, 7 decimals) */
+            totalRequired: number;
+            /** @description ID of triggering organizer */
+            triggeredByUserId: string;
+            /**
+             * @description ISO timestamp of trigger
+             * @example 2024-01-19T14:30:00Z
+             */
+            triggeredAt: string;
+            /** @description Admin note (if reviewed) */
+            adminNote?: Record<string, never> | null;
+        };
+        ApproveRewardDistributionDto: {
+            /**
+             * @description Optional admin note (max 500 chars)
+             * @example Approved. Escrow verified and funded.
+             */
+            adminNote?: string;
+        };
+        RejectRewardDistributionDto: {
+            /**
+             * @description Required reason for rejection (max 500 chars, visible to organizer)
+             * @example Escrow address not approved. Please contact support.
+             */
+            reason: string;
+        };
+        RejectManualProjectDto: Record<string, never>;
+        RequestManualProjectChangesDto: Record<string, never>;
+        RejectProjectEditDto: Record<string, never>;
+        AdminWalletStatsDto: {
+            totalWallets: components["schemas"]["MetricDataDto"];
+            activatedWallets: components["schemas"]["MetricDataDto"];
+            inactiveWallets: components["schemas"]["MetricDataDto"];
+        };
+        AdminWalletUserDto: {
+            id: string;
+            name: string;
+            email: string;
+            username?: string;
+            image?: string;
+        };
+        AdminWalletListItemDto: {
+            id: string;
+            publicKey: string;
+            isActivated: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            users: components["schemas"]["AdminWalletUserDto"][];
+        };
+        AdminWalletListResponseDto: {
+            wallets: components["schemas"]["AdminWalletListItemDto"][];
+            total: number;
+            page: number;
+            limit: number;
+            totalPages: number;
+        };
+        AdminWalletBalanceDto: {
+            balance: string;
+            assetCode: string;
+            assetIssuer?: string;
+            assetType: string;
+        };
+        AdminWalletDetailsDto: {
+            id: string;
+            publicKey: string;
+            isActivated: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            balances: components["schemas"]["AdminWalletBalanceDto"][];
+            users: components["schemas"]["AdminWalletUserDto"][];
+        };
+        ReviewWindowDto: {
+            /** @example 1 */
+            minBusinessDays: number;
+            /** @example 3 */
+            maxBusinessDays: number;
+            /** @description ISO timestamp by which the review is expected to complete. */
+            estimatedCompletionAt: string;
+        };
+        DeclineDetailsDto: {
+            /** @description Human-readable reason from Didit, if available. */
+            reason?: string;
+            /**
+             * @description Whether the user is allowed to start a new verification.
+             * @example true
+             */
+            canRetry: boolean;
+        };
+        VerificationStatusDto: {
+            /**
+             * @description Normalized verification state. Frontend should hide the verify button unless this is one of: not_started, declined, abandoned, expired.
+             * @enum {string}
+             */
+            state: "not_started" | "in_progress" | "in_review" | "approved" | "declined" | "abandoned" | "expired";
+            /** @description Whether the user can start a new verification session. */
+            canStartNew: boolean;
+            /** @description Polite, render-ready copy summarising the current state. */
+            message: string;
+            /** @description ISO timestamp when the user became verified. */
+            verifiedAt?: string;
+            /** @description ISO timestamp of the last status transition. */
+            reviewedAt?: string;
+            /** @description Estimated review window. Present only when state === "in_review". */
+            reviewWindow?: components["schemas"]["ReviewWindowDto"];
+            /** @description Decline details. Present only when state === "declined". */
+            decline?: components["schemas"]["DeclineDetailsDto"];
+        };
+        CreateDiditSessionDto: Record<string, never>;
+        Function: Record<string, never>;
+        SubscribeDto: {
+            /**
+             * @description Email address to subscribe
+             * @example user@example.com
+             */
+            email: string;
+            /**
+             * @description Subscriber name
+             * @example John Doe
+             */
+            name?: string;
+            /**
+             * @description Subscription source
+             * @example website
+             */
+            source?: string;
+            /**
+             * @description Topic tags for subscription preferences
+             * @example [
+             *       "updates",
+             *       "hackathons"
+             *     ]
+             */
+            tags?: string[];
+        };
+        UnsubscribeDto: {
+            /**
+             * @description Email address to unsubscribe
+             * @example user@example.com
+             */
+            email: string;
+        };
+        UpdatePreferencesDto: {
+            /**
+             * @description Subscriber email address
+             * @example user@example.com
+             */
+            email: string;
+            /**
+             * @description Topic tags to subscribe to. Valid: bounties, hackathons, grants, updates
+             * @example [
+             *       "updates",
+             *       "hackathons"
+             *     ]
+             */
+            tags: string[];
+        };
+        CreateNewsletterCampaignDto: {
+            /**
+             * @description Campaign email subject line
+             * @example Boundless Weekly: New Hackathon Announced!
+             */
+            subject: string;
+            /**
+             * @description Campaign HTML content. Supports {{name}} placeholder.
+             * @example <h1>Hello {{name}}</h1><p>Check out our latest hackathon!</p>
+             */
+            content: string;
+            /**
+             * @description Preview text shown in email clients
+             * @example New hackathon with $10k in prizes
+             */
+            previewText?: string;
+            /**
+             * @description Target subscriber tags — only subscribers with matching tags receive the campaign
+             * @example [
+             *       "hackathons",
+             *       "updates"
+             *     ]
+             */
+            tags?: string[];
+        };
         User: {
             id?: string;
             name: string;
@@ -6824,6 +15364,325 @@ export interface operations {
             };
         };
     };
+    NotificationsController_triggerMarketingCron: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SettingsController_getSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Settings retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SettingsController_updateNotificationSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Notification settings object */
+        requestBody: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            /** @description Notification settings updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SettingsController_updatePrivacySettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePrivacySettingsDto"];
+            };
+        };
+        responses: {
+            /** @description Privacy settings updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SettingsController_updateAppearanceSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAppearanceSettingsDto"];
+            };
+        };
+        responses: {
+            /** @description Appearance settings updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    EarningsController_getEarningsPublic: {
+        parameters: {
+            query: {
+                /** @description Max activities to return (default 100) */
+                limit?: number;
+                /** @description Offset for activity pagination */
+                offset?: number;
+                /** @description Username of the profile to fetch earnings for */
+                username: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Public earnings retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicEarningsResponseDto"];
+                };
+            };
+            /** @description Missing or invalid username */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    EarningsController_getEarnings: {
+        parameters: {
+            query?: {
+                /** @description Max activities to return (default 100) */
+                limit?: number;
+                /** @description Offset for activity pagination */
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Earnings data retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EarningsResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    EarningsController_withdraw: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WithdrawRequestDto"];
+            };
+        };
+        responses: {
+            /** @description Withdrawal submitted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success?: boolean;
+                        withdrawalId?: string;
+                        transactionHash?: string;
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Invalid request or not claimable */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Identity verification required. Complete KYC to withdraw funds. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    EarningsController_confirmRelease: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmReleaseDto"];
+            };
+        };
+        responses: {
+            /** @description Release submitted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConfirmReleaseResponseDto"];
+                };
+            };
+            /** @description Invalid request or submit failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Identity verification required. Complete KYC to release funds. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     UserController_getProfile: {
         parameters: {
             query?: never;
@@ -6833,12 +15692,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description User profile retrieved successfully */
+            /** @description User dashboard with profile, stats, chart data, activities graph, and recent activities retrieved successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["DashboardDto"];
+                };
             };
             /** @description Unauthorized */
             401: {
@@ -6878,6 +15739,102 @@ export interface operations {
         responses: {
             /** @description Optional auth route accessed successfully */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UserController_getUserByUsername: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Username of the user to retrieve */
+                username: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User profile retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UserController_getUserFollowers: {
+        parameters: {
+            query?: {
+                /** @description Pagination offset */
+                offset?: number;
+                /** @description Number of followers to return */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Username of the user */
+                username: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Followers retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UserController_getUserFollowing: {
+        parameters: {
+            query?: {
+                /** @description Filter by entity type */
+                entityType?: "USER" | "PROJECT" | "ORGANIZATION" | "CROWDFUNDING_CAMPAIGN" | "BOUNTY" | "GRANT" | "HACKATHON";
+                /** @description Pagination offset */
+                offset?: number;
+                /** @description Number of following to return */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Username of the user */
+                username: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Following list retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7023,449 +15980,6 @@ export interface operations {
                 content?: never;
             };
             /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SettingsController_getSettings: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Settings retrieved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SettingsController_updateNotificationSettings: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Notification settings object */
-        requestBody: {
-            content: {
-                "application/json": string;
-            };
-        };
-        responses: {
-            /** @description Notification settings updated successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SettingsController_updatePrivacySettings: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Privacy settings object */
-        requestBody: {
-            content: {
-                "application/json": string;
-            };
-        };
-        responses: {
-            /** @description Privacy settings updated successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SettingsController_updateAppearanceSettings: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Appearance settings object */
-        requestBody: {
-            content: {
-                "application/json": string;
-            };
-        };
-        responses: {
-            /** @description Appearance settings updated successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_changePassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ChangePasswordDto"];
-            };
-        };
-        responses: {
-            /** @description Password changed successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_sendEmailVerification: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Email verification sent successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_verifyEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Email verification token */
-                token: unknown;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    token?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Email verified successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid token */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_enable2FA: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 2FA enabled successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_disable2FA: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description 2FA code */
-                    code?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description 2FA disabled successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid 2FA code */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_verify2FA: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description 2FA code */
-                    code?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description 2FA code verified successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid 2FA code */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_requestPasswordReset: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Password reset email sent successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid email */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_resetPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Password reset token */
-                token: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    password?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Password reset successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid token or password */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    SecurityController_verifyStellarWallet: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description Wallet signature */
-                    signature: string;
-                    /** @description Stellar public key */
-                    publicKey: string;
-                    /** @description Optional message to sign */
-                    message?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Stellar wallet verified successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid signature or public key */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -7704,42 +16218,6 @@ export interface operations {
             };
         };
     };
-    UsersController_createUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateUserDto"];
-            };
-        };
-        responses: {
-            /** @description User created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden - Admin access required */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     UsersController_getUser: {
         parameters: {
             query?: never;
@@ -7891,6 +16369,435 @@ export interface operations {
             };
         };
     };
+    UploadController_uploadSingle: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description File upload data */
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    /**
+                     * Format: binary
+                     * @description File to upload
+                     */
+                    file?: string;
+                    /**
+                     * @description Folder to upload to
+                     * @example boundless/projects/project123
+                     */
+                    folder?: string;
+                    /**
+                     * @description Tags for the file
+                     * @example [
+                     *       "project",
+                     *       "logo"
+                     *     ]
+                     */
+                    tags?: string[];
+                    /** @description Image transformation options */
+                    transformation?: {
+                        /** @example 400 */
+                        width?: number;
+                        /** @example 400 */
+                        height?: number;
+                        /** @example fit */
+                        crop?: string;
+                        /** @example auto */
+                        quality?: string;
+                        /** @example auto */
+                        format?: string;
+                    };
+                };
+            };
+        };
+        responses: {
+            /** @description File uploaded successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadResponseDto"];
+                };
+            };
+            /** @description Invalid file or upload failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_uploadMultiple: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Multiple files upload data */
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    /** @description Files to upload */
+                    files?: string[];
+                    /**
+                     * @description Folder to upload to
+                     * @example boundless/projects/project123/gallery
+                     */
+                    folder?: string;
+                    /**
+                     * @description Tags for the files
+                     * @example [
+                     *       "project",
+                     *       "gallery"
+                     *     ]
+                     */
+                    tags?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Files uploaded successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MultipleUploadResponseDto"];
+                };
+            };
+            /** @description Invalid files or upload failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_deleteFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Public ID of the file to delete */
+                publicId: string;
+                /** @description Type of resource */
+                resourceType: "image" | "video" | "raw";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description File deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                        /** @example File deleted successfully */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description File not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_getFileInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Public ID of the file */
+                publicId: string;
+                /** @description Type of resource */
+                resourceType: "image" | "video" | "raw";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description File information retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FileInfoResponseDto"];
+                };
+            };
+            /** @description File not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_searchFiles: {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results */
+                maxResults?: number;
+                /** @description Resource type to filter by */
+                resourceType?: "image" | "video" | "raw";
+                /** @description Folder to search in */
+                folder?: unknown;
+                /** @description Tags to filter by */
+                tags?: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Files found successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchFilesResponseDto"];
+                };
+            };
+            /** @description Search failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_generateOptimizedUrl: {
+        parameters: {
+            query?: {
+                /** @description Output format */
+                format?: unknown;
+                /** @description Quality setting */
+                quality?: unknown;
+                /** @description Crop mode */
+                crop?: unknown;
+                /** @description Desired height */
+                height?: number;
+                /** @description Desired width */
+                width?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Public ID of the file */
+                publicId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Optimized URL generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OptimizedUrlResponseDto"];
+                };
+            };
+            /** @description Failed to generate URL */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_generateResponsiveUrls: {
+        parameters: {
+            query?: {
+                /** @description Output format */
+                format?: unknown;
+                /** @description Quality setting */
+                quality?: unknown;
+                /** @description Crop mode */
+                crop?: unknown;
+                /** @description Base height for responsive breakpoints */
+                height?: number;
+                /** @description Base width for responsive breakpoints */
+                width?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Public ID of the file */
+                publicId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Responsive URLs generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponsiveUrlsResponseDto"];
+                };
+            };
+            /** @description Failed to generate responsive URLs */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_generateAvatarUrl: {
+        parameters: {
+            query?: {
+                /** @description Avatar size (square) */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Public ID of the image file */
+                publicId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Avatar URL generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OptimizedUrlResponseDto"];
+                };
+            };
+            /** @description Failed to generate avatar URL */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_generateLogoUrl: {
+        parameters: {
+            query?: {
+                /** @description Logo height */
+                height?: number;
+                /** @description Logo width */
+                width?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Public ID of the image file */
+                publicId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Logo URL generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OptimizedUrlResponseDto"];
+                };
+            };
+            /** @description Failed to generate logo URL */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_generateBannerUrl: {
+        parameters: {
+            query?: {
+                /** @description Banner height */
+                height?: number;
+                /** @description Banner width */
+                width?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Public ID of the image file */
+                publicId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Banner URL generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OptimizedUrlResponseDto"];
+                };
+            };
+            /** @description Failed to generate banner URL */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UploadController_getUsageStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Usage statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsageStatsResponseDto"];
+                };
+            };
+            /** @description Failed to get usage stats */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     AuthController_register: {
         parameters: {
             query?: never;
@@ -7995,7 +16902,11 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifySignatureDto"];
+            };
+        };
         responses: {
             201: {
                 headers: {
@@ -8100,6 +17011,10317 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    FollowsController_followEntity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                entityType: string;
+                entityId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    FollowsController_unfollowEntity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                entityType: string;
+                entityId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    FollowsController_getUserFollowing: {
+        parameters: {
+            query: {
+                entityType: string;
+            };
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    FollowsController_getEntityFollowers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                entityType: string;
+                entityId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    FollowsController_getFollowStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    FollowsController_isFollowing: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                entityType: string;
+                entityId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ChatController_getMessages: {
+        parameters: {
+            query: {
+                roomId: string;
+                roomType: string;
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns list of messages. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MessagesController_listConversations: {
+        parameters: {
+            query?: {
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of conversations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MessagesController_startOrGetConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConversationDto"];
+            };
+        };
+        responses: {
+            /** @description Conversation (created or existing) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MessagesController_getConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Conversation ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Conversation details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MessagesController_listMessages: {
+        parameters: {
+            query?: {
+                limit?: number;
+                /** @description Cursor for older messages */
+                before?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Conversation ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated messages */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MessagesController_sendMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Conversation ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMessageDto"];
+            };
+        };
+        responses: {
+            /** @description Message created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MessagesController_markConversationRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Conversation ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Marked as read */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_validateCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCampaignDto"];
+            };
+        };
+        responses: {
+            /** @description Campaign data is valid */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid campaign data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_getCampaigns: {
+        parameters: {
+            query: {
+                /** @description Category of the campaign */
+                category?: string;
+                /** @description Status of the campaign */
+                status?: "active" | "funded" | "completed";
+                minFundingGoal?: number;
+                /** @description Minimum funding goal of the campaign */
+                maxFundingGoal?: number;
+                /** @description Maximum funding goal of the campaign */
+                page?: number;
+                /** @description Limit of the campaign */
+                limit?: number;
+                /** @description Sort by of the campaign */
+                sortBy: string;
+                /** @description Sort order of the campaign */
+                sortOrder: string;
+                /** @description Search of the campaign */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaigns retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_createCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCampaignDto"];
+            };
+        };
+        responses: {
+            /** @description Campaign and project created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid campaign data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_triggerCron: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cron job triggered successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_getMyCampaigns: {
+        parameters: {
+            query: {
+                /** @description Category of the campaign */
+                category: string;
+                /** @description Status of the campaign */
+                status: string;
+                minFundingGoal: number;
+                /** @description Minimum funding goal of the campaign */
+                maxFundingGoal: number;
+                /** @description Maximum funding goal of the campaign */
+                page?: number;
+                /** @description Limit of the campaign */
+                limit?: number;
+                /** @description Sort by of the campaign */
+                sortBy?: string;
+                /** @description Sort order of the campaign */
+                sortOrder?: string;
+                /** @description Search of the campaign */
+                search: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User campaigns retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_getCampaignBySlug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign URL slug */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_getCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_updateCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCampaignDto"];
+            };
+        };
+        responses: {
+            /** @description Campaign updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User does not own the campaign */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_deleteCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Cannot delete campaign with contributions, campaigns in funding phase, funded campaigns, completed campaigns, or user does not own the campaign */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_getCampaignStatistics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_updateEscrowDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateEscrowDto"];
+            };
+        };
+        responses: {
+            /** @description Escrow details updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User does not own the campaign */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_getInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_inviteTeamMember: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InviteTeamMemberDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CampaignsController_acceptInvitation: {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ContributionsController_contributeToCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContributeCampaignDto"];
+            };
+        };
+        responses: {
+            /** @description Contribution added successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign has ended or is fully funded */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ContributionsController_getCampaignContributions: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Contributions retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ContributionsController_getContributionStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Contribution statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MilestonesController_getCampaignMilestones: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Milestones retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MilestonesController_getMilestone: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+                /** @description Milestone ID */
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Milestone details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Milestone not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MilestonesController_updateMilestone: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+                /** @description Milestone ID */
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMilestoneDto"];
+            };
+        };
+        responses: {
+            /** @description Milestone submitted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation failed - invalid proof of work data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User does not own the campaign */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MilestonesController_validateMilestoneSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+                /** @description Milestone ID */
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ValidateMilestoneSubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Validation successful */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        validated?: boolean;
+                        data?: {
+                            /** @example submitted */
+                            status?: string;
+                            /** @example Milestone completed - all deliverables ready for review. */
+                            evidence?: string;
+                            /**
+                             * @example [
+                             *       "https://example.com/report.pdf"
+                             *     ]
+                             */
+                            documents?: string[];
+                        };
+                    };
+                };
+            };
+            /** @description Validation failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example false */
+                        validated?: boolean;
+                        /** @example Evidence must be at least 10 characters of meaningful content */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    MilestonesController_getMilestoneStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Milestone statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_getWallet: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_getWalletDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_syncWallet: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_createWallet: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_activate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Wallet activated. Returns tx hash and added trustlines. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Sponsorship not configured, or unexpected submit error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Sponsor account is out of available XLM. Operators have been alerted; retry later. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_reclaimDormant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReclaimDormantDto"];
+            };
+        };
+        responses: {
+            /** @description Reclaim summary: scanned, eligible, revoked, freedXlm, walletIds, errors */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Admin role required. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_getSupportedTrustlines: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of supported trustline assets */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_addTrustline: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddTrustlineDto"];
+            };
+        };
+        responses: {
+            /** @description Trustline added or already exists */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Wallet not activated, insufficient XLM for fees, or unsupported asset */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletController_validateSendDestination: {
+        parameters: {
+            query: {
+                /** @description Stellar public key (G...) */
+                destinationPublicKey: string;
+                /** @description Asset code (e.g. USDC, XLM) */
+                currency: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Validation result (valid, isActivated, hasTrustlineForAsset, memoRequired) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        valid?: boolean;
+                        isValidPublicKey?: boolean;
+                        isActivated?: boolean;
+                        hasTrustlineForAsset?: boolean;
+                        /** @description True if this destination requires a memo (e.g. exchange shared address) */
+                        memoRequired?: boolean;
+                        message?: string | null;
+                    };
+                };
+            };
+        };
+    };
+    WalletController_send: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserSendDto"];
+            };
+        };
+        responses: {
+            /** @description Send submitted successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation or business rule error (e.g. destination not activated, no trustline, memo required, insufficient balance) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Identity verification required. Complete KYC to send funds. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    WalletPayoutController_sendPayout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendPayoutDto"];
+            };
+        };
+        responses: {
+            /** @description Payout submitted successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation or business rule error (e.g. destination not activated, no trustline, memo required) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden – admin only */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_listComments: {
+        parameters: {
+            query?: {
+                /** @description Entity type to filter comments */
+                entityType?: "PROJECT" | "BOUNTY" | "CROWDFUNDING_CAMPAIGN" | "GRANT" | "GRANT_APPLICATION" | "HACKATHON" | "HACKATHON_SUBMISSION" | "BLOG_POST";
+                /** @description Entity ID to filter comments */
+                entityId?: string;
+                /** @description Author ID to filter comments */
+                authorId?: string;
+                /** @description Parent comment ID to filter replies */
+                parentId?: string;
+                /** @description Comment status to filter */
+                status?: "ACTIVE" | "HIDDEN" | "DELETED" | "PENDING_MODERATION";
+                /** @description Include reaction data in response */
+                includeReactions?: boolean;
+                /** @description Include report data in response (moderators only) */
+                includeReports?: boolean;
+                /** @description Page number */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Field to sort by */
+                sortBy?: string;
+                /** @description Sort order */
+                sortOrder?: "asc" | "desc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comments retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_createComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCommentDto"];
+            };
+        };
+        responses: {
+            /** @description Comment created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_getComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_updateComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCommentDto"];
+            };
+        };
+        responses: {
+            /** @description Comment updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_deleteComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_getCommentsByEntity: {
+        parameters: {
+            query: {
+                includeNested: string;
+            };
+            header?: never;
+            path: {
+                /** @description Entity type */
+                entityType: string;
+                /** @description Entity ID */
+                entityId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comments retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_getReactions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Reactions retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_addReaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddReactionDto"];
+            };
+        };
+        responses: {
+            /** @description Reaction added successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_removeReaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+                /** @description Reaction type */
+                reactionType: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Reaction removed successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentsController_reportComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportCommentDto"];
+            };
+        };
+        responses: {
+            /** @description Comment reported successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_getModerationQueue: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Moderation queue retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_getReports: {
+        parameters: {
+            query?: {
+                status?: "PENDING" | "REVIEWED" | "RESOLVED" | "DISMISSED";
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Reports retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_resolveReport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Report ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveReportDto"];
+            };
+        };
+        responses: {
+            /** @description Report resolved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Report not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_approveComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment approved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_rejectComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment rejected successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_hideComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment hidden successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_restoreComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment restored successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Comment not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommentModerationController_getModerationStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Moderation stats retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_getHackathons: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hackathons retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonsListResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonsController_getFeeEstimate: {
+        parameters: {
+            query: {
+                totalPool: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Fee estimate */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeEstimateResponseDto"];
+                };
+            };
+            /** @description totalPool is missing, invalid, or below minimum (5 USDC) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_getWinners: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Winners retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonWinnersResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_getPublicResults: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicJudgingResultsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_getHackathon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hackathon retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_getPublicContributors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Contributors retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_followHackathon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Follow status updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        following?: boolean;
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_joinHackathon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully joined hackathon */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ParticipationResponseDto"];
+                };
+            };
+            /** @description Registration closed or already participating */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_leaveHackathon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully left hackathon */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ParticipationResponseDto"];
+                };
+            };
+            /** @description Not a participant or submission deadline passed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsController_getHackathonParticipants: {
+        parameters: {
+            query: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                status: string;
+                skill: string;
+                type: string;
+                search: string;
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Participants retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonParticipantsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_getHackathonSubmissions: {
+        parameters: {
+            query: {
+                /** @description Filter by submission status */
+                status?: "SUBMITTED" | "SHORTLISTED" | "DISQUALIFIED";
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                search: string;
+                type: string;
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Submissions retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionResponseDto"][];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_createSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Submission created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_exploreHackathonSubmissions: {
+        parameters: {
+            query: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                search: string;
+                type: string;
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Submissions retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionResponseDto"][];
+                };
+            };
+            /** @description Hackathon not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_getMySubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Submission retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_getSubmissionById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Submission ID */
+                submissionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Submission retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_deleteSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Submission ID */
+                submissionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Submission withdrawn successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Submission withdrawn successfully */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsSubmissionsController_updateSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Submission ID */
+                submissionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Submission updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsDiscussionsController_getHackathonDiscussions: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Sort by field */
+                sortBy?: "createdAt" | "updatedAt";
+                /** @description Sort order */
+                sortOrder?: "asc" | "desc";
+            };
+            header?: never;
+            path: {
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Discussions retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsDiscussionsController_createHackathonComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Comment content
+                     * @example This hackathon looks amazing! When does registration open?
+                     */
+                    content: string;
+                    /**
+                     * @description Parent comment ID for replies
+                     * @example comment_1234567890
+                     */
+                    parentId?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Comment posted successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsDiscussionsController_deleteHackathonComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                commentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Comment deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Comment deleted successfully */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsDiscussionsController_updateHackathonComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                commentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Updated comment content
+                     * @example Updated: This hackathon looks amazing!
+                     */
+                    content: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Comment updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsDiscussionsController_reactToComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                commentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Type of reaction
+                     * @example LIKE
+                     * @enum {string}
+                     */
+                    reactionType: "LIKE" | "LOVE" | "CELEBRATE" | "INSIGHTFUL";
+                };
+            };
+        };
+        responses: {
+            /** @description Reaction updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsDiscussionsController_getCommentReplies: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Comment ID */
+                commentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Replies retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_getHackathonTeams: {
+        parameters: {
+            query?: {
+                /** @description Search query */
+                search?: string;
+                /** @description Filter by open teams only */
+                openOnly?: boolean;
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Teams retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamListResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_createTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTeamDto"];
+            };
+        };
+        responses: {
+            /** @description Team created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamResponseDto"];
+                };
+            };
+            /** @description Not a participant, already in a team, or hackathon does not allow teams */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_getTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Team found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_disbandTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Team disbanded */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Team has an existing submission and cannot be disbanded */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Only the team leader can disband the team */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_updateTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTeamDto"];
+            };
+        };
+        responses: {
+            /** @description Team updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not team leader or invalid update */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_joinTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Optional message to team leader
+                     * @example I have 5 years of Rust development experience
+                     */
+                    message?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Successfully joined team */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Team is closed, full, or user already in a team */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_removeTeamMember: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                userId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Member removed from team */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Target user is not a member, or leader tried to remove themselves */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Only the team leader can remove members */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_leaveTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully left team */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not a member or leader cannot leave with members */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_getMyTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Team found or null if not in a team */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_inviteToTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InviteToTeamDto"];
+            };
+        };
+        responses: {
+            /** @description Invitation sent successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamInvitationResponseDto"];
+                };
+            };
+            /** @description User already in team, team full, or pending invitation exists */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_getMyInvitations: {
+        parameters: {
+            query?: {
+                /** @description Filter by invitation status */
+                status?: "pending" | "accepted" | "rejected" | "expired";
+            };
+            header?: never;
+            path: {
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of invitations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamInvitationListResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonsTeamsController_acceptInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Invitation ID */
+                inviteId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully accepted invitation and joined team */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationActionResponseDto"];
+                };
+            };
+            /** @description Invitation expired, already processed, or team full */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_rejectInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Invitation ID */
+                inviteId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully rejected invitation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationActionResponseDto"];
+                };
+            };
+            /** @description Invitation already processed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_cancelInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Invitation ID */
+                inviteId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully cancelled invitation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not team leader or invitation already processed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_getTeamInvitations: {
+        parameters: {
+            query?: {
+                /** @description Filter by invitation status */
+                status?: "pending" | "accepted" | "rejected" | "expired";
+            };
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of team invitations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamInvitationListResponseDto"];
+                };
+            };
+            /** @description Only team leader can view */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_toggleRoleHiredStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ToggleRoleHiredDto"];
+            };
+        };
+        responses: {
+            /** @description Role status toggled successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not team leader or invalid role */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTeamsController_transferLeadership: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Team ID */
+                teamId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TransferLeadershipDto"];
+            };
+        };
+        responses: {
+            /** @description Leadership successfully transferred */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadershipTransferResponseDto"];
+                };
+            };
+            /** @description Not current leader, new leader not a member, or invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Only current team leader can transfer leadership */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_getDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon draft ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Draft retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonDraftResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_deleteDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon draft ID to delete */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Draft deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Draft not found or user not authorized */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_updateDraftStep: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon draft ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateHackathonDraftDto"];
+            };
+        };
+        responses: {
+            /** @description Draft step updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonDraftResponseDto"];
+                };
+            };
+            /** @description Validation failed or invalid step */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_getOrganizationHackathons: {
+        parameters: {
+            query: {
+                page: number;
+                limit: number;
+                /** @description Filter by hackathon status */
+                status?: "upcoming" | "active" | "ended";
+            };
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hackathons retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonsListResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_createDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Draft created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonDraftResponseDto"];
+                };
+            };
+            /** @description User is not a member of the organization */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_getOrganizationDrafts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Drafts retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonDraftResponseDto"][];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_publishDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon draft ID to publish */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishDraftDto"];
+            };
+        };
+        responses: {
+            /** @description Hackathon published successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublishHackathonResponseDto"];
+                };
+            };
+            /** @description Validation failed - draft incomplete */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_previewAnnouncementAudience: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon (or draft) ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Audience size preview */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsDraftsController_retryEscrowFunding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon draft ID to retry funding */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Escrow funding retried successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Escrow funded successfully */
+                        message?: string;
+                        /** @example funded */
+                        escrowStatus?: string;
+                        /** @example ESCROW_CONTRACT_ID */
+                        escrowAddress?: string;
+                        /** @example TX_HASH */
+                        transactionHash?: string;
+                    };
+                };
+            };
+            /** @description Escrow not ready, missing details, or insufficient balance */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_updateVisibilitySettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateVisibilitySettingsDto"];
+            };
+        };
+        responses: {
+            /** @description Visibility settings updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonDraftResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_reviewSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                hackathonId: string;
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReviewSubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Submission reviewed successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Submission reviewed successfully */
+                        message?: string;
+                        submission?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Invalid status or submission does not belong to hackathon */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_getOrganizationHackathonParticipants: {
+        parameters: {
+            query: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                search: string;
+                status: string;
+                type: string;
+            };
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Participants retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrganizationHackathonParticipantsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_scoreSubmissionOverride: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                hackathonId: string;
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description Judge ID to credit with these scores (optional, defaults to organizer)
+                     * @example user_1234567890
+                     */
+                    judgeId?: string;
+                    /** @description Scores for each criterion */
+                    criteriaScores: unknown[];
+                };
+            };
+        };
+        responses: {
+            /** @description Submission score override applied successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Submission scored successfully (organizer override) */
+                        message?: string;
+                        judgingScore?: Record<string, never>;
+                        complianceChecks?: {
+                            rubricValid?: boolean;
+                            isOrganizerOverride?: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid criteria scores or rubric validation failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_disqualifySubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                hackathonId: string;
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DisqualifySubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Submission disqualified successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Submission disqualified successfully */
+                        message?: string;
+                        submission?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Submission does not belong to hackathon */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_bulkSubmissionAction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                hackathonId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkSubmissionActionDto"];
+            };
+        };
+        responses: {
+            /** @description Bulk action completed successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Successfully updated 5 submission(s) */
+                        message?: string;
+                        /** @example 5 */
+                        count?: number;
+                        /** @example SHORTLISTED */
+                        action?: string;
+                    };
+                };
+            };
+            /** @description Invalid action or missing required fields */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_setSubmissionRank: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                hackathonId: string;
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example 1 */
+                    rank: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Submission rank updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Submission rank updated successfully */
+                        message?: string;
+                        submission?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Invalid rank or submission does not belong to hackathon */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsSubmissionsController_getAnalytics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                hackathonId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Analytics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonAnalyticsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - only organizers can access */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsAnnouncementsController_getAnnouncements: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-based) */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Announcements retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnnouncementResponseDto"][];
+                };
+            };
+        };
+    };
+    HackathonsAnnouncementsController_getAnnouncement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Announcement ID */
+                announcementId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Announcement retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnnouncementResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsAnnouncementsController_createAnnouncement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAnnouncementDto"];
+            };
+        };
+        responses: {
+            /** @description Announcement created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnnouncementResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsAnnouncementsController_deleteAnnouncement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description Announcement ID */
+                announcementId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Announcement deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsAnnouncementsController_updateAnnouncement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description Announcement ID */
+                announcementId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAnnouncementDto"];
+            };
+        };
+        responses: {
+            /** @description Announcement updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnnouncementResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsAnnouncementsController_publishAnnouncement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description Announcement ID */
+                announcementId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Announcement published successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnnouncementResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsJudgingController_getCriteria: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or Slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Criteria retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CriterionDto"][];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsJudgingController_submitScore: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScoreSubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Score submitted successfully with compliance verification */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                        judgingScore?: {
+                            id?: string;
+                            totalScore?: number;
+                            criteriaScores?: unknown[];
+                        };
+                        complianceChecks?: {
+                            judgeAssigned?: boolean;
+                            noConflictOfInterest?: boolean;
+                            rubricValid?: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Judge not assigned, conflict of interest detected, or invalid scores */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsJudgingController_getJudgingSubmissions: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-indexed) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Search term for project name, description, participant name or username */
+                search?: string;
+                /** @description Sort field */
+                sortBy?: "date" | "name" | "score" | "rank";
+                /** @description Sort order */
+                order?: "asc" | "desc";
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or Slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JudgingSubmissionsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_getJudges: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Judges retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JudgeResponseDto"][];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_addJudge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddJudgeDto"];
+            };
+        };
+        responses: {
+            /** @description Judge added successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JudgeResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_removeJudge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description User ID of the judge */
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Judge removed successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_getResults: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-indexed) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Search term for project name, participant name or username */
+                search?: string;
+                /** @description Sort field */
+                sortBy?: "score" | "name" | "rank" | "date";
+                /** @description Sort order */
+                order?: "asc" | "desc";
+                /** @description If true, only returns submissions that have been assigned a rank */
+                onlyWinners?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JudgingResultsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_getIndividualScores: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description ID of the submission */
+                submissionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IndividualJudgingResultDto"][];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_getWinnerRanking: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-indexed) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Search term for project name, participant name or username */
+                search?: string;
+                /** @description Sort field */
+                sortBy?: "score" | "name" | "rank" | "date";
+                /** @description Sort order */
+                order?: "asc" | "desc";
+                /** @description If true, only returns submissions that have been assigned a rank */
+                onlyWinners?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AggregatedJudgingResultDto"][];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_judgingCoverage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_previewAllocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_judgingCompleteness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_publishResults: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results published successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_listInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_inviteJudge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InviteJudgeDto"];
+            };
+        };
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_cancelInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description Invitation ID */
+                invitationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsJudgingController_resendInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+                /** @description Invitation ID */
+                invitationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_myInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_previewInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Opaque invitation token */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_acceptInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Opaque invitation token */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcceptJudgeInvitationDto"];
+            };
+        };
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_declineInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Opaque invitation token */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_myHackathons: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Assigned hackathons */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_overview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hackathon overview */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_submissions: {
+        parameters: {
+            query?: {
+                /** @description Page number (1-indexed) */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Search term for project name, description, participant name or username */
+                search?: string;
+                /** @description Sort field */
+                sortBy?: "date" | "name" | "score" | "rank";
+                /** @description Sort order */
+                order?: "asc" | "desc";
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JudgingSubmissionsResponseDto"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_submission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_neighbors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_criteria: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_results: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    JudgeController_score: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Submission ID */
+                submissionId: string;
+                /** @description Hackathon ID or slug */
+                hackathonId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsUpdatesController_getHackathonStatistics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example 45 */
+                        totalSubmissions?: number;
+                        /** @example 120 */
+                        activeParticipants?: number;
+                        /** @example 340 */
+                        totalFollowers?: number;
+                        /** @example 50000 */
+                        prizePool?: number;
+                        categories?: string[];
+                        /** @example active */
+                        status?: string;
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsUpdatesController_updatePublishedContent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePublishedHackathonContentDto"];
+            };
+        };
+        responses: {
+            /** @description Published hackathon content updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonResponseDto"];
+                };
+            };
+            /** @description Invalid payload or hackathon state */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsUpdatesController_updatePublishedSchedule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePublishedHackathonScheduleDto"];
+            };
+        };
+        responses: {
+            /** @description Published hackathon schedule updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonResponseDto"];
+                };
+            };
+            /** @description Invalid payload or schedule changes are no longer allowed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsUpdatesController_updatePublishedFinancial: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePublishedHackathonFinancialDto"];
+            };
+        };
+        responses: {
+            /** @description Published hackathon financial settings updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonResponseDto"];
+                };
+            };
+            /** @description Invalid payload or escrow-restricted financial change */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsUpdatesController_previewPublishedFinancial: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePublishedHackathonFinancialDto"];
+            };
+        };
+        responses: {
+            /** @description Cost preview computed successfully (no changes made) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example 180 */
+                        currentPrizePool?: number;
+                        /** @example 250 */
+                        newPrizePool?: number;
+                        /** @example 8.5 */
+                        currentPlatformFee?: number;
+                        /** @example 11.8 */
+                        newPlatformFee?: number;
+                        /** @example 188.5 */
+                        currentTotalRequired?: number;
+                        /** @example 261.8 */
+                        newTotalRequired?: number;
+                        /** @example 73.3 */
+                        additionalFundingRequired?: number;
+                        /** @example 78.8 */
+                        walletBalance?: number | null;
+                        /** @example true */
+                        sufficient?: boolean;
+                        /** @example 0 */
+                        shortfall?: number;
+                        /** @example funded */
+                        escrowStatus?: string | null;
+                        breakdown?: {
+                            /** @example 1st Place */
+                            place?: string;
+                            /** @example 50 */
+                            amount?: number;
+                            /** @example 2.25 */
+                            fee?: number;
+                            /** @example 52.25 */
+                            total?: number;
+                        }[];
+                    };
+                };
+            };
+            /** @description Invalid payload or hackathon state */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsUpdatesController_updatePublishedAdvancedSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                id: string;
+                /** @description Hackathon ID or slug */
+                idOrSlug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePublishedHackathonAdvancedSettingsDto"];
+            };
+        };
+        responses: {
+            /** @description Published hackathon advanced settings updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonResponseDto"];
+                };
+            };
+            /** @description Invalid payload or unsupported hackathon state */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsRewardsController_triggerRewardDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of your organization */
+                organizationId: string;
+                /** @description UUID or slug of the hackathon */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRewardDistributionDto"];
+            };
+        };
+        responses: {
+            /** @description Distribution triggered successfully (or returned existing) */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RewardDistributionResponseDto"];
+                };
+            };
+            /** @description Results not published, wrong currency, no prize tiers, no winners */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not authorized as organization member/organizer */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsRewardsController_getRewardDistributionStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of your organization */
+                organizationId: string;
+                /** @description UUID or slug of the hackathon */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current distribution status */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RewardDistributionResponseDto"];
+                };
+            };
+            /** @description Not authorized as organizer */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon not found or no active distribution */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsRewardsController_getHackathonEscrow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of your organization */
+                organizationId: string;
+                /** @description UUID or slug of the hackathon */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Escrow details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HackathonEscrowResponseDto"];
+                };
+            };
+            /** @description Not authorized as organizer */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon not found or no escrow address */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsExportController_exportHackathon: {
+        parameters: {
+            query: {
+                /** @description Output format */
+                format: "csv" | "pdf";
+                /** @description Dataset scope. Defaults to "full" (all sections). */
+                dataset?: "overview" | "participants" | "submissions" | "prize_tiers" | "winners" | "judging" | "full";
+            };
+            header?: never;
+            path: {
+                /** @description ID of the organization that owns the hackathon */
+                organizationId: string;
+                /** @description ID or slug of the hackathon */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Binary file stream (CSV or PDF) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
+                    "application/pdf": string;
+                };
+            };
+            /** @description Unsupported format or dataset */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not an organizer of this hackathon */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsPartnersController_invite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID */
+                hackathonId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InvitePartnerDto"];
+            };
+        };
+        responses: {
+            /** @description Invitation created and email sent */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsPartnersController_list: {
+        parameters: {
+            query?: {
+                status?: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED" | "CANCELLED";
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID */
+                hackathonId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Contributions retrieved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsPartnersController_cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                organizationId: string;
+                /** @description Hackathon ID */
+                hackathonId: string;
+                /** @description Contribution ID */
+                contributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invitation cancelled */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsPartnersController_getAllocations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                hackathonId: string;
+                contributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Allocation summary */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsPartnersController_allocate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                hackathonId: string;
+                contributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AllocateContributionDto"];
+            };
+        };
+        responses: {
+            /** @description Contribution allocated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsPartnersController_undoAllocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                hackathonId: string;
+                allocationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Allocation undone */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PartnersContributeController_getByToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hex-encoded invite token */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Invitation details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PartnersContributeController_prepareFundTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hex-encoded invite token */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PrepareFundTransactionDto"];
+            };
+        };
+        responses: {
+            /** @description Unsigned transaction prepared */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PartnersContributeController_submitTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hex-encoded invite token */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitSignedTransactionDto"];
+            };
+        };
+        responses: {
+            /** @description Contribution confirmed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HackathonsTracksController_listTracks: {
+        parameters: {
+            query?: {
+                /** @description Set true to include archived tracks. */
+                includeArchived?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackResponseDto"][];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsTracksController_list: {
+        parameters: {
+            query?: {
+                includeArchived?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description Hackathon ID or slug */
+                id: string;
+                organizationId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackResponseDto"][];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsTracksController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTrackDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsTracksController_remove: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                trackId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted or archived */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsTracksController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                trackId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTrackDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsTracksController_bulkOptIn: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                trackId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bulk opt-in complete; returns counts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        trackName?: string;
+                        added?: number;
+                        alreadyOptedIn?: number;
+                        skippedDisqualified?: number;
+                        totalSubmissions?: number;
+                        newCap?: number | null;
+                    };
+                };
+            };
+        };
+    };
+    OrganizationsController_getOrganizations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_createOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrganizationDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getMyOrganizations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getOrganizationProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID or slug */
+                idOrSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Organization profile retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrganizationProfileDto"];
+                };
+            };
+            /** @description Organization not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_searchOrganizations: {
+        parameters: {
+            query?: {
+                /** @description Search term (name, slug, tagline) */
+                q?: string;
+                isProfileComplete?: "true" | "false";
+                hasHackathons?: "true" | "false";
+                hasGrants?: "true" | "false";
+                /** @description Max results (default 10) */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated organizations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Organization retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example org_1234567890 */
+                        id?: string;
+                        /** @example Tech Innovators */
+                        name?: string;
+                        /** @example https://example.com/logo.png */
+                        logo?: string;
+                        /** @example Building the future of technology */
+                        tagline?: string;
+                        /** @example We are a community of developers... */
+                        about?: string;
+                        links?: {
+                            /** @example https://techinnovators.com */
+                            website?: string;
+                            /** @example https://twitter.com/techinnovators */
+                            x?: string;
+                            /** @example https://github.com/techinnovators */
+                            github?: string;
+                            /** @example https://linkedin.com/company/techinnovators */
+                            others?: string;
+                        };
+                        /**
+                         * @example [
+                         *       "user_123",
+                         *       "user_456"
+                         *     ]
+                         */
+                        members?: string[];
+                        /**
+                         * @example [
+                         *       "user_123"
+                         *     ]
+                         */
+                        admins?: string[];
+                        /** @example user_123 */
+                        owner?: string;
+                        /** @example [] */
+                        hackathons?: string[];
+                        /** @example [] */
+                        grants?: string[];
+                        /** @example true */
+                        isProfileComplete?: boolean;
+                        /**
+                         * @example [
+                         *       "invite_123"
+                         *     ]
+                         */
+                        pendingInvites?: string[];
+                        /** @example better_auth_org_123 */
+                        betterAuthOrgId?: string;
+                        /** @example false */
+                        isArchived?: boolean;
+                        /** @example null */
+                        archivedBy?: string;
+                        /** @example null */
+                        archivedAt?: string;
+                        /** @example 2024-01-15T10:30:00.000Z */
+                        createdAt?: string;
+                        /** @example 2024-01-15T10:30:00.000Z */
+                        updatedAt?: string;
+                        analytics?: {
+                            trends?: {
+                                members?: {
+                                    /** @example 25 */
+                                    current?: number;
+                                    /** @example 22 */
+                                    previous?: number;
+                                    /** @example 3 */
+                                    change?: number;
+                                    /** @example 13.64 */
+                                    changePercentage?: number;
+                                    /** @example true */
+                                    isPositive?: boolean;
+                                };
+                                hackathons?: {
+                                    /** @example 5 */
+                                    current?: number;
+                                    /** @example 4 */
+                                    previous?: number;
+                                    /** @example 1 */
+                                    change?: number;
+                                    /** @example 25 */
+                                    changePercentage?: number;
+                                    /** @example true */
+                                    isPositive?: boolean;
+                                };
+                                grants?: {
+                                    /** @example 0 */
+                                    current?: number;
+                                    /** @example 0 */
+                                    previous?: number;
+                                    /** @example 0 */
+                                    change?: number;
+                                    /** @example 0 */
+                                    changePercentage?: number;
+                                    /** @example true */
+                                    isPositive?: boolean;
+                                };
+                            };
+                            timeSeries?: {
+                                hackathons?: {
+                                    /** @example January */
+                                    month?: string;
+                                    /** @example 2024 */
+                                    year?: number;
+                                    /** @example 2 */
+                                    count?: number;
+                                    /** @example 2024-01-01T00:00:00.000Z */
+                                    timestamp?: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description Organization not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_updateOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateOrganizationDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_deleteOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getOrganizationMembers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getOrganizationStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_getMembers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_addMember: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_removeMember: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_updateMemberRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMemberRoleDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_getMyMembership: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_getInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_inviteMember: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InviteMemberDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_acceptInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invitationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_rejectInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invitationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_cancelInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invitationId: string;
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_getMyInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VotesController_getVotes: {
+        parameters: {
+            query: {
+                /** @description Project ID */
+                projectId?: string;
+                /** @description Entity Type */
+                entityType?: string;
+                /** @description Vote Type */
+                voteType: string;
+                /** @description User ID */
+                userId: string;
+                /** @description Limit */
+                limit: number;
+                /** @description Offset */
+                offset: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VotesController_createVote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateVoteDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VotesController_removeVote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+                entityType: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VotesController_getVoteCounts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+                entityType: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VotesController_getUserVote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+                entityType: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VotesController_getProjectVotes: {
+        parameters: {
+            query?: {
+                entityType?: "PROJECT" | "CROWDFUNDING_CAMPAIGN" | "HACKATHON_SUBMISSION" | "GRANT";
+                voteType?: "UPVOTE" | "DOWNVOTE";
+                limit?: number;
+                offset?: number;
+                /** @description Include voter list and vote counts in response */
+                includeVoters?: boolean;
+            };
+            header?: never;
+            path: {
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    LeaderboardController_getLeaderboard: {
+        parameters: {
+            query?: {
+                /** @description Filter by reputation tier */
+                tier?: "NEWCOMER" | "CONTRIBUTOR" | "ESTABLISHED" | "EXPERT" | "LEGEND";
+                /** @description Time window for score aggregation */
+                timeframe?: "ALL_TIME" | "THIS_MONTH" | "THIS_WEEK" | "THIS_DAY";
+                /** @description Items per page, max 50 (default: 20) */
+                limit?: number;
+                /** @description Page number (default: 1) */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Leaderboard retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_listBlogPosts: {
+        parameters: {
+            query?: {
+                /** @description Author ID to filter posts */
+                authorId?: string;
+                /** @description Post status to filter */
+                status?: "DRAFT" | "PUBLISHED" | "ARCHIVED" | "SCHEDULED";
+                /** @description Search query for post title/content */
+                search?: string;
+                /** @description Filter by tags (comma-separated) */
+                tags?: string;
+                /** @description Filter by categories (comma-separated) */
+                categories?: string;
+                /** @description Include only featured posts */
+                isFeatured?: boolean;
+                /** @description Include pinned posts first */
+                includePinned?: boolean;
+                /** @description Page number */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Sort field */
+                sortBy?: "createdAt" | "updatedAt" | "publishedAt" | "viewCount" | "title";
+                /** @description Sort order */
+                sortOrder?: "asc" | "desc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog posts retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_createBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBlogPostDto"];
+            };
+        };
+        responses: {
+            /** @description Blog post created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_getBlogPostById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Post is not published */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_getBlogPostBySlug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post slug */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Post is not published */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_getRelatedPosts: {
+        parameters: {
+            query: {
+                limit: string;
+            };
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Related posts retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_updateBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBlogPostDto"];
+            };
+        };
+        responses: {
+            /** @description Blog post updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BlogPostsController_deleteBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_generateExcerpt: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    content: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Excerpt generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_generateReadingTime: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    content: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Reading time generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_generateSEO: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    content: string;
+                };
+            };
+        };
+        responses: {
+            /** @description SEO settings generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_generateTags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    content: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Tags generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AiController_generateCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    content: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Category generated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getOverview: {
+        parameters: {
+            query?: {
+                /** @description Time range for the overview data */
+                timeRange?: "7d" | "30d" | "90d";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Overview data retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminOverviewResponseDto"];
+                };
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getUsers: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Search by name, email, or username */
+                search?: string;
+                /** @description Filter by user role */
+                role?: string;
+                /** @description Filter by active status (not banned) */
+                isActive?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Users retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_exportUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description CSV file download */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getUserDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User username or ID */
+                usernameOrId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getUserStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User username or ID */
+                usernameOrId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getUserActivity: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description User username or ID */
+                usernameOrId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User activity retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getUserProjects: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Filter by project status */
+                status?: string;
+                /** @description Filter by project category */
+                category?: string;
+            };
+            header?: never;
+            path: {
+                /** @description User username or ID */
+                usernameOrId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User projects retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getOrganizations: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Search by organization name or slug */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Organizations retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getOrganizationDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Organization details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Organization not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminController_getUserOrganizations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User username or ID */
+                usernameOrId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User organizations retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized - Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_listAllBlogPosts: {
+        parameters: {
+            query?: {
+                /** @description Author ID to filter posts */
+                authorId?: string;
+                /** @description Post status to filter */
+                status?: "DRAFT" | "PUBLISHED" | "ARCHIVED" | "SCHEDULED";
+                /** @description Search query for post title/content */
+                search?: string;
+                /** @description Filter by tags (comma-separated) */
+                tags?: string;
+                /** @description Filter by categories (comma-separated) */
+                categories?: string;
+                /** @description Include only featured posts */
+                isFeatured?: boolean;
+                /** @description Include pinned posts first */
+                includePinned?: boolean;
+                /** @description Page number */
+                page?: number;
+                /** @description Number of items per page */
+                limit?: number;
+                /** @description Sort field */
+                sortBy?: "createdAt" | "updatedAt" | "publishedAt" | "viewCount" | "title";
+                /** @description Sort order */
+                sortOrder?: "asc" | "desc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog posts retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_createBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBlogPostDto"];
+            };
+        };
+        responses: {
+            /** @description Blog post created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_getBlogPostById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_updateBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBlogPostDto"];
+            };
+        };
+        responses: {
+            /** @description Blog post updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Admin access required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_deleteBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_permanentlyDeleteBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post permanently deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_restoreBlogPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Blog post ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog post restored successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog post not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_getAllTags: {
+        parameters: {
+            query: {
+                limit: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tags retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_getTagBySlug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Tag slug */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tag retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Tag not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_deleteUnusedTags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Unused tags deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminBlogsController_publishScheduledPosts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Scheduled posts published successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_list: {
+        parameters: {
+            query?: {
+                limit?: unknown;
+                page?: unknown;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of campaigns */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_listByUser: {
+        parameters: {
+            query?: {
+                limit?: unknown;
+                page?: unknown;
+            };
+            header?: never;
+            path: {
+                /** @description Username or User ID */
+                usernameOrId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of campaigns by user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_getCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_listPending: {
+        parameters: {
+            query?: {
+                limit?: unknown;
+                page?: unknown;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of pending campaigns */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign approved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCrowdfundingRejectDto"];
+            };
+        };
+        responses: {
+            /** @description Campaign rejected */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_requestRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCrowdfundingRequestRevisionDto"];
+            };
+        };
+        responses: {
+            /** @description Revision request created */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_addReviewNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCrowdfundingNoteDto"];
+            };
+        };
+        responses: {
+            /** @description Review note added */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingController_assignReviewer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCrowdfundingAssignDto"];
+            };
+        };
+        responses: {
+            /** @description Reviewer assigned */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_listAllMilestonesByCampaign: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Filter by review status */
+                status?: "PENDING" | "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REJECTED" | "RESUBMISSION_REQUIRED";
+                /** @description Sort by field */
+                sortBy?: "submittedAt" | "campaignSize" | "creatorReputation" | "createdAt";
+                /** @description Filter by campaign ID */
+                campaignId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of campaigns with their milestones */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_listPendingMilestones: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Filter by review status */
+                status?: "PENDING" | "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REJECTED" | "RESUBMISSION_REQUIRED";
+                /** @description Sort by field */
+                sortBy?: "submittedAt" | "campaignSize" | "creatorReputation" | "createdAt";
+                /** @description Filter by campaign ID */
+                campaignId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of pending milestones */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_getMilestoneForReview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Milestone details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Milestone not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_approveMilestone: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApproveMilestoneDto"];
+            };
+        };
+        responses: {
+            /** @description Milestone approved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Milestone not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_rejectMilestone: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectMilestoneDto"];
+            };
+        };
+        responses: {
+            /** @description Milestone rejected */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Milestone not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_requestResubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestMilestoneResubmissionDto"];
+            };
+        };
+        responses: {
+            /** @description Resubmission requested */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Milestone not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminMilestonesController_addReviewNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                milestoneId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddMilestoneReviewNoteDto"];
+            };
+        };
+        responses: {
+            /** @description Review note added */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Milestone not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminEscrowController_getEscrowInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Escrow information */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminEscrowController_executeEscrowAction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManualEscrowActionDto"];
+            };
+        };
+        responses: {
+            /** @description Escrow action executed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminDisputesController_listDisputes: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Items per page */
+                limit?: number;
+                /** @description Filter by dispute status */
+                status?: "OPEN" | "UNDER_REVIEW" | "AWAITING_RESPONSE" | "RESOLVED" | "ESCALATED" | "CLOSED";
+                /** @description Filter by campaign ID */
+                campaignId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of disputes */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminDisputesController_getDisputeDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                disputeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dispute details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dispute not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminDisputesController_assignDispute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                disputeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignDisputeDto"];
+            };
+        };
+        responses: {
+            /** @description Dispute assigned */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dispute not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminDisputesController_addDisputeNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                disputeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddDisputeNoteDto"];
+            };
+        };
+        responses: {
+            /** @description Note added */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dispute not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminDisputesController_resolveDispute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                disputeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveDisputeDto"];
+            };
+        };
+        responses: {
+            /** @description Dispute resolved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dispute not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminDisputesController_escalateDispute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                disputeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EscalateDisputeDto"];
+            };
+        };
+        responses: {
+            /** @description Dispute escalated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dispute not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminHackathonsRewardsController_getRewardQueue: {
+        parameters: {
+            query?: {
+                /** @description Filter by status (e.g., PENDING_ADMIN_REVIEW) */
+                status?: string;
+                /** @description Results per page */
+                limit?: string;
+                /** @description Pagination offset */
+                offset?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Queue of reward distributions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items?: components["schemas"]["AdminRewardQueueItemDto"][];
+                        total?: number;
+                        limit?: number;
+                        offset?: number;
+                    };
+                };
+            };
+        };
+    };
+    AdminHackathonsRewardsController_getRewardDistributionDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of the hackathon */
+                hackathonId: string;
+                /** @description UUID of the reward distribution */
+                distributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Distribution detail */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon or distribution not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminHackathonsRewardsController_approveRewardDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of the hackathon */
+                hackathonId: string;
+                /** @description UUID of the reward distribution */
+                distributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApproveRewardDistributionDto"];
+            };
+        };
+        responses: {
+            /** @description Distribution approved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Distribution already approved/rejected or in wrong state */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon or distribution not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminHackathonsRewardsController_rejectRewardDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of the hackathon */
+                hackathonId: string;
+                /** @description UUID of the reward distribution */
+                distributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectRewardDistributionDto"];
+            };
+        };
+        responses: {
+            /** @description Distribution rejected */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Distribution already approved/rejected or in wrong state */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Hackathon or distribution not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminHackathonsRewardsController_syncRewardDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID of the hackathon */
+                hackathonId: string;
+                /** @description UUID of the reward distribution */
+                distributionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Sync completed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        updated?: boolean;
+                    };
+                };
+            };
+            /** @description Hackathon or distribution not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminManualProjectsController_listPendingManualProjects: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminManualProjectsController_approveManualProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project ID */
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminManualProjectsController_rejectManualProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project ID */
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectManualProjectDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminManualProjectsController_requestChanges: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project ID */
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestManualProjectChangesDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminProjectEditsController_listPendingProjectEdits: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminProjectEditsController_approveProjectEdit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ProjectEdit ID */
+                editId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminProjectEditsController_rejectProjectEdit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ProjectEdit ID */
+                editId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectProjectEditDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminWalletsController_getStats: {
+        parameters: {
+            query?: {
+                timeRange?: "7d" | "30d" | "90d";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminWalletStatsDto"];
+                };
+            };
+        };
+    };
+    AdminWalletsController_listWallets: {
+        parameters: {
+            query?: {
+                search?: string;
+                limit?: number;
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminWalletListResponseDto"];
+                };
+            };
+        };
+    };
+    AdminWalletsController_getByUserId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminWalletListItemDto"][];
+                };
+            };
+        };
+    };
+    AdminWalletsController_getDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminWalletDetailsDto"];
+                };
+            };
+        };
+    };
+    AdminWalletsController_activateWallet: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Wallet activated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminWalletsController_sponsorActivateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns activation result for the user (activated, alreadyActivated, addedTrustlines, hash). */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminWalletsController_sponsorActivateHackathon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                hackathonId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Job enqueued. Returns { jobId, hackathonId, estimatedParticipants, statusUrl }. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminWalletsController_getSponsorActivationJobStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                jobId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HealthController_liveness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HealthController_readiness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The Health Check is successful */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example ok */
+                        status?: string;
+                        /**
+                         * @example {
+                         *       "database": {
+                         *         "status": "up"
+                         *       }
+                         *     }
+                         */
+                        info?: {
+                            [key: string]: {
+                                status: string;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        } | null;
+                        /** @example {} */
+                        error?: {
+                            [key: string]: {
+                                status: string;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        } | null;
+                        /**
+                         * @example {
+                         *       "database": {
+                         *         "status": "up"
+                         *       }
+                         *     }
+                         */
+                        details?: {
+                            [key: string]: {
+                                status: string;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description The Health Check is not successful */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example error */
+                        status?: string;
+                        /**
+                         * @example {
+                         *       "database": {
+                         *         "status": "up"
+                         *       }
+                         *     }
+                         */
+                        info?: {
+                            [key: string]: {
+                                status: string;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        } | null;
+                        /**
+                         * @example {
+                         *       "redis": {
+                         *         "status": "down",
+                         *         "message": "Could not connect"
+                         *       }
+                         *     }
+                         */
+                        error?: {
+                            [key: string]: {
+                                status: string;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        } | null;
+                        /**
+                         * @example {
+                         *       "database": {
+                         *         "status": "up"
+                         *       },
+                         *       "redis": {
+                         *         "status": "down",
+                         *         "message": "Could not connect"
+                         *       }
+                         *     }
+                         */
+                        details?: {
+                            [key: string]: {
+                                status: string;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+    DiditController_getStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VerificationStatusDto"];
+                };
+            };
+        };
+    };
+    DiditController_callback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DiditController_createSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDiditSessionDto"];
+            };
+        };
+        responses: {
+            /** @description Session created */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Missing DIDIT_API_KEY or DIDIT_WORKFLOW_ID */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DiditController_webhook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Webhook accepted */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid signature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PricesController_getAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Map of asset symbol → USD price as a decimal string (6 dp). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    PricesController_getDebug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Per-asset debug info. `source` is which provider won the resolution chain. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    PricesController_getOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Asset ticker (case-insensitive). */
+                symbol: "XLM" | "USDC" | "EURC" | "USDGLO";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description USD price as a decimal string (6 dp). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    ProjectsController_createDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Full payload for the stepped draft creation */
+        requestBody: {
+            content: {
+                "application/json": Record<string, never>;
+            };
+        };
+        responses: {
+            /** @description Draft created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_saveDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description Full payload for stepped draft autosave */
+        requestBody: {
+            content: {
+                "application/json": Record<string, never>;
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_listPublicProjects: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_searchPublicProjects: {
+        parameters: {
+            query?: {
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_listFeaturedProjects: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_listProjectEdits: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_submitProjectEdit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Function"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_publishProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description Publish/submit action (Review & Submit) */
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example true */
+                    isCampaign?: boolean;
+                };
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_getMyProjects: {
+        parameters: {
+            query: {
+                limit?: number;
+                offset?: number;
+                status: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_getPublicProjectBySlug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project slug */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_getProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Project ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_subscribe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubscribeDto"];
+            };
+        };
+        responses: {
+            /** @description Confirmation email sent successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Invalid tags provided */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Email is already subscribed */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Too many requests — rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_confirmSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Confirmation token received via email */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to frontend confirmation page */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Confirmation token has expired */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid or expired confirmation token */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_unsubscribeByToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Unsubscribe token from the email footer */
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to frontend unsubscribe confirmation page */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid unsubscribe link */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_unsubscribe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UnsubscribeDto"];
+            };
+        };
+        responses: {
+            /** @description Successfully unsubscribed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Subscriber not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_updatePreferences: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePreferencesDto"];
+            };
+        };
+        responses: {
+            /** @description Preferences updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid tags provided */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Subscriber not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_trackOpen: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                campaignId: string;
+                /** @description Subscriber ID */
+                subscriberId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns 1x1 transparent GIF */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_trackClick: {
+        parameters: {
+            query: {
+                /** @description Target URL to redirect to after tracking */
+                url: string;
+            };
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                campaignId: string;
+                /** @description Subscriber ID */
+                subscriberId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to the target URL */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_getSubscribers: {
+        parameters: {
+            query?: {
+                /** @description Filter by status */
+                status?: "active" | "pending" | "unsubscribed" | "bounced";
+                /** @description Filter by source */
+                source?: string;
+                /** @description Filter by tags (comma-separated) */
+                tags?: string;
+                /** @description Search by email or name */
+                search?: string;
+                /** @description Page number (default: 1) */
+                page?: number;
+                /** @description Items per page (default: 50) */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Subscribers retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_getStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_exportSubscribers: {
+        parameters: {
+            query?: {
+                /** @description Filter by subscriber status */
+                status?: "active" | "pending" | "unsubscribed" | "bounced";
+                /** @description Filter by tags (comma-separated) */
+                tags?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description CSV file downloaded */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_deleteSubscriber: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Subscriber ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Subscriber deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Subscriber not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_getCampaigns: {
+        parameters: {
+            query?: {
+                /** @description Page number (default: 1) */
+                page?: number;
+                /** @description Items per page (default: 20) */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaigns retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_createCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateNewsletterCampaignDto"];
+            };
+        };
+        responses: {
+            /** @description Campaign created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid tags provided */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_getCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign details retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NewsletterController_sendCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID to send */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Campaign sent successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Campaign already sent or currently sending */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DlqAdminController_getDepth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Total parked jobs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DlqAdminController_list: {
+        parameters: {
+            query?: {
+                /** @description Max entries to return (1 to 200, default 50) */
+                limit?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DlqAdminController_getOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                jobId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DlqAdminController_replay: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                jobId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8249,7 +27471,7 @@ export interface operations {
                     "application/json": {
                         session: components["schemas"]["Session"];
                         user: components["schemas"]["User"];
-                    };
+                    } | null;
                 };
             };
             /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
@@ -8573,7 +27795,11 @@ export interface operations {
                     password: string;
                     /** @description Callback URL to use as a redirect for email verification */
                     callbackURL?: string | null;
-                    rememberMe?: string | null;
+                    /**
+                     * @description If this is false, the session will not be remembered. Default is `true`.
+                     * @default true
+                     */
+                    rememberMe?: boolean | null;
                 };
             };
         };
@@ -8676,6 +27902,101 @@ export interface operations {
                     newPassword: string;
                     /** @description The token to reset the password */
                     token?: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        status?: boolean;
+                    };
+                };
+            };
+            /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized. Due to missing or invalid authentication. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Forbidden. You do not have permission to access this resource or to perform this action. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Not Found. The requested resource was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Too Many Requests. You have exceeded the rate limit. Try again later. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Internal Server Error. This is a problem with the server that you cannot fix. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+        };
+    };
+    verifyPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description The password to verify */
+                    password: string;
                 };
             };
         };
@@ -10099,6 +29420,102 @@ export interface operations {
             };
         };
     };
+    requestPasswordResetWithEmailOTP: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Email address to send the OTP */
+                    email: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Indicates if the OTP was sent successfully */
+                        success?: boolean;
+                    };
+                };
+            };
+            /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized. Due to missing or invalid authentication. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Forbidden. You do not have permission to access this resource or to perform this action. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Not Found. The requested resource was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Too Many Requests. You have exceeded the rate limit. Try again later. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Internal Server Error. This is a problem with the server that you cannot fix. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+        };
+    };
     forgetPasswordWithEmailOTP: {
         parameters: {
             query?: never;
@@ -10220,7 +29637,11 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": {
+                        success?: boolean;
+                    };
+                };
             };
             /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
             400: {
@@ -10882,8 +30303,7 @@ export interface operations {
                 "application/json": {
                     /** @description The email of the user */
                     email: string;
-                    /** @description The password of the user */
-                    password: string;
+                    password?: string | null;
                     /** @description The name of the user */
                     name: string;
                     role?: string | null;
@@ -12265,6 +31685,203 @@ export interface operations {
                 };
             };
         };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        session?: components["schemas"]["Session"];
+                        user?: components["schemas"]["User"];
+                    };
+                };
+            };
+            /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized. Due to missing or invalid authentication. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Forbidden. You do not have permission to access this resource or to perform this action. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Not Found. The requested resource was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Too Many Requests. You have exceeded the rate limit. Try again later. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Internal Server Error. This is a problem with the server that you cannot fix. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+        };
+    };
+    signInWithMagicLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Email address to send the magic link */
+                    email: string;
+                    /** @description User display name. Only used if the user is registering for the first time. Eg: "my-name" */
+                    name?: string | null;
+                    /** @description URL to redirect after magic link verification */
+                    callbackURL?: string | null;
+                    /** @description URL to redirect after new user signup. Only used if the user is registering for the first time. */
+                    newUserCallbackURL?: string | null;
+                    /** @description URL to redirect after error. */
+                    errorCallbackURL?: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        status?: boolean;
+                    };
+                };
+            };
+            /** @description Bad Request. Usually due to missing parameters, or invalid parameters. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized. Due to missing or invalid authentication. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message: string;
+                    };
+                };
+            };
+            /** @description Forbidden. You do not have permission to access this resource or to perform this action. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Not Found. The requested resource was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Too Many Requests. You have exceeded the rate limit. Try again later. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Internal Server Error. This is a problem with the server that you cannot fix. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        message?: string;
+                    };
+                };
+            };
+        };
+    };
+    verifyMagicLink: {
+        parameters: {
+            query?: {
+                token?: string;
+                callbackURL?: string | null;
+                errorCallbackURL?: string | null;
+                newUserCallbackURL?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Success */
             200: {
