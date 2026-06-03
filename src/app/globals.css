@@ -4,10 +4,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ------------------------------------------------------------------ */
-/* Brand palette: named scales available as utilities (bg-success-500, */
-/* text-error-400, etc.). Ported from Boundless v1.                    */
+/* Boundless design system. Values are lifted directly from the Figma  */
+/* "Boundless UX/UI Design" library (file Uj68VRMAVyrQApVlSsoLIE):      */
+/* Colors 1158:16166, Typography 1158:16167, Buttons 1158:14186.       */
+/* Scales run 50..900 (10 steps, no 75) and back the named utilities    */
+/* (bg-primary-500, text-error-400, border-neutral-700, ...).          */
+/* `static` keeps the whole foundation emitted (not tree-shaken) so the */
+/* full palette and type scale resolve via var() and utilities even     */
+/* before their first use in a component.                               */
 /* ------------------------------------------------------------------ */
-@theme {
+@theme static {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   /* Headings use TASA Orbiter (brand display font). The .woff2 files are not in
      the repo yet, so the stack falls back to Plus Jakarta Sans until they land
@@ -16,159 +22,238 @@
     'TASA Orbiter', var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  --color-gray-50: #f7f7f7;
-  --color-gray-75: #f2f2f2;
-  --color-gray-100: #ececec;
-  --color-gray-200: #e6e6e6;
-  --color-gray-300: #dfdfdf;
-  --color-gray-400: #d9d9d9;
-  --color-gray-500: #b5b5b5;
-  --color-gray-600: #919191;
-  --color-gray-700: #787878;
-  --color-gray-800: #484848;
-  --color-gray-900: #2b2b2b;
+  /* Neutral (cool charcoal) */
+  --color-neutral-50: #f3f7f6;
+  --color-neutral-100: #dde7e5;
+  --color-neutral-200: #c2d0cd;
+  --color-neutral-300: #9fb3af;
+  --color-neutral-400: #7a8f8b;
+  --color-neutral-500: #5c6f6b;
+  --color-neutral-600: #42534f;
+  --color-neutral-700: #2c3a37;
+  --color-neutral-800: #1c2625;
+  --color-neutral-900: #121a1a;
 
-  --color-warning-50: #fef6e7;
-  --color-warning-75: #fbe2b7;
-  --color-warning-100: #f7d394;
-  --color-warning-200: #f7c164;
-  --color-warning-300: #f5b546;
-  --color-warning-400: #dd900d;
-  --color-warning-500: #dd900d;
-  --color-warning-600: #ad6f07;
-  --color-warning-700: #865503;
-  --color-warning-800: #664101;
-  --color-warning-900: #523300;
+  /* Primary (brand teal) */
+  --color-primary-50: #eafdf7;
+  --color-primary-100: #bef9e5;
+  --color-primary-200: #9ff7d8;
+  --color-primary-300: #73f3c6;
+  --color-primary-400: #58f1bb;
+  --color-primary-500: #2eedaa;
+  --color-primary-600: #2ad89b;
+  --color-primary-700: #21a879;
+  --color-primary-800: #19825e;
+  --color-primary-900: #136447;
 
-  --color-secondary-50: #e3effc;
-  --color-secondary-75: #c6ddf7;
-  --color-secondary-100: #b6d8ff;
-  --color-secondary-200: #80bbff;
-  --color-secondary-300: #3d89df;
-  --color-secondary-400: #1671d9;
-  --color-secondary-500: #0d5eba;
-  --color-secondary-600: #034592;
-  --color-secondary-700: #04326b;
-  --color-secondary-800: #012657;
-  --color-secondary-900: #001633;
+  /* Secondary (deep green-black surfaces) */
+  --color-secondary-50: #e8e9e9;
+  --color-secondary-100: #b8bbba;
+  --color-secondary-200: #969a99;
+  --color-secondary-300: #666c6b;
+  --color-secondary-400: #484f4e;
+  --color-secondary-500: #1a2322;
+  --color-secondary-600: #18201f;
+  --color-secondary-700: #121918;
+  --color-secondary-800: #0e1313;
+  --color-secondary-900: #0b0f0e;
 
-  --color-success-50: #e7f6ec;
-  --color-success-75: #b5e3c4;
-  --color-success-100: #91d6a8;
-  --color-success-200: #5fc381;
-  --color-success-300: #40b869;
-  --color-success-400: #0f973d;
-  --color-success-500: #099137;
-  --color-success-600: #04802e;
-  --color-success-700: #036b26;
-  --color-success-800: #015b20;
-  --color-success-900: #004617;
+  /* Success (green) */
+  --color-success-50: #e9f9ef;
+  --color-success-100: #baedcd;
+  --color-success-200: #99e4b5;
+  --color-success-300: #6bd893;
+  --color-success-400: #4ed17e;
+  --color-success-500: #22c55e;
+  --color-success-600: #1fb356;
+  --color-success-700: #188c43;
+  --color-success-800: #136c34;
+  --color-success-900: #0e5327;
 
-  --color-error-50: #fbeae9;
-  --color-error-75: #f2bcba;
-  --color-error-100: #eb9b98;
-  --color-error-200: #e26e6a;
-  --color-error-300: #dd524d;
-  --color-error-400: #d42620;
-  --color-error-500: #cb1a14;
-  --color-error-600: #ba110b;
-  --color-error-700: #9e0a05;
-  --color-error-800: #800501;
-  --color-error-900: #591000;
+  /* Warning (amber) */
+  --color-warning-50: #fef7e6;
+  --color-warning-100: #fce7b0;
+  --color-warning-200: #fadc8a;
+  --color-warning-300: #f8cc55;
+  --color-warning-400: #f7c234;
+  --color-warning-500: #f5b301;
+  --color-warning-600: #dfa301;
+  --color-warning-700: #ae7f01;
+  --color-warning-800: #876201;
+  --color-warning-900: #674b00;
 
-  /* Brand teal accent + dark marketing surfaces (brand kit palette) */
+  /* Error (red) */
+  --color-error-50: #ffeded;
+  --color-error-100: #ffc8c8;
+  --color-error-200: #ffadad;
+  --color-error-300: #ff8888;
+  --color-error-400: #ff7171;
+  --color-error-500: #ff4d4d;
+  --color-error-600: #e84646;
+  --color-error-700: #b53737;
+  --color-error-800: #8c2a2a;
+  --color-error-900: #6b2020;
+
+  /* Info (blue) */
+  --color-info-50: #ebf6ff;
+  --color-info-100: #c2e4ff;
+  --color-info-200: #a5d7ff;
+  --color-info-300: #7cc4ff;
+  --color-info-400: #62b9ff;
+  --color-info-500: #3ba7ff;
+  --color-info-600: #3698e8;
+  --color-info-700: #2a77b5;
+  --color-info-800: #205c8c;
+  --color-info-900: #19466b;
+
+  /* Brand aliases kept for marketing surfaces (bg-brand, text-brand). */
   --color-brand: #2eedaa;
   --color-brand-hover: #2ad89b;
   --color-brand-soft: #eafdf7;
-  --color-ink: #0c0f0b;
-  --color-ink-soft: #101510;
+  --color-ink: #0d1111;
+  --color-ink-soft: #141c1c;
   --color-active-bg: rgba(46, 237, 170, 0.08);
   --color-active-bg2: rgba(46, 237, 170, 0.32);
+
+  /* ---------------------------------------------------------------- */
+  /* Type scale (Figma Typography 1158:16167).                        */
+  /* Headings -> TASA Orbiter (apply `font-heading`). Body/captions -> */
+  /* Plus Jakarta Sans (the default sans). Captions are uppercase.    */
+  /* ---------------------------------------------------------------- */
+  --text-display-lg: 3.5rem; /* 56px */
+  --text-display-lg--line-height: 1;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-display-sm: 3rem; /* 48px */
+  --text-display-sm--line-height: 1;
+  --text-display-sm--letter-spacing: -0.04em;
+
+  --text-h1: 2.5rem; /* 40px */
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.04em;
+  --text-h2: 2rem; /* 32px */
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.04em;
+  --text-h3: 1.75rem; /* 28px */
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.5rem; /* 24px */
+  --text-h4--line-height: 1.2;
+  --text-h4--letter-spacing: -0.02em;
+  --text-h5: 1.25rem; /* 20px */
+  --text-h5--line-height: 1.2;
+  --text-h5--letter-spacing: -0.02em;
+  --text-h6: 1.125rem; /* 18px */
+  --text-h6--line-height: 1.2;
+  --text-h6--letter-spacing: -0.02em;
+
+  --text-body-lg: 1.125rem; /* 18px */
+  --text-body-lg--line-height: 1.45;
+  --text-body: 1rem; /* 16px */
+  --text-body--line-height: 1.45;
+  --text-body-sm: 0.875rem; /* 14px */
+  --text-body-sm--line-height: 1.45;
+  --text-body-xs: 0.75rem; /* 12px */
+  --text-body-xs--line-height: 1.45;
+
+  --text-caption-lg: 0.875rem; /* 14px */
+  --text-caption-lg--line-height: 1.2;
+  --text-caption-lg--letter-spacing: 0.12em;
+  --text-caption-lg--font-weight: 600;
+  --text-caption-sm: 0.75rem; /* 12px */
+  --text-caption-sm--line-height: 1.2;
+  --text-caption-sm--letter-spacing: 0.12em;
+  --text-caption-sm--font-weight: 600;
+  --text-caption-xs: 0.625rem; /* 10px */
+  --text-caption-xs--line-height: 1.2;
+  --text-caption-xs--letter-spacing: 0.16em;
+  --text-caption-xs--font-weight: 600;
 }
 
 /* ------------------------------------------------------------------ */
-/* shadcn/ui semantic tokens. Brand teal is the primary in BOTH themes */
-/* (v1 dropped it in dark mode; v2 keeps it consistent).               */
+/* shadcn/ui semantic tokens. The dark theme is canonical (the app     */
+/* defaults to `dark` in Providers) and maps 1:1 to the Figma          */
+/* foundation surfaces; light is a derived, usable counterpart.        */
 /* ------------------------------------------------------------------ */
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem; /* Figma "Rounded" button radius = 8px */
 
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --background: #ffffff;
+  --foreground: #121a1a;
+  --card: #ffffff;
+  --card-foreground: #121a1a;
+  --popover: #ffffff;
+  --popover-foreground: #121a1a;
 
   --primary: #2eedaa;
-  --primary-foreground: oklch(0.205 0 0);
+  --primary-foreground: #0d1111;
 
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
+  --secondary: #f3f7f6;
+  --secondary-foreground: #121a1a;
+  --muted: #f3f7f6;
+  --muted-foreground: #5c6f6b;
+  --accent: #eafdf7;
+  --accent-foreground: #136447;
+  --destructive: #ff4d4d;
+  --destructive-foreground: #0d1111;
 
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: #dde7e5;
+  --input: #dde7e5;
   --ring: #2eedaa;
 
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-1: #2eedaa;
+  --chart-2: #3ba7ff;
+  --chart-3: #f5b301;
+  --chart-4: #ff4d4d;
+  --chart-5: #22c55e;
 
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar: #f3f7f6;
+  --sidebar-foreground: #121a1a;
   --sidebar-primary: #2eedaa;
-  --sidebar-primary-foreground: oklch(0.205 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-primary-foreground: #0d1111;
+  --sidebar-accent: #eafdf7;
+  --sidebar-accent-foreground: #136447;
+  --sidebar-border: #dde7e5;
   --sidebar-ring: #2eedaa;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  /* Foundation surfaces (Figma Colors 1158:16166) */
+  --background: #0d1111; /* Background/Base */
+  --foreground: #f1fff1; /* Text/Primary */
+  --card: #141c1c; /* Surface/Base */
+  --card-foreground: #f1fff1;
+  --popover: #1a2322; /* Background/Raised */
+  --popover-foreground: #f1fff1;
 
-  --primary: #2eedaa;
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: #2eedaa; /* Primary 500 */
+  --primary-foreground: #0d1111; /* Text/OnPrimaryButton */
 
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
+  --secondary: #1a2322; /* Secondary 500 */
+  --secondary-foreground: #f1fff1;
+  --muted: #141c1c;
+  --muted-foreground: #72736f; /* Text/Secondary */
+  --accent: #182120; /* Surface/Hover */
+  --accent-foreground: #f1fff1;
+  --destructive: #ff4d4d; /* Error 500 */
+  --destructive-foreground: #0d1111;
 
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --border: #2e3a38; /* Border/Default */
+  --input: #2e3a38;
   --ring: #2eedaa;
 
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --chart-1: #2eedaa;
+  --chart-2: #3ba7ff;
+  --chart-3: #f5b301;
+  --chart-4: #ff4d4d;
+  --chart-5: #22c55e;
 
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar: #141c1c;
+  --sidebar-foreground: #f1fff1;
   --sidebar-primary: #2eedaa;
-  --sidebar-primary-foreground: oklch(0.205 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-primary-foreground: #0d1111;
+  --sidebar-accent: #182120;
+  --sidebar-accent-foreground: #f1fff1;
+  --sidebar-border: #2e3a38;
   --sidebar-ring: #2eedaa;
 }
 
@@ -211,6 +296,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-pill: 999px;
 
   --breakpoint-4xl: 2560px;
 }
@@ -222,6 +308,15 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
   }
 
   button {
