@@ -1,100 +1,115 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
-import { BoundlessMark } from '@/components/layout/boundless-logo';
 import { SocialGlyph } from '@/components/layout/brand-icons';
 import { Button } from '@/components/ui/button';
 import { footerColumns, socialLinks } from '@/config/marketing-nav';
 
-function isExternal(href: string) {
-  return href.startsWith('http');
+function externalLinkProps(href: string) {
+  return href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {};
 }
 
-/** Marketing footer: oversized wordmark, newsletter prompt, link columns, and a social panel. */
+// Decorative glow behind the card's top edge.
+function FooterGlow() {
+  return (
+    <div
+      aria-hidden
+      className='pointer-events-none absolute -top-10 left-1/2 h-44 w-[72%] -translate-x-1/2 rounded-[50%] bg-[linear-gradient(90deg,#2eedaa_0%,#86ee54_52%,#c4f24a_100%)] blur-[60px] sm:-top-12 sm:h-56 sm:w-[64%] lg:h-[240px] lg:w-[60%] lg:blur-[80px]'
+    />
+  );
+}
+
 export function SiteFooter() {
   return (
-    <footer className='border-t border-white/5 bg-ink'>
-      <div className='mx-auto grid w-full max-w-[1240px] gap-10 px-5 py-12 lg:grid-cols-[1fr_300px] lg:gap-0 lg:px-[100px]'>
-        {/* Main block */}
-        <div className='lg:pr-12'>
-          {/* Oversized wordmark with brand glow */}
-          <div className='relative overflow-hidden'>
-            <div
-              aria-hidden
-              className='pointer-events-none absolute -top-10 right-0 h-48 w-2/3 rounded-full bg-brand/20 blur-3xl'
-            />
-            <div className='relative flex items-center gap-3'>
-              <BoundlessMark className='h-[clamp(2rem,7vw,4.5rem)] w-auto text-brand' />
-              <span className='font-heading text-[clamp(2.75rem,11vw,7rem)] leading-none font-bold tracking-tight text-white'>
-                boundless
-              </span>
-            </div>
-          </div>
-
-          <div className='mt-10 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-2 lg:grid-cols-[1.2fr_repeat(4,1fr)]'>
-            {/* Newsletter */}
-            <div className='sm:col-span-2 lg:col-span-1'>
-              <p className='max-w-44 text-sm text-white/60'>
-                Subscribe to The boundless newsletter
-              </p>
-              <Button
-                variant='outline'
-                className='mt-4 rounded-full border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white'
-              >
-                Get Updates
-              </Button>
+    <footer className='bg-background px-4 pt-24 pb-10 sm:px-6 lg:px-10 lg:pt-28 lg:pb-12'>
+      <div className='mx-auto flex w-full max-w-[1360px] flex-col gap-4 lg:flex-row lg:gap-2'>
+        {/* Main card */}
+        <div className='relative flex-1 rounded-2xl border border-white/8 bg-card/80'>
+          <FooterGlow />
+          <div className='relative flex flex-col'>
+            {/* Raw Image so the wordmark scales to the full card width. */}
+            <div className='px-6 py-6 sm:px-8 lg:px-10 lg:py-5'>
+              <Image
+                src='/brand/boundless-logo-dark.svg'
+                alt='Boundless'
+                width={437}
+                height={69}
+                priority
+                unoptimized
+                className='block h-auto w-full max-w-[895px]'
+              />
             </div>
 
-            {/* Link columns */}
-            {footerColumns.map(column => (
-              <div key={column.label}>
-                <p className='mb-3 text-xs font-medium tracking-wider text-white/40 uppercase'>
-                  {column.label}
+            <div className='border-t border-dotted border-white/10' />
+
+            <div className='flex flex-col gap-8 px-6 py-8 min-[1360px]:flex-row min-[1360px]:items-start min-[1360px]:justify-between sm:px-8 lg:px-10'>
+              <div className='min-[1360px]:w-[172px]'>
+                <p className='text-body-sm font-medium text-foreground'>
+                  Subscribe to The boundless newsletter
                 </p>
-                <ul className='space-y-2.5'>
-                  {column.items.map(item => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        target={isExternal(item.href) ? '_blank' : undefined}
-                        rel={isExternal(item.href) ? 'noreferrer' : undefined}
-                        className='text-sm text-white/70 transition-colors hover:text-white'
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <Button className='mt-5 w-full rounded-full bg-white font-semibold text-ink hover:bg-white/90 active:bg-white/80 lg:w-auto'>
+                  Get Updates
+                </Button>
               </div>
-            ))}
-          </div>
 
-          {/* Bottom bar */}
-          <div className='mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between'>
-            <p>
-              Built on Stellar · Powered by Trustless Execution · Designed for
-              Global Contributors
-            </p>
-            <p>© 2026 Boundless</p>
+              <div className='grid grid-cols-2 gap-x-8 gap-y-8 min-[1360px]:flex min-[1360px]:gap-20 sm:grid-cols-4'>
+                {footerColumns.map(column => (
+                  <div key={column.label} className='min-[1360px]:w-[108px]'>
+                    <p className='mb-2 text-caption-xs text-foreground uppercase'>
+                      {column.label}
+                    </p>
+                    <ul className='space-y-1'>
+                      {column.items.map(item => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            {...externalLinkProps(item.href)}
+                            className='text-body-xs text-neutral-300 transition-colors hover:text-foreground'
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className='border-t border-dotted border-white/10' />
+
+            <div className='flex items-center justify-between gap-4 px-6 py-5 text-body-sm text-neutral-300 sm:px-8 lg:px-10'>
+              <p>
+                Built on Stellar
+                <span className='hidden lg:inline'>
+                  {' '}
+                  • Powered by Trustless Execution • Designed for Global
+                  Contributors
+                </span>
+              </p>
+              <p className='whitespace-nowrap'>© 2026 Boundless</p>
+            </div>
           </div>
         </div>
 
-        {/* Social panel */}
-        <div className='border-t border-white/10 pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10'>
-          <h2 className='mb-4 text-sm font-medium text-white'>Social links</h2>
-          <div className='space-y-2.5'>
+        {/* Social card */}
+        <div className='flex flex-col gap-4 rounded-2xl border border-white/8 bg-card/80 p-5 lg:w-[325px] lg:shrink-0 lg:justify-center'>
+          <h2 className='hidden text-center font-heading text-h5 font-semibold text-foreground lg:block'>
+            Social links
+          </h2>
+          <div className='flex flex-row justify-between gap-2 lg:flex-col lg:gap-4'>
             {socialLinks.map(social => (
               <Link
                 key={social.key}
                 href={social.href}
-                target={isExternal(social.href) ? '_blank' : undefined}
-                rel={isExternal(social.href) ? 'noreferrer' : undefined}
-                className='flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/80 transition-colors hover:bg-white/[0.06] hover:text-white'
+                {...externalLinkProps(social.href)}
+                aria-label={social.label}
+                className='flex size-12 items-center justify-center gap-2 rounded-full bg-secondary text-foreground transition-colors hover:bg-neutral-700 lg:size-auto lg:w-full lg:px-4 lg:py-3'
               >
-                <SocialGlyph
-                  name={social.key}
-                  className='size-4 text-white/55'
-                />
-                {social.label}
+                <SocialGlyph name={social.key} className='size-5 shrink-0' />
+                <span className='hidden text-base lg:inline'>
+                  {social.label}
+                </span>
               </Link>
             ))}
           </div>
