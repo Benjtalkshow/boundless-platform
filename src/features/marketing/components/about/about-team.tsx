@@ -1,11 +1,44 @@
-import { Placeholder } from '../placeholder';
-import { Section } from '../section';
+import { TeamSection } from '../team-section';
 
-/** About team grid. Plain scaffold pending design. */
+const MEMBERS = [
+  {
+    name: 'First Last',
+    role: 'Co-founder, CEO',
+    image: '/team/team1.svg',
+    linkedin: '#',
+  },
+  {
+    name: 'First Last',
+    role: 'Co-founder, CEO',
+    image: '/team/team2.svg',
+    linkedin: '#',
+  },
+  {
+    name: 'First Last',
+    role: 'Co-founder, CEO',
+    image: '/team/team3.svg',
+    linkedin: '#',
+  },
+  {
+    name: 'First Last',
+    role: 'Co-founder, CEO',
+    image: '/team/team4.svg',
+    linkedin: '#',
+  },
+];
+
+/** About page team grid. */
 export function AboutTeam() {
   return (
-    <Section>
-      <Placeholder label='About Team' />
-    </Section>
+    <TeamSection
+      title={
+        <>
+          Meet the team
+          <br />
+          behind Boundless
+        </>
+      }
+      members={MEMBERS}
+    />
   );
 }

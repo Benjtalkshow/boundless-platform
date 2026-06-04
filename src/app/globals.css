@@ -21,6 +21,8 @@
   --font-heading:
     'TASA Orbiter', var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Bebas Neue condensed display face, used for partner wordmarks. */
+  --font-display: var(--font-bebas), 'Bebas Neue', sans-serif;
 
   /* Neutral (cool charcoal) */
   --color-neutral-50: #f3f7f6;
@@ -114,6 +116,10 @@
   --color-ink-soft: #141c1c;
   --color-active-bg: rgba(46, 237, 170, 0.08);
   --color-active-bg2: rgba(46, 237, 170, 0.32);
+  --color-hero-bg: #0d1111;
+  --color-text-muted: #999da2;
+  --color-text-muted-brand: #e8e9e7;
+  --color-surface-subtle: rgba(250, 250, 250, 0.02);
 
   /* ---------------------------------------------------------------- */
   /* Type scale (Figma Typography 1158:16167).                        */
@@ -214,10 +220,6 @@
   --sidebar-accent-foreground: #136447;
   --sidebar-border: #dde7e5;
   --sidebar-ring: #2eedaa;
-
-  --color-hero-bg: #0d1111;
-  --color-text-muted-brand: #e8e9e7;
-  --color-surface-subtle: rgba(250, 250, 250, 0.02);
 }
 
 .dark {

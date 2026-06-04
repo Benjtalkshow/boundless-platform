@@ -8,36 +8,35 @@ import { cn } from '@/lib/utils';
 import { HeroBackground } from './hero-background';
 import { Section } from './section';
 
-/** Gap (px) the stars carry past the text, then clamped clear of the card. */
+// Gap (px) the stars carry past the text, then clamped clear of the content below.
 const FIELD_MARGIN = 56;
 const CARD_CLEARANCE = 16;
 
 interface HeroSectionProps {
-  /** Hero content (heading, subtext, CTAs). Passed in so the shell stays reusable. */
   children?: ReactNode;
+  /** Row rendered full-width between the content and the media card. */
+  partners?: ReactNode;
   /** Content for the framed media card; falls back to a play placeholder. */
   media?: ReactNode;
-  /** Render the framed media card. Implied when `media` is provided. */
+  /** Render the framed media card even without `media`. */
   showMedia?: boolean;
-  /** Extra classes for the inner Section. */
   className?: string;
 }
 
-/**
- * Marketing hero shell: starfield background, a content slot, and an optional
- * framed media card. Text-free so it can be reused across pages.
- */
+/** Marketing hero shell: starfield background, content slot, optional media card. */
 export function HeroSection({
   children,
+  partners,
   media,
   showMedia = false,
   className,
 }: HeroSectionProps) {
   const hasMedia = media != null || showMedia;
+  const hasLower = hasMedia || partners != null;
 
-  // Fade the starfield out where the text ends, clamped clear of the card.
+  // Fade the starfield out where the text ends, clamped clear of the content below.
   const contentRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const lowerRef = useRef<HTMLDivElement>(null);
   const [fieldHeight, setFieldHeight] = useState<number | undefined>(undefined);
 
   useLayoutEffect(() => {
@@ -46,22 +45,22 @@ export function HeroSection({
 
     const measure = () => {
       const textEnd = el.offsetTop + el.offsetHeight + FIELD_MARGIN;
-      const card = cardRef.current;
-      const limit = card ? card.offsetTop - CARD_CLEARANCE : Infinity;
+      const lower = lowerRef.current;
+      const limit = lower ? lower.offsetTop - CARD_CLEARANCE : Infinity;
       setFieldHeight(Math.min(textEnd, limit));
     };
 
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(el);
-    if (cardRef.current) observer.observe(cardRef.current);
+    if (lowerRef.current) observer.observe(lowerRef.current);
     window.addEventListener('resize', measure);
 
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', measure);
     };
-  }, [children, hasMedia]);
+  }, [children, hasLower]);
 
   return (
     <HeroBackground fieldHeight={fieldHeight}>
@@ -72,18 +71,26 @@ export function HeroSection({
           </div>
         ) : null}
 
-        {hasMedia ? (
-          <div
-            ref={cardRef}
-            className='mt-12 aspect-1240/520 w-full overflow-hidden rounded-2xl border border-white/10 bg-white/2'
-          >
-            {media ?? (
-              <div className='flex size-full items-center justify-center'>
-                <span className='flex size-20 items-center justify-center rounded-full bg-white/5 backdrop-blur-sm'>
-                  <Play className='size-8 translate-x-0.5 fill-white text-white' />
-                </span>
+        {hasLower ? (
+          <div ref={lowerRef} className='mt-12'>
+            {partners}
+
+            {hasMedia ? (
+              <div
+                className={cn(
+                  'aspect-1240/520 w-full overflow-hidden rounded-2xl border border-white/10 bg-surface-subtle',
+                  partners != null && 'mt-12'
+                )}
+              >
+                {media ?? (
+                  <div className='flex size-full items-center justify-center'>
+                    <span className='flex h-12 w-[68px] items-center justify-center rounded-[18px] bg-[#FF0000] sm:h-[60px] sm:w-[86px]'>
+                      <Play className='size-6 translate-x-px fill-white text-white sm:size-7' />
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
+            ) : null}
           </div>
         ) : null}
       </Section>

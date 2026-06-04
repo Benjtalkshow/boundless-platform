@@ -209,73 +209,75 @@ export function SiteHeader() {
 
   return (
     <header className='sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-md'>
-      <div className='mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-6 px-5 lg:px-[100px]'>
-        <BoundlessLogo />
+      <div className='px-5 lg:px-[100px]'>
+        <div className='mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-6'>
+          <BoundlessLogo />
 
-        {/* Desktop: nav and actions grouped on the right */}
-        <div className='hidden items-center gap-6 lg:flex'>
-          {variant === 'default' ? <MegaMenu /> : null}
+          {/* Desktop: nav and actions grouped on the right */}
+          <div className='hidden items-center gap-6 lg:flex'>
+            {variant === 'default' ? <MegaMenu /> : null}
 
-          <div className='flex items-center gap-3'>
-            {variant === 'content' ? <SearchButton /> : null}
-            <NavDivider />
+            <div className='flex items-center gap-3'>
+              {variant === 'content' ? <SearchButton /> : null}
+              <NavDivider />
+              {variant === 'content' ? (
+                <>
+                  <Button
+                    asChild
+                    variant='ghost'
+                    className='rounded-full text-white hover:bg-white/10 hover:text-white'
+                  >
+                    <Link href='/sign-up'>Get Started</Link>
+                  </Button>
+                  {/* Newsletter subscribe; wire to the newsletter when it ships. */}
+                  <Button type='button' className='rounded-full'>
+                    Subscribe
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    asChild
+                    variant='ghost'
+                    className='rounded-full text-white hover:bg-white/10 hover:text-white'
+                  >
+                    <Link href='/sign-in'>Login</Link>
+                  </Button>
+                  <Button asChild className='rounded-full'>
+                    <Link href='/sign-up'>Get Started</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile actions */}
+          <div className='flex items-center gap-2 lg:hidden'>
             {variant === 'content' ? (
               <>
-                <Button
-                  asChild
-                  variant='ghost'
-                  className='rounded-full text-white hover:bg-white/10 hover:text-white'
-                >
-                  <Link href='/sign-up'>Get Started</Link>
-                </Button>
+                <SearchButton />
                 {/* Newsletter subscribe; wire to the newsletter when it ships. */}
-                <Button type='button' className='rounded-full'>
+                <Button type='button' size='sm' className='rounded-full'>
                   Subscribe
                 </Button>
               </>
             ) : (
               <>
-                <Button
-                  asChild
-                  variant='ghost'
-                  className='rounded-full text-white hover:bg-white/10 hover:text-white'
-                >
-                  <Link href='/sign-in'>Login</Link>
-                </Button>
-                <Button asChild className='rounded-full'>
+                <Button asChild size='sm' className='rounded-full'>
                   <Link href='/sign-up'>Get Started</Link>
                 </Button>
+                <button
+                  type='button'
+                  onClick={() => setOpen(value => !value)}
+                  className='inline-flex size-10 items-center justify-center rounded-full text-white'
+                  aria-label='Toggle menu'
+                  aria-expanded={open}
+                >
+                  {open ? <CloseGlyph /> : <MenuIcon className='size-5' />}
+                </button>
               </>
             )}
           </div>
-        </div>
-
-        {/* Mobile actions */}
-        <div className='flex items-center gap-2 lg:hidden'>
-          {variant === 'content' ? (
-            <>
-              <SearchButton />
-              {/* Newsletter subscribe; wire to the newsletter when it ships. */}
-              <Button type='button' size='sm' className='rounded-full'>
-                Subscribe
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button asChild size='sm' className='rounded-full'>
-                <Link href='/sign-up'>Get Started</Link>
-              </Button>
-              <button
-                type='button'
-                onClick={() => setOpen(value => !value)}
-                className='inline-flex size-10 items-center justify-center rounded-full text-white'
-                aria-label='Toggle menu'
-                aria-expanded={open}
-              >
-                {open ? <CloseGlyph /> : <MenuIcon className='size-5' />}
-              </button>
-            </>
-          )}
         </div>
       </div>
 
