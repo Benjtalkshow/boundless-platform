@@ -17,6 +17,7 @@ export { CtaSection } from './components/cta-section';
 export { Faq } from './components/faq';
 export { FourSteps } from './components/four-steps';
 export { FundingPaths } from './components/funding-paths';
+export { default as HeroBackground } from './components/hero-background';
 export { HeroSection } from './components/hero-section';
 export { NewsSection } from './components/news-section';
 export { Personas } from './components/personas';
