@@ -173,6 +173,44 @@
   --text-caption-xs--line-height: 1.2;
   --text-caption-xs--letter-spacing: 0.16em;
   --text-caption-xs--font-weight: 600;
+
+  /* Marketing: prize pool ticker. Translates the duplicated track up by one
+     copy (-50%) for a seamless vertical loop. */
+  --animate-prize-scroll: prize-scroll 18s linear infinite;
+  /* Marketing: pillar card. Steps through four rows, holding on each, then
+     loops via a duplicated first row. */
+  --animate-card-rotate: card-rotate 10s ease-in-out infinite;
+}
+
+@keyframes prize-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes card-rotate {
+  0%,
+  20% {
+    transform: translateY(0);
+  }
+  25%,
+  45% {
+    transform: translateY(-20%);
+  }
+  50%,
+  70% {
+    transform: translateY(-40%);
+  }
+  75%,
+  95% {
+    transform: translateY(-60%);
+  }
+  100% {
+    transform: translateY(-80%);
+  }
 }
 
 /* ------------------------------------------------------------------ */
