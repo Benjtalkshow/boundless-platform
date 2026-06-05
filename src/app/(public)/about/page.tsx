@@ -7,7 +7,6 @@ import {
   AboutTeam,
   BrandKitCta,
   CtaSection,
-  TrustBar,
 } from '@/features/marketing';
 
 export const metadata: Metadata = {
@@ -20,7 +19,6 @@ export default function AboutPage() {
   return (
     <>
       <AboutHero />
-      <TrustBar />
       <AboutIntro />
       <AboutMission />
       <AboutTeam />

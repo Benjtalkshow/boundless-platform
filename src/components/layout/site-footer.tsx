@@ -2,21 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { SocialGlyph } from '@/components/layout/brand-icons';
+import { FooterGlow } from '@/components/layout/footer-glow';
 import { Button } from '@/components/ui/button';
 import { footerColumns, socialLinks } from '@/config/marketing-nav';
 
 function externalLinkProps(href: string) {
   return href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {};
-}
-
-// Decorative glow behind the card's top edge.
-function FooterGlow() {
-  return (
-    <div
-      aria-hidden
-      className='pointer-events-none absolute -top-10 left-1/2 h-44 w-[72%] -translate-x-1/2 rounded-[50%] bg-[linear-gradient(90deg,#2eedaa_0%,#86ee54_52%,#c4f24a_100%)] blur-[60px] sm:-top-12 sm:h-56 sm:w-[64%] lg:h-[240px] lg:w-[60%] lg:blur-[80px]'
-    />
-  );
 }
 
 export function SiteFooter() {
