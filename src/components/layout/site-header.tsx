@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { BoundlessLogo } from '@/components/layout/boundless-logo';
-import { Button } from '@/components/ui/button';
+import { PillButton } from '@/components/layout/pill-button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,17 +15,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { headerMenus } from '@/config/marketing-nav';
 
-type HeaderVariant = 'default' | 'content';
+type HeaderVariant = 'site' | 'blog';
 
 function NavDivider() {
-  return <span aria-hidden className='h-6 w-px shrink-0 bg-white/15' />;
+  return <span aria-hidden className='h-6 w-px shrink-0 bg-white/10' />;
 }
 
 function CloseGlyph() {
   return (
     <svg
       viewBox='0 0 24 24'
-      className='size-5'
+      className='size-6'
       fill='none'
       stroke='currentColor'
       strokeWidth={2}
@@ -38,8 +38,8 @@ function CloseGlyph() {
 }
 
 /**
- * Search affordance for the content (blog) header. Rendered as a placeholder
- * until blog search ships; wire its handler then.
+ * Search affordance for the blog header. A placeholder until blog search ships;
+ * wire its handler then.
  */
 function SearchButton() {
   return (
@@ -48,15 +48,15 @@ function SearchButton() {
       aria-label='Search'
       className='inline-flex size-10 shrink-0 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white'
     >
-      <SearchIcon className='size-5' />
+      <SearchIcon className='size-6' />
     </button>
   );
 }
 
 /**
- * Center mega-menu nav (default header). Opens on hover with a short close
- * delay so the cursor can travel from a trigger to its panel, and still opens
- * on click and keyboard through the underlying menu.
+ * Center mega-menu nav. Opens on hover with a short close delay so the cursor
+ * can travel from a trigger to its panel, and still opens on click and keyboard
+ * through the underlying menu.
  */
 function MegaMenu() {
   const [openLabel, setOpenLabel] = useState<string | null>(null);
@@ -80,7 +80,7 @@ function MegaMenu() {
   };
 
   return (
-    <nav className='flex items-center gap-1' aria-label='Primary'>
+    <nav className='flex items-center' aria-label='Primary'>
       {headerMenus.map(menu => (
         <DropdownMenu
           key={menu.label}
@@ -91,17 +91,17 @@ function MegaMenu() {
           <DropdownMenuTrigger
             onMouseEnter={() => openMenu(menu.label)}
             onMouseLeave={scheduleClose}
-            className='group inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm text-white/70 transition-colors outline-none hover:text-white data-[state=open]:text-white'
+            className='group inline-flex h-8 items-center gap-1 px-5 text-sm font-medium text-[#8b8f97] transition-colors outline-none hover:text-white data-[state=open]:text-white'
           >
             {menu.label}
-            <ChevronDownIcon className='size-4 transition-transform group-data-[state=open]:rotate-180' />
+            <ChevronDownIcon className='size-3.5 transition-transform group-data-[state=open]:rotate-180' />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align='start'
             sideOffset={12}
             onMouseEnter={() => openMenu(menu.label)}
             onMouseLeave={scheduleClose}
-            className='w-80 rounded-2xl border-white/10 bg-ink p-2'
+            className='w-[320px] overflow-hidden rounded-[12px] border-[0.5px] border-[#27292c] bg-ink/50 p-0 text-white shadow-xl backdrop-blur-[4px]'
           >
             {menu.items.map(item => {
               const Icon = item.icon;
@@ -109,18 +109,18 @@ function MegaMenu() {
                 <DropdownMenuItem
                   key={item.href}
                   asChild
-                  className='w-full items-start gap-3 rounded-xl p-3 focus:bg-white/5'
+                  className='w-full gap-3 rounded-none p-2 focus:bg-white/[0.04] focus:text-white'
                 >
                   <Link href={item.href}>
-                    <span className='grid size-10 shrink-0 place-items-center rounded-lg bg-white/[0.06] text-brand'>
-                      {Icon ? <Icon className='size-5' /> : null}
+                    <span className='grid size-10 shrink-0 place-items-center rounded-lg bg-[#232324] text-brand'>
+                      {Icon ? <Icon className='size-5 text-brand' /> : null}
                     </span>
-                    <span className='flex flex-col gap-0.5'>
-                      <span className='text-sm font-semibold text-white'>
+                    <span className='flex flex-col gap-1'>
+                      <span className='text-sm font-medium text-white'>
                         {item.label}
                       </span>
                       {item.description ? (
-                        <span className='text-xs text-white/50'>
+                        <span className='text-[11px] leading-[1.45] text-[#999da2]'>
                           {item.description}
                         </span>
                       ) : null}
@@ -138,11 +138,14 @@ function MegaMenu() {
 
 function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className='border-t border-white/5 bg-ink lg:hidden'>
+    <div
+      id='site-mobile-menu'
+      className='border-t border-[#27292c] bg-ink lg:hidden'
+    >
       <div className='space-y-6 px-5 py-6'>
         {headerMenus.map(menu => (
           <div key={menu.label}>
-            <p className='mb-2 text-xs font-medium tracking-wider text-white/40 uppercase'>
+            <p className='mb-2 text-xs font-medium tracking-wider text-[#8b8f97] uppercase'>
               {menu.label}
             </p>
             <div className='grid gap-1'>
@@ -153,17 +156,17 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
                     key={item.href}
                     href={item.href}
                     onClick={onNavigate}
-                    className='flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/5'
+                    className='flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-white/5'
                   >
-                    <span className='grid size-9 shrink-0 place-items-center rounded-lg bg-white/[0.06] text-brand'>
-                      {Icon ? <Icon className='size-4' /> : null}
+                    <span className='grid size-10 shrink-0 place-items-center rounded-lg bg-[#232324] text-brand'>
+                      {Icon ? <Icon className='size-5 text-brand' /> : null}
                     </span>
-                    <span className='flex flex-col'>
+                    <span className='flex flex-col gap-0.5'>
                       <span className='text-sm font-medium text-white'>
                         {item.label}
                       </span>
                       {item.description ? (
-                        <span className='text-xs text-white/45'>
+                        <span className='text-[11px] text-[#999da2]'>
                           {item.description}
                         </span>
                       ) : null}
@@ -174,106 +177,70 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
             </div>
           </div>
         ))}
-        <div className='flex flex-col gap-2 pt-2'>
-          <Button
-            asChild
-            variant='outline'
-            className='rounded-full border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white'
-          >
-            <Link href='/sign-in' onClick={onNavigate}>
-              Login
-            </Link>
-          </Button>
-          <Button asChild className='rounded-full'>
-            <Link href='/sign-up' onClick={onNavigate}>
-              Get Started
-            </Link>
-          </Button>
-        </div>
+        <PillButton asChild className='w-full'>
+          <Link href='/dashboard' onClick={onNavigate}>
+            Launch App
+          </Link>
+        </PillButton>
       </div>
     </div>
   );
 }
 
 /**
- * Sticky marketing header. Two variants keyed off the route: the default header
- * carries the center mega-menu plus Login and Get Started; the content header
- * (blog) swaps in a search affordance and a Subscribe action.
+ * Sticky marketing header. Two variants keyed off the route: the default site
+ * header carries the mega-menu plus a Launch App CTA; the blog header swaps in a
+ * search affordance and a Subscribe action.
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const variant: HeaderVariant = (pathname ?? '').startsWith('/blog')
-    ? 'content'
-    : 'default';
+    ? 'blog'
+    : 'site';
 
   return (
-    <header className='sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-md'>
+    <header className='sticky top-0 z-50 border-b border-[#27292c] bg-ink/50 backdrop-blur-[4px]'>
       <div className='px-5 lg:px-[100px]'>
-        <div className='mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-6'>
-          <BoundlessLogo />
+        <div className='mx-auto flex h-20 w-full max-w-[1240px] items-center justify-between gap-6'>
+          <BoundlessLogo className='h-5' />
 
-          {/* Desktop: nav and actions grouped on the right */}
+          {/* Desktop: mega-menu, divider, and the single CTA */}
           <div className='hidden items-center gap-6 lg:flex'>
-            {variant === 'default' ? <MegaMenu /> : null}
-
-            <div className='flex items-center gap-3'>
-              {variant === 'content' ? <SearchButton /> : null}
-              <NavDivider />
-              {variant === 'content' ? (
-                <>
-                  <Button
-                    asChild
-                    variant='ghost'
-                    className='rounded-full text-white hover:bg-white/10 hover:text-white'
-                  >
-                    <Link href='/sign-up'>Get Started</Link>
-                  </Button>
-                  {/* Newsletter subscribe; wire to the newsletter when it ships. */}
-                  <Button type='button' className='rounded-full'>
-                    Subscribe
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    asChild
-                    variant='ghost'
-                    className='rounded-full text-white hover:bg-white/10 hover:text-white'
-                  >
-                    <Link href='/sign-in'>Login</Link>
-                  </Button>
-                  <Button asChild className='rounded-full'>
-                    <Link href='/sign-up'>Get Started</Link>
-                  </Button>
-                </>
-              )}
-            </div>
+            <MegaMenu />
+            <NavDivider />
+            {variant === 'blog' ? (
+              // Newsletter subscribe; wire to the newsletter when it ships.
+              <PillButton type='button'>Subscribe</PillButton>
+            ) : (
+              <PillButton asChild>
+                <Link href='/dashboard'>Launch App</Link>
+              </PillButton>
+            )}
           </div>
 
           {/* Mobile actions */}
-          <div className='flex items-center gap-2 lg:hidden'>
-            {variant === 'content' ? (
+          <div className='flex items-center gap-5 lg:hidden'>
+            {variant === 'blog' ? (
               <>
                 <SearchButton />
                 {/* Newsletter subscribe; wire to the newsletter when it ships. */}
-                <Button type='button' size='sm' className='rounded-full'>
-                  Subscribe
-                </Button>
+                <PillButton type='button'>Subscribe</PillButton>
               </>
             ) : (
               <>
-                <Button asChild size='sm' className='rounded-full'>
-                  <Link href='/sign-up'>Get Started</Link>
-                </Button>
+                <PillButton asChild>
+                  <Link href='/dashboard'>Launch App</Link>
+                </PillButton>
                 <button
                   type='button'
                   onClick={() => setOpen(value => !value)}
-                  className='inline-flex size-10 items-center justify-center rounded-full text-white'
+                  className='inline-flex size-10 items-center justify-center text-white'
                   aria-label='Toggle menu'
                   aria-expanded={open}
+                  aria-controls='site-mobile-menu'
                 >
-                  {open ? <CloseGlyph /> : <MenuIcon className='size-5' />}
+                  {open ? <CloseGlyph /> : <MenuIcon className='size-6' />}
                 </button>
               </>
             )}
@@ -281,7 +248,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {variant === 'default' && open ? (
+      {variant === 'site' && open ? (
         <MobileMenu onNavigate={() => setOpen(false)} />
       ) : null}
     </header>
