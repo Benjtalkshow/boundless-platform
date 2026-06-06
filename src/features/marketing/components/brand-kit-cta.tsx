@@ -1,14 +1,16 @@
 import { Download } from 'lucide-react';
 import Image from 'next/image';
 
+import { cn } from '@/lib/utils';
+
 import { MarketingButton } from './marketing-button';
 import { Reveal } from './reveal';
 import { Section } from './section';
 
 /** Brand kit call to action: logo + heading on the left, download button right. */
-export function BrandKitCta() {
+export function BrandKitCta({ className }: { className?: string }) {
   return (
-    <Section className='bg-ink'>
+    <Section className={cn('bg-ink', className)}>
       <Reveal className='flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-5'>
         <div className='flex items-center gap-5'>
           <div className='hidden size-20 shrink-0 items-center justify-center rounded-2xl border border-neutral-700 bg-white/5 lg:flex'>
