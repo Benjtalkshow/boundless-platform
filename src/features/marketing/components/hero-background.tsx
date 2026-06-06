@@ -38,9 +38,17 @@ interface Star {
 export function HeroBackground({
   children,
   fieldHeight,
+  fadeBottom = false,
 }: {
   children?: ReactNode;
   fieldHeight?: number;
+  /**
+   * For heroes stretched to the footer: resolve the teal tint back to ink at
+   * the very bottom within this one gradient, so the page meets the next
+   * section with no seam (instead of clipping at the teal peak). Default heroes
+   * keep the tint peaking at the bottom edge.
+   */
+  fadeBottom?: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -128,8 +136,9 @@ export function HeroBackground({
     <div
       className='relative overflow-hidden'
       style={{
-        background:
-          'linear-gradient(180deg, rgba(13, 17, 17, 0.00) 40.98%, rgba(46, 237, 170, 0.08) 100%), #0D1111',
+        background: fadeBottom
+          ? 'linear-gradient(180deg, rgba(13, 17, 17, 0.00) 40.98%, rgba(46, 237, 170, 0.08) 74%, rgba(13, 17, 17, 1) 100%), #0D1111'
+          : 'linear-gradient(180deg, rgba(13, 17, 17, 0.00) 40.98%, rgba(46, 237, 170, 0.08) 100%), #0D1111',
       }}
     >
       <canvas
