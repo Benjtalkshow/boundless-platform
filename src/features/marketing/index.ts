@@ -6,9 +6,14 @@ export { ArticleCard } from './components/article-card';
 export { ArticleDetail } from './components/blog/article-detail';
 export { BlogCard } from './components/blog/blog-card';
 export type { BlogPost } from './components/blog/blog-data';
-export { BLOG_CATEGORIES, BLOG_POSTS } from './components/blog/blog-data';
+export {
+  BLOG_CATEGORIES,
+  BLOG_POSTS,
+  getBlogPost,
+} from './components/blog/blog-data';
 export { BlogHero } from './components/blog/blog-hero';
 export { BlogList } from './components/blog/blog-list';
+export { ShareDialog } from './components/blog/share-dialog';
 export { BrandKitCta } from './components/brand-kit-cta';
 export { BrandKitHero } from './components/brandkit/brand-kit-hero';
 export { ColorPalette } from './components/brandkit/color-palette';

@@ -2,15 +2,19 @@ export interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
-  /** Cover image path under /public. */
+  /** Cover image path under /public, reused as the article banner. */
   cover: string;
   /** Topic tags; the card shows the first two and rolls the rest into "+N". */
   tags: string[];
   /** Category value matched against the filter tabs. */
   category: string;
   author: string;
-  /** Display date, e.g. "May 2026". */
+  /** Author avatar path under /public. */
+  authorAvatar: string;
+  /** Short display date for cards, e.g. "May 2026". */
   date: string;
+  /** Full publish date for the article header, e.g. "15 March 2026". */
+  publishedDate: string;
   /** Reading time label, e.g. "4 mins Read". */
   readTime: string;
 }
@@ -39,8 +43,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post1.svg',
     tags: ['Hackathon', 'Web 3', 'Stellar', 'Community'],
     category: 'hackathon',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team1.svg',
     date: 'May 2026',
+    publishedDate: '15 March 2026',
     readTime: '4 mins Read',
   },
   {
@@ -50,8 +56,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post2.svg',
     tags: ['Community', 'Web 3', 'Stellar', 'Funding'],
     category: 'community',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team2.svg',
     date: 'May 2026',
+    publishedDate: '8 March 2026',
     readTime: '4 mins Read',
   },
   {
@@ -61,8 +69,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post3.svg',
     tags: ['Hackathon', 'Web 3', 'Stellar', 'Events'],
     category: 'hackathon',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team3.svg',
     date: 'May 2026',
+    publishedDate: '1 March 2026',
     readTime: '4 mins Read',
   },
   {
@@ -72,8 +82,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post2.svg',
     tags: ['Crowdfunding', 'Funding', 'Stellar'],
     category: 'crowdfunding',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team4.svg',
     date: 'Apr 2026',
+    publishedDate: '20 April 2026',
     readTime: '5 mins Read',
   },
   {
@@ -83,8 +95,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post1.svg',
     tags: ['Community', 'Events', 'Web 3'],
     category: 'community',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team1.svg',
     date: 'Apr 2026',
+    publishedDate: '5 April 2026',
     readTime: '3 mins Read',
   },
   {
@@ -94,8 +108,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post3.svg',
     tags: ['Fintech/DeFI', 'Stellar', 'Web 3'],
     category: 'fintech-defi',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team2.svg',
     date: 'Mar 2026',
+    publishedDate: '18 March 2026',
     readTime: '6 mins Read',
   },
   {
@@ -105,8 +121,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post1.svg',
     tags: ['Funding', 'Challenge', 'Community'],
     category: 'funding',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team3.svg',
     date: 'Mar 2026',
+    publishedDate: '12 March 2026',
     readTime: '4 mins Read',
   },
   {
@@ -116,8 +134,10 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post2.svg',
     tags: ['Events', 'Community', 'Stellar'],
     category: 'events',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team4.svg',
     date: 'Feb 2026',
+    publishedDate: '22 February 2026',
     readTime: '3 mins Read',
   },
   {
@@ -127,8 +147,15 @@ export const BLOG_POSTS: BlogPost[] = [
     cover: '/blog/blog-post3.svg',
     tags: ['Challenge', 'Hackathon', 'Web 3'],
     category: 'challenge',
-    author: 'Peace',
+    author: 'David Emulo',
+    authorAvatar: '/team/team1.svg',
     date: 'Feb 2026',
+    publishedDate: '9 February 2026',
     readTime: '5 mins Read',
   },
 ];
+
+/** Look up a single post by its slug. */
+export function getBlogPost(slug: string): BlogPost | undefined {
+  return BLOG_POSTS.find(post => post.slug === slug);
+}
