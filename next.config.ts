@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   // Auto-memoize components/hooks (drops most manual useMemo/useCallback).
   // Runs via babel-plugin-react-compiler; Next limits it to relevant files.
   reactCompiler: true,
+  allowedDevOrigins: ['172.20.10.2'],
 
   // Proxy the backend same-origin. The browser only ever calls `/api/*`, so
   // better-auth httpOnly cookies stay first-party (no cross-site cookies, no

@@ -28,6 +28,16 @@ through its `index.ts`.
   gating lives in `proxy.ts` (Next 16 renamed `middleware`).
 - **Stellar.** Never follow Horizon `_links`; build calls from the configured
   server only.
+- **UI primitives.** Build interactive UI from the shadcn components in
+  `src/components/ui` (`Button`, `Input`, `Select`, `Checkbox`, `Dialog`, etc.),
+  customized to our design system via cva variants/props and `className`.
+  `Button` is the Boundless button system: compose `intent` (primary | secondary
+  | white | destructive) x `appearance` (solid | outline | text) x `size` (small
+  | large) x `shape` (rounded | pill), plus `iconOnly` and `loading`. Anything
+  that reads as an action button uses `Button`; do not hand-roll a raw
+  `<button>`/`<input>`/`<select>` when a primitive exists. Bespoke menu/combobox/
+  disclosure triggers and compact nav icon affordances that do not fit the
+  action-button system may stay semantic `<button>`s with their own layout.
 - **House style.** No em dashes in code, comments, or copy.
 
 ## Before finishing a change

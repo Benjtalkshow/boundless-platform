@@ -38,7 +38,11 @@ export function SiteFooter() {
                 <p className='text-body-sm font-medium text-foreground'>
                   Subscribe to The boundless newsletter
                 </p>
-                <Button className='mt-5 w-full rounded-full bg-white font-semibold text-ink hover:bg-white/90 active:bg-white/80 lg:w-auto'>
+                <Button
+                  intent='white'
+                  shape='pill'
+                  className='mt-5 w-full font-semibold lg:w-auto'
+                >
                   Get Updates
                 </Button>
               </div>

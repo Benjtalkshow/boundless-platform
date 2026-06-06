@@ -49,7 +49,12 @@ export function CurrentUserCard() {
                 ? query.error.message
                 : 'Could not load your profile.'}
             </p>
-            <Button size='sm' variant='outline' onClick={() => query.refetch()}>
+            <Button
+              size='small'
+              appearance='outline'
+              intent='secondary'
+              onClick={() => query.refetch()}
+            >
               Try again
             </Button>
           </div>

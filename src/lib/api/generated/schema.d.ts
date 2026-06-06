@@ -1544,6 +1544,228 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/crowdfunding/campaigns/{id}/v2/submit-for-review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit a DRAFT campaign to admin review */
+        post: operations["BuilderCrowdfundingV2Controller_submitForReview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/withdraw-submission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Withdraw a pending review back to DRAFT (D4) */
+        post: operations["BuilderCrowdfundingV2Controller_withdrawSubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/revise-and-resubmit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resubmit a REVIEW_REJECTED campaign (D5: unlimited retries) */
+        post: operations["BuilderCrowdfundingV2Controller_reviseAndResubmit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/escrow/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish a VOTE_PASSED campaign to the events contract */
+        post: operations["BuilderCrowdfundingV2Controller_publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/escrow/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel a campaign and refund backers */
+        post: operations["BuilderCrowdfundingV2Controller_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/escrow/claim-milestone": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Claim a milestone payout (reviewStatus must be APPROVED) */
+        post: operations["BuilderCrowdfundingV2Controller_claimMilestone"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/escrow/contribute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Build (and optionally submit) an add_funds op against the campaign */
+        post: operations["BackerCrowdfundingV2Controller_contribute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/vote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the campaign vote tally */
+        get: operations["CommunityCrowdfundingV2Controller_getTally"];
+        put?: never;
+        /** Cast or change vote on a VOTING campaign */
+        post: operations["CommunityCrowdfundingV2Controller_castVote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/vote/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the caller's current vote (or null) */
+        get: operations["CommunityCrowdfundingV2Controller_getMyVote"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/admin/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a submitted campaign; assigns reviewer */
+        post: operations["AdminCrowdfundingV2Controller_approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/admin/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject a submitted campaign with optional reason */
+        post: operations["AdminCrowdfundingV2Controller_reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/admin/pause": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Pause a live campaign (D7) */
+        post: operations["AdminCrowdfundingV2Controller_pause"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/crowdfunding/campaigns/{id}/v2/admin/unpause": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unpause a campaign and restore previous status */
+        post: operations["AdminCrowdfundingV2Controller_unpause"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/wallet": {
         parameters: {
             query?: never;
@@ -4083,6 +4305,197 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/organizations/{organizationId}/hackathons/{id}/escrow/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish a hackathon draft to the events contract
+         * @description Validates the draft, transitions it to DRAFT_AWAITING_FUNDING, and returns an unsigned XDR transaction for the organizer to sign. After signing, post the result back to /escrow/ops/:opRowId/submit-signed.
+         */
+        post: operations["OrganizationHackathonsEscrowController_publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/escrow/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cancel an active hackathon
+         * @description Builds a cancel_event contract op. The contract refunds partner contributions first then the owner residual. On settle, the subscriber transitions the hackathon to CANCELLED and stamps the cancel audit columns.
+         */
+        post: operations["OrganizationHackathonsEscrowController_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/escrow/select-winners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Select winners for a hackathon
+         * @description Builds a select_winners contract op that pays out per the on-chain winner_distribution and bumps each winner's profile credits / reputation / earnings. On settle, the subscriber moves the hackathon to COMPLETED and sets rank on the winning HackathonSubmission rows.
+         */
+        post: operations["OrganizationHackathonsEscrowController_selectWinners"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/escrow/ops/{opRowId}/submit-signed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit signed XDR for a previously-built escrow op
+         * @description Accepts the signed XDR returned by the wallet and posts it to Soroban RPC. Returns the op in PENDING_CONFIRM; the reconciliation worker drives the final transition to COMPLETED or FAILED.
+         */
+        post: operations["OrganizationHackathonsEscrowController_submitSigned"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/hackathons/{id}/escrow/ops/{opRowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read the current state of an escrow op
+         * @description Polled by the webapp while waiting for the reconciliation worker to mark the op COMPLETED or FAILED.
+         */
+        get: operations["OrganizationHackathonsEscrowController_getOp"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/escrow/submissions/{submissionId}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Anchor a hackathon submission on chain
+         * @description Builds the contract's submit op for an existing HackathonSubmission row. Hackathon has no prior-apply requirement; the contract simply stores the submission anchor with content_uri + submitted_at.
+         */
+        post: operations["HackathonParticipantEscrowController_submit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/escrow/submissions/{submissionId}/withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Withdraw a hackathon submission anchor */
+        post: operations["HackathonParticipantEscrowController_withdrawSubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/escrow/contribute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Contribute funds to a hackathon pool
+         * @description Builds an add_funds contract op signed by the caller. Contract enforces a 10 USDC minimum. Anyone authenticated can contribute; multiple top-ups from the same wallet are allowed (one row per attempt).
+         */
+        post: operations["HackathonParticipantEscrowController_contribute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/escrow/ops/{opRowId}/submit-signed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit signed XDR for a participant op */
+        post: operations["HackathonParticipantEscrowController_submitSigned"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/hackathons/{id}/escrow/ops/{opRowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the state of a participant op */
+        get: operations["HackathonParticipantEscrowController_getOp"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/organizations": {
         parameters: {
             query?: never;
@@ -5879,6 +6292,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/pricing/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Compute the financial preview for a publish wizard */
+        get: operations["PricingController_preview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ops/pause": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminOpsController_pause"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ops/unpause": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminOpsController_unpause"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/ops/set-fee-bps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminOpsController_setFeeBps"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/prices": {
         parameters: {
             query?: never;
@@ -6102,6 +6580,574 @@ export interface paths {
         };
         /** Get my project by ID */
         get: operations["ProjectsController_getProject"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{id}/escrow/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish a bounty draft to the events contract
+         * @description Validates the draft, transitions it to draft_awaiting_funding, and returns an unsigned XDR (EXTERNAL) or the op in PENDING_CONFIRM (MANAGED). Reconciliation transitions the bounty to OPEN on success.
+         */
+        post: operations["OrganizationBountiesEscrowController_publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{id}/escrow/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cancel an active bounty
+         * @description Builds a cancel_event contract op. The contract refunds partner contributions first (in full), then the owner residual; or pro-rates partners if escrow is short. On settle, BountyEscrowSubscriber moves the bounty to CANCELLED and stamps the cancel audit columns.
+         */
+        post: operations["OrganizationBountiesEscrowController_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{id}/escrow/select-winners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Select winners for a bounty
+         * @description Builds a select_winners contract op that pays out per the on-chain winner_distribution and bumps each winner's profile credits / reputation / earnings. On settle, BountyEscrowSubscriber moves the bounty to COMPLETED and marks the winning BountySubmission rows accepted with the reward tx hash.
+         */
+        post: operations["OrganizationBountiesEscrowController_selectWinners"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{id}/escrow/ops/{opRowId}/submit-signed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit signed XDR for a previously-built bounty escrow op */
+        post: operations["OrganizationBountiesEscrowController_submitSigned"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{id}/escrow/ops/{opRowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the current state of a bounty escrow op */
+        get: operations["OrganizationBountiesEscrowController_getOp"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Apply to a bounty
+         * @description Builds an apply_to_bounty contract op. EXTERNAL returns unsigned XDR; MANAGED signs and submits. The contract charges the bounty's application_credit_cost via the profile contract on settle.
+         */
+        post: operations["BountyParticipantEscrowController_apply"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/withdraw-application": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdraw a bounty application
+         * @description Builds a withdraw_application contract op. Contract refunds half the application_credit_cost via the profile contract on settle.
+         */
+        post: operations["BountyParticipantEscrowController_withdrawApplication"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit work for a bounty
+         * @description Builds a submit contract op. Requires the applicant's prior apply_to_bounty to be in active status (contract enforces; the service pre-checks for a cleaner 4xx).
+         */
+        post: operations["BountyParticipantEscrowController_submit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/withdraw-submission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Withdraw a bounty submission anchor */
+        post: operations["BountyParticipantEscrowController_withdrawSubmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/contribute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Contribute funds to a bounty pool
+         * @description Builds an add_funds contract op signed by the caller. Contract enforces a 10 USDC minimum. Anyone with a funded wallet can contribute; this v1 surface requires Boundless auth, so multiple top-ups from the same wallet are allowed (one row per attempt).
+         */
+        post: operations["BountyParticipantEscrowController_contribute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/ops/{opRowId}/submit-signed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit signed XDR for a previously-built participant op */
+        post: operations["BountyParticipantEscrowController_submitSigned"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}/escrow/ops/{opRowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the state of a participant op */
+        get: operations["BountyParticipantEscrowController_getOp"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{bountyId}/v2/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit an application for a LIGHT/HEAVY bounty */
+        post: operations["BountyApplicationController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{bountyId}/v2/applications/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the caller's application for this bounty */
+        get: operations["BountyApplicationController_getMine"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{bountyId}/v2/applications/{appId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Withdraw a SUBMITTED application */
+        delete: operations["BountyApplicationController_withdraw"];
+        options?: never;
+        head?: never;
+        /** Edit a SUBMITTED application (before shortlist) */
+        patch: operations["BountyApplicationController_edit"];
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{bountyId}/v2/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List applications on a bounty */
+        get: operations["OrganizationBountyShortlistController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{bountyId}/v2/applications/select": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Select a single application (Curated Pick / Pitched Pick) */
+        post: operations["OrganizationBountyShortlistController_selectForPick"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{bountyId}/v2/applications/shortlist": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a shortlist (Curated Showdown / Pitched Showdown) */
+        post: operations["OrganizationBountyShortlistController_createShortlist"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/bounties/{bountyId}/v2/applications/{appId}/decline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Decline an application with optional reason */
+        post: operations["OrganizationBountyShortlistController_decline"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{bountyId}/v2/showdown/join": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Join an Open Showdown bounty */
+        post: operations["BountyShowdownJoinController_join"];
+        /** Leave an Open Showdown before submitting */
+        delete: operations["BountyShowdownJoinController_leave"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Public bounty marketplace list */
+        get: operations["BountyPublicController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/bounties/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Public bounty detail */
+        get: operations["BountyPublicController_findOne"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/grants/{id}/escrow/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish a grant draft to the events contract
+         * @description Validates the draft, transitions to DRAFT_AWAITING_FUNDING, and returns an unsigned XDR (EXTERNAL) or the op in PENDING_CONFIRM (MANAGED). Reconciliation transitions the grant to OPEN on success.
+         */
+        post: operations["OrganizationGrantsEscrowController_publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/grants/{id}/escrow/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel an active grant */
+        post: operations["OrganizationGrantsEscrowController_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/grants/{id}/escrow/select-winners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Select grant recipients
+         * @description For Multi release_kind, select_winners records recipients with amount=0 — payouts happen per-milestone via claim_milestone.
+         */
+        post: operations["OrganizationGrantsEscrowController_selectWinners"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/grants/{id}/escrow/claim-milestone": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pay out a specific milestone for a recipient
+         * @description Builds a claim_milestone contract op. Contract pays the per-milestone amount to the recipient and bumps profile credits / reputation / earnings.
+         */
+        post: operations["OrganizationGrantsEscrowController_claimMilestone"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/grants/{id}/escrow/ops/{opRowId}/submit-signed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit signed XDR for a grant op */
+        post: operations["OrganizationGrantsEscrowController_submitSigned"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/organizations/{organizationId}/grants/{id}/escrow/ops/{opRowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read the state of a grant op */
+        get: operations["OrganizationGrantsEscrowController_getOp"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/grants/{id}/escrow/contribute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Contribute funds to a grant pool
+         * @description Open add_funds op. Contract enforces a 10 USDC minimum. Anyone authenticated can contribute; multiple top-ups from the same wallet are allowed (one row per attempt).
+         */
+        post: operations["GrantContributeEscrowController_contribute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List published grants
+         * @description Public, page-based list of grant programs. Parallel to /bounties and /hackathons. For a multi-pillar feed (Bounty, Hackathon, Grant, Crowdfunding), use /opportunities instead.
+         */
+        get: operations["GrantsPublicController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/opportunities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List opportunities across all pillars
+         * @description Returns a unified, cursor-paginated feed across Bounty, Hackathon, Grant, and Crowdfunding. Pass type=<pillar> to restrict to one. The cursor is opaque; pass it back as-is to fetch the next page.
+         */
+        get: operations["OpportunitiesController_list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -12868,6 +13914,93 @@ export interface components {
             /** @description Additional notes about the submission */
             submissionNotes?: string;
         };
+        PublishCrowdfundingEscrowDto: {
+            /**
+             * @description Stellar G-address that signs create_event. Strictly the builder's Boundless abstracted wallet (D9). MANAGED funding is the only path.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            builderAddress: string;
+            /**
+             * @description Whitelisted SAC token contract (USDC by default).
+             * @example CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA
+             */
+            tokenAddress: string;
+            /**
+             * @description Funding goal in token-native units (e.g. 5000 = 5000 USDC). Informational on chain; backers determine the actual raised total.
+             * @example 5000
+             */
+            fundingGoal: string;
+            /**
+             * @description Number of milestones for ReleaseKind::Multi(n).
+             * @example 3
+             */
+            nMilestones: number;
+            /**
+             * @description Funding deadline as Unix seconds.
+             * @example 1735689600
+             */
+            fundingDeadline: number;
+            /** @description Override content URI. */
+            contentUri?: string;
+        };
+        CancelCrowdfundingEscrowDto: {
+            /** @description Builder G-address. */
+            builderAddress: string;
+        };
+        ClaimCrowdfundingMilestoneDto: {
+            /** @description Builder G-address (must match campaign). */
+            builderAddress: string;
+            /** @description Crowdfunding milestone id. */
+            crowdfundingMilestoneId: string;
+        };
+        ContributeCrowdfundingDto: {
+            /**
+             * @description G-address that signs add_funds.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            contributorAddress: string;
+            /**
+             * @description Wallet origin: BOUNDLESS uses the managed signer; EXTERNAL returns an unsigned XDR for the connected wallet (D9).
+             * @example BOUNDLESS
+             * @enum {string}
+             */
+            walletOrigin: "BOUNDLESS" | "EXTERNAL";
+            /**
+             * @description Amount in token-native units (10 USDC minimum).
+             * @example 25
+             */
+            amount: string;
+            /** @description Optional message attached. */
+            message?: string;
+            /**
+             * @description Hide displayName / usernameSnapshot if true.
+             * @default false
+             */
+            anonymous: boolean;
+        };
+        CastCrowdfundingVoteDto: {
+            /**
+             * @description UP supports the campaign, DOWN opposes it.
+             * @example UP
+             * @enum {string}
+             */
+            choice: "UP" | "DOWN";
+        };
+        ApproveCrowdfundingCampaignDto: {
+            /**
+             * @description The user delegated to validate this campaign's milestones. D6=A: exactly one reviewer per campaign, assigned at approval time.
+             * @example user_1234567890
+             */
+            delegatedReviewerId: string;
+        };
+        RejectCrowdfundingCampaignDto: {
+            /** @description Reason for rejection; surfaced to the builder. */
+            reason?: string;
+        };
+        PauseCrowdfundingCampaignDto: {
+            /** @description Reason for the pause. */
+            reason?: string;
+        };
         ReclaimDormantDto: {
             /**
              * @description Minimum days a wallet must have been idle to be eligible. Default 90.
@@ -14465,6 +15598,167 @@ export interface components {
             customQuestions?: components["schemas"]["TrackCustomQuestionDto"][];
             requiredArtifacts?: components["schemas"]["TrackRequiredArtifactDto"][];
         };
+        WinnerDistributionEntryDto: {
+            /**
+             * @description Winner position (1-indexed; 1 = top winner).
+             * @example 1
+             */
+            position: number;
+            /**
+             * @description Percentage of the total budget allocated to this position. All entries must sum to exactly 100.
+             * @example 100
+             */
+            percent: number;
+        };
+        PublishHackathonEscrowDto: {
+            /**
+             * @description Stellar G-address that will own and sign the on-chain create_event transaction. For managed wallets, this is the platform-derived address tied to the organizer's account; for connected/multisig, it's the org treasury's G-address.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /**
+             * @description Stellar Asset Contract (SAC) address the prize pool is denominated in. Must be whitelisted on the events contract (see admin runbook).
+             * @example CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA
+             */
+            tokenAddress: string;
+            /**
+             * @description Total prize budget in token-native units (e.g. 1000 = 1000 USDC, NOT stroops). Use a string when the value exceeds JavaScript's safe integer range. The backend converts to stroops via *10^7.
+             * @example 1000
+             */
+            budget: string;
+            /** @description Optional override for the winner distribution. Each entry maps a position to a percent of total_budget. Percents must sum to exactly 100. Defaults to a single winner at position 1 taking 100%. */
+            winnerDistribution?: components["schemas"]["WinnerDistributionEntryDto"][];
+            /**
+             * @description Override for the public content_uri the contract stores against the event. Defaults to https://api.boundless.fi/hackathons/<id>/content.
+             * @example https://api.boundless.fi/hackathons/abc/content
+             */
+            contentUri?: string;
+            /**
+             * @description Signing path. Defaults to EXTERNAL (return unsigned XDR for the caller to sign). Set to MANAGED to have the backend sign + submit using the caller user's managed wallet; the response carries the op in PENDING_CONFIRM with a txHash.
+             * @default EXTERNAL
+             * @example MANAGED
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        EscrowOpResponseDto: {
+            id: string;
+            opId: string;
+            kind: string;
+            status: string;
+            entityKind: string;
+            entityId: string;
+            unsignedXdr?: Record<string, never>;
+            signerHint?: Record<string, never>;
+            txHash?: Record<string, never>;
+            errorCode?: Record<string, never>;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CancelHackathonEscrowDto: {
+            /**
+             * @description Organizer's Stellar G-address. Must match the on-chain hackathon owner.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR; MANAGED signs server-side with the caller's platform-held wallet.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        HackathonWinnerSelectionDto: {
+            /**
+             * @description Stellar G-address of the participant being declared a winner. Must have an active submission anchor on this hackathon.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description Winner position, 1-indexed. Must exist in the hackathon's on-chain winner_distribution.
+             * @example 1
+             */
+            position: number;
+            /**
+             * @description Override the platform default credit_earn for this position. Defaults to 20/10/5 for positions 1/2/3 and 3 for the rest. Capped at 100 by the contract.
+             * @example 20
+             */
+            creditEarn?: number;
+            /**
+             * @description Override the platform default reputation_bump for this position. Defaults to 50/25/10 for positions 1/2/3 and 5 for the rest.
+             * @example 50
+             */
+            reputationBump?: number;
+        };
+        SelectHackathonWinnersDto: {
+            /**
+             * @description Organizer's Stellar G-address that signs select_winners.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /** @description Winners to declare. Each must reference an applicant with an active submission anchor. Positions must be unique within the array. */
+            selections: components["schemas"]["HackathonWinnerSelectionDto"][];
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR; MANAGED signs server-side.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        SubmitSignedXdrDto: {
+            signedXdr: string;
+        };
+        SubmitHackathonDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR. MANAGED signs server-side with the caller's platform-held wallet.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+            /**
+             * @description On-chain content URI for the submission. Stored verbatim in the contract's submission anchor; off-chain content lives wherever the URI points (IPFS, S3, GitHub PR, etc.).
+             * @example ipfs://Qm.../project.json
+             */
+            contentUri: string;
+        };
+        WithdrawHackathonSubmissionDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR. MANAGED signs server-side with the caller's platform-held wallet.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        ContributeHackathonDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR. MANAGED signs server-side with the caller's platform-held wallet.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+            /**
+             * @description Amount in token-native units (e.g. 30 = 30 USDC, NOT stroops). Must be >= 10 USDC (contract minimum).
+             * @example 30
+             */
+            amount: string;
+        };
         CreateOrganizationDto: Record<string, never>;
         OrganizationProfileStatsDto: {
             /**
@@ -14981,7 +16275,593 @@ export interface components {
             decline?: components["schemas"]["DeclineDetailsDto"];
         };
         CreateDiditSessionDto: Record<string, never>;
+        PricingPreviewResponseDto: {
+            /** @description Effective rate applied to this preview. */
+            feeBps: number;
+            /** @description Fee in stroops. String to preserve i128 precision. */
+            feeStroops: string;
+            /** @description Pool released to winners; equals the requested budget. */
+            poolStroops: string;
+            /** @description budgetStroops + feeStroops; what the organizer signs for. */
+            totalDepositStroops: string;
+            /** @description Audit label for the rate choice: default | foundation-tier | sales-override:* | waiver:*. */
+            reason: string;
+        };
         Function: Record<string, never>;
+        BountyWinnerDistributionEntryDto: {
+            /**
+             * @description 1-indexed winner position.
+             * @example 1
+             */
+            position: number;
+            /**
+             * @description Percent of total_budget for this position. All entries sum to 100.
+             * @example 100
+             */
+            percent: number;
+        };
+        PublishBountyEscrowDto: {
+            /**
+             * @description Stellar G-address that will own and sign the create_event transaction.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /**
+             * @description Whitelisted Stellar Asset Contract address the prize is in.
+             * @example CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA
+             */
+            tokenAddress: string;
+            /**
+             * @description Total prize in token-native units (e.g. 500 = 500 USDC, NOT stroops). String is required when the value exceeds the JS safe-integer range.
+             * @example 500
+             */
+            budget: string;
+            /**
+             * @description Submission deadline as a Unix timestamp in seconds. Required for bounties that close at a specific time. Pass null only for always-open bounties (rare).
+             * @example 1804383600
+             */
+            submissionDeadline: number | null;
+            /**
+             * @description Credits required to apply. Defaults to 1; raise on high-value bounties to deter spam. Max 100 (enforced by the contract).
+             * @default 1
+             * @example 1
+             */
+            applicationCreditCost: number;
+            /** @description Override for the winner distribution. Defaults to 100% to position 1. */
+            winnerDistribution?: components["schemas"]["BountyWinnerDistributionEntryDto"][];
+            /** @description Override for the content URI stored on chain. Defaults to https://api.boundless.fi/bounties/<id>/content. */
+            contentUri?: string;
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR for the wallet or multisig coordinator to sign. MANAGED has the backend sign and submit using the caller's platform-held wallet; the response is PENDING_CONFIRM with a txHash.
+             * @default EXTERNAL
+             * @example MANAGED
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        CancelBountyEscrowDto: {
+            /**
+             * @description Organizer's Stellar G-address that signs cancel_event. Must match the bounty's on-chain owner.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR; MANAGED signs server-side with the caller's platform-held wallet and submits.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        BountyWinnerSelectionDto: {
+            /**
+             * @description Stellar G-address of the applicant being declared winner. Must have an active submission anchor for this bounty.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description Winner position, 1-indexed. Must exist in the bounty's on-chain winner_distribution (the contract rejects unknown positions).
+             * @example 1
+             */
+            position: number;
+            /**
+             * @description Override the platform default credit_earn for this position. Defaults to 20/10/5 for positions 1/2/3 and 3 for the rest. Capped at 100 by the contract.
+             * @example 20
+             */
+            creditEarn?: number;
+            /**
+             * @description Override the platform default reputation_bump for this position. Defaults to 50/25/10 for positions 1/2/3 and 5 for the rest.
+             * @example 50
+             */
+            reputationBump?: number;
+        };
+        SelectBountyWinnersDto: {
+            /**
+             * @description Organizer's Stellar G-address that signs select_winners. Must match the bounty's on-chain owner.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /** @description Winners to declare. Each entry must reference an applicant with an active submission. Positions must be unique within the array. */
+            selections: components["schemas"]["BountyWinnerSelectionDto"][];
+            /**
+             * @description Signing path. EXTERNAL (default) returns unsigned XDR; MANAGED signs server-side with the caller's platform-held wallet and submits.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        ApplyBountyDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet on the platform; the backend rejects mismatches up front so the wallet does not get a tx it cannot sign.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description EXTERNAL (default) returns unsigned XDR for the caller to sign. MANAGED signs server-side using the caller's platform-held wallet and submits immediately. Identical semantics to the publish flow.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        WithdrawApplicationDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet on the platform; the backend rejects mismatches up front so the wallet does not get a tx it cannot sign.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description EXTERNAL (default) returns unsigned XDR for the caller to sign. MANAGED signs server-side using the caller's platform-held wallet and submits immediately. Identical semantics to the publish flow.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        SubmitBountyDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet on the platform; the backend rejects mismatches up front so the wallet does not get a tx it cannot sign.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description EXTERNAL (default) returns unsigned XDR for the caller to sign. MANAGED signs server-side using the caller's platform-held wallet and submits immediately. Identical semantics to the publish flow.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+            /**
+             * @description URI of the participant's submission content. Stored on chain in the contract's submission anchor; off-chain content lives wherever the URI points (S3, IPFS, GitHub PR, etc.).
+             * @example https://github.com/me/boundless-fix/pull/1
+             */
+            contentUri: string;
+        };
+        WithdrawSubmissionDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet on the platform; the backend rejects mismatches up front so the wallet does not get a tx it cannot sign.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description EXTERNAL (default) returns unsigned XDR for the caller to sign. MANAGED signs server-side using the caller's platform-held wallet and submits immediately. Identical semantics to the publish flow.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        ContributeBountyDto: {
+            /**
+             * @description Caller's Stellar G-address. Must match the caller's linked wallet on the platform; the backend rejects mismatches up front so the wallet does not get a tx it cannot sign.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /**
+             * @description EXTERNAL (default) returns unsigned XDR for the caller to sign. MANAGED signs server-side using the caller's platform-held wallet and submits immediately. Identical semantics to the publish flow.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+            /**
+             * @description Amount in token-native units (e.g. 30 = 30 USDC, NOT stroops). Pass a string when the value exceeds the JS safe-integer range. Must be >= 10 USDC (contract minimum).
+             * @example 30
+             */
+            amount: string;
+        };
+        CreateBountyApplicationDto: {
+            /**
+             * @description G-address that will receive payout if selected.
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+            /** @description Light proposal text (LIGHT vetting): 100 to 300 words. Required for LIGHT mode. */
+            proposalShort?: string;
+            /** @description Full proposal text (HEAVY vetting): 500 to 2000 words. Required for HEAVY mode. */
+            proposalFull?: string;
+            /** @description Portfolio links. LIGHT: up to 3. HEAVY: up to 6. */
+            portfolioLinks?: string[];
+            /** @description Estimated days to complete (LIGHT). Required for LIGHT mode. */
+            estimatedDays?: number;
+            /** @description Qualifications text (HEAVY). Required for HEAVY mode. */
+            qualifications?: string;
+            /** @description Optional video intro URL (HEAVY). */
+            videoIntroUrl?: string;
+        };
+        EditBountyApplicationDto: {
+            /** @description Light proposal text. */
+            proposalShort?: string;
+            /** @description Full proposal text. */
+            proposalFull?: string;
+            portfolioLinks?: string[];
+            estimatedDays?: number;
+            qualifications?: string;
+            videoIntroUrl?: string;
+        };
+        SelectForPickDto: {
+            /** @description Application id to select as the single winner. */
+            applicationId: string;
+        };
+        CreateShortlistDto: {
+            /** @description Application ids to include in the shortlist. */
+            applicationIds: string[];
+        };
+        DeclineApplicationDto: {
+            /** @description Reason for decline (surfaced to builder). */
+            reason?: string;
+        };
+        JoinShowdownDto: {
+            /**
+             * @description G-address that will receive payout if winning
+             * @example GBXNQFDSBDPOIA3Q4LYIWBOJFFPCCV6IEDHBSJZEAYFKIKZVUO4QEDVS
+             */
+            applicantAddress: string;
+        };
+        BountyPrizeTierPublicDto: {
+            position: number;
+            /** @description Tier amount in token-native units. */
+            amount: string;
+            /** @description Optional minimum quality bar. */
+            passMark?: number | null;
+        };
+        BountyOrganizationPublicDto: {
+            id: string;
+            name: string;
+            slug?: string | null;
+            logo?: string | null;
+        };
+        BountyPublicDto: {
+            id: string;
+            title: string;
+            description: string;
+            /** @description Pillar lifecycle state (lowercase). */
+            status: string;
+            type: string;
+            rewardAmount: number;
+            rewardCurrency: string;
+            /** @enum {string} */
+            vettingLevel?: "NONE" | "LIGHT" | "HEAVY";
+            /** @enum {string} */
+            selectionMode?: "PICK" | "SHOWDOWN";
+            /** @enum {string} */
+            submissionVisibility: "ORGANIZER_ONLY" | "HIDDEN_UNTIL_DEADLINE";
+            /** Format: date-time */
+            applicationWindowCloseAt?: string | null;
+            maxApplicants?: number | null;
+            shortlistSize?: number | null;
+            reputationMinimum?: number | null;
+            prizeTiers: components["schemas"]["BountyPrizeTierPublicDto"][];
+            organization: components["schemas"]["BountyOrganizationPublicDto"];
+            /** @description On-chain event id once published; null while in draft. */
+            escrowEventId?: string | null;
+            escrowTxHash?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        BountyPublicListDto: {
+            bounties: components["schemas"]["BountyPublicDto"][];
+            total: number;
+            page: number;
+            limit: number;
+        };
+        GrantWinnerDistributionEntryDto: {
+            /**
+             * @description 1-indexed winner position
+             * @example 1
+             */
+            position: number;
+            /**
+             * @description Percent of total_budget for this position. All sum to 100.
+             * @example 100
+             */
+            percent: number;
+        };
+        PublishGrantEscrowDto: {
+            /**
+             * @description Organizer's Stellar G-address that signs the create_event transaction.
+             * @example GDVGP7DWODFVYQ5NHHLLD3WFVLUH5Y3HHELIKSNO4STEFCBETQAWDMKZ
+             */
+            ownerAddress: string;
+            /**
+             * @description Whitelisted Stellar Asset Contract address.
+             * @example CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA
+             */
+            tokenAddress: string;
+            /**
+             * @description Total budget in token-native units (NOT stroops).
+             * @example 500
+             */
+            budget: string;
+            /**
+             * @description Number of milestones (n) for the ReleaseKind::Multi(n) release_kind. Per-recipient amount is total_budget * winner_share% / 100 / n_milestones.
+             * @example 2
+             */
+            nMilestones: number;
+            /**
+             * @description Optional submission deadline (Unix seconds).
+             * @example 1804383600
+             */
+            submissionDeadline?: number;
+            /** @description Override the winner distribution. Defaults to 100% to position 1. */
+            winnerDistribution?: components["schemas"]["GrantWinnerDistributionEntryDto"][];
+            /** @description Override the public content_uri. Defaults to /grants/<id>/content. */
+            contentUri?: string;
+            /**
+             * @description Signing path. EXTERNAL (default) or MANAGED.
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        CancelGrantEscrowDto: {
+            /** @description Organizer's Stellar G-address. */
+            ownerAddress: string;
+            /**
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        GrantWinnerSelectionDto: {
+            /** @description GrantApplication.id to declare as a winner. The application must already have applicantAddress set (the Stellar G-address receiving the grant). */
+            grantApplicationId: string;
+            /**
+             * @description Winner position, 1-indexed.
+             * @example 1
+             */
+            position: number;
+            /** @example 20 */
+            creditEarn?: number;
+            /** @example 50 */
+            reputationBump?: number;
+        };
+        SelectGrantWinnersDto: {
+            ownerAddress: string;
+            selections: components["schemas"]["GrantWinnerSelectionDto"][];
+            /**
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        ClaimGrantMilestoneDto: {
+            ownerAddress: string;
+            /** @description GrantMilestone.id to claim payment for. */
+            grantMilestoneId: string;
+            /**
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        ContributeGrantDto: {
+            /** @description Contributor's Stellar G-address. Must match caller's wallet. */
+            applicantAddress: string;
+            /**
+             * @description Amount in token-native units. Must be >= 10 USDC.
+             * @example 30
+             */
+            amount: string;
+            /**
+             * @default EXTERNAL
+             * @enum {string}
+             */
+            fundingMode: "EXTERNAL" | "MANAGED";
+        };
+        GrantPublicListItemDto: {
+            /**
+             * @description Grant id.
+             * @example grant_123
+             */
+            id: string;
+            /**
+             * @description Underlying project title used as the card title.
+             * @example On-chain governance research
+             */
+            title: string;
+            /**
+             * @description Short tagline/summary. Empty string when none is available.
+             * @example Funding research into delegated voting models.
+             */
+            summary: string;
+            /**
+             * @description Banner or thumbnail image URL.
+             * @example https://cdn.boundless.dev/grants/abc.png
+             */
+            coverImageUrl: string | null;
+            /**
+             * @description Lowercased grant status.
+             * @example open
+             */
+            status: string;
+            /**
+             * @description Total program budget in USDC, stringified.
+             * @example 50000
+             */
+            totalBudgetUsdc: string | null;
+            /**
+             * @description Owning organization id, if any.
+             * @example org_123
+             */
+            organizationId: string | null;
+            /**
+             * @description Owning organization display name.
+             * @example Boundless Labs
+             */
+            organizationName: string | null;
+            /**
+             * @description Owning organization logo URL.
+             * @example https://cdn.boundless.dev/orgs/boundless.png
+             */
+            organizationLogoUrl: string | null;
+            /**
+             * @description Underlying project category, if any.
+             * @example governance
+             */
+            category: string | null;
+            /**
+             * @description Total submitted applications count.
+             * @example 12
+             */
+            applicationCount: number;
+            /**
+             * @description When the grant was created.
+             * @example 2026-05-01T12:00:00.000Z
+             */
+            createdAt: string;
+        };
+        GrantPublicListResponseDto: {
+            items: components["schemas"]["GrantPublicListItemDto"][];
+            /**
+             * @description Total count of grants matching the filters.
+             * @example 84
+             */
+            total: number;
+            /**
+             * @description Current page (1-indexed).
+             * @example 1
+             */
+            page: number;
+            /**
+             * @description Items per page.
+             * @example 20
+             */
+            limit: number;
+        };
+        /**
+         * @description The pillar this opportunity belongs to.
+         * @enum {string}
+         */
+        OpportunityType: "BOUNTY" | "HACKATHON" | "GRANT" | "CROWDFUNDING";
+        OpportunityListItemDto: {
+            /**
+             * @description The pillar this opportunity belongs to.
+             * @example BOUNTY
+             */
+            type: components["schemas"]["OpportunityType"];
+            /**
+             * @description Pillar-local primary key. Globally unique within a type.
+             * @example ckxyz123
+             */
+            id: string;
+            /**
+             * @description Optional URL slug. Hackathons and crowdfunding campaigns expose one; bounties and grants do not.
+             * @example open-defi-hack
+             */
+            slug: string | null;
+            /**
+             * @description Display title for the card.
+             * @example Build a DAO governance dashboard
+             */
+            title: string;
+            /**
+             * @description Short blurb shown under the title. Empty string when the underlying pillar has no summary; never null.
+             * @example Ship a React dashboard that visualizes on-chain governance votes.
+             */
+            summary: string;
+            /**
+             * @description Banner or hero image URL for the card.
+             * @example https://cdn.boundless.dev/banners/abc.png
+             */
+            coverImageUrl: string | null;
+            /**
+             * @description Owning organization id. Null on crowdfunding or grants that lack an organization.
+             * @example org_123
+             */
+            organizationId: string | null;
+            /**
+             * @description Owning organization display name.
+             * @example Boundless Labs
+             */
+            organizationName: string | null;
+            /**
+             * @description Owning organization logo URL.
+             * @example https://cdn.boundless.dev/orgs/boundless.png
+             */
+            organizationLogoUrl: string | null;
+            /**
+             * @description Lowercased pillar-specific status (e.g. "open", "upcoming", "active").
+             * @example open
+             */
+            status: string;
+            /**
+             * @description Total advertised reward in USDC, stringified. Null when not applicable to the pillar.
+             * @example 5000.00
+             */
+            totalRewardUsdc: string | null;
+            /**
+             * @description Funded amount so far in USDC, crowdfunding only. Null elsewhere.
+             * @example 1234.56
+             */
+            fundedAmountUsdc: string | null;
+            /**
+             * @description When this opportunity went live. Falls back to createdAt when the pillar lacks publishedAt.
+             * @example 2026-05-01T12:00:00.000Z
+             */
+            publishedAt: string;
+            /**
+             * @description When the opportunity window opens.
+             * @example 2026-05-15T00:00:00.000Z
+             */
+            startsAt: string | null;
+            /**
+             * @description Application or submission deadline. Null for open-ended pillars (notably grants).
+             * @example 2026-06-30T23:59:59.000Z
+             */
+            endsAt: string | null;
+            /**
+             * @description Approximate participant count. Null when the pillar has no relation to count from.
+             * @example 42
+             */
+            participantCount: number | null;
+            /**
+             * @description Pillar-defined tags. Empty array for pillars without a tag field; never null.
+             * @example [
+             *       "stellar",
+             *       "defi"
+             *     ]
+             */
+            tags: string[];
+            /**
+             * @description Path to the detail page on the frontend.
+             * @example /bounties/ckxyz123
+             */
+            detailUrl: string;
+            /**
+             * @description True when this opportunity is currently featured. Drives the page-1 boost in the marketplace.
+             * @example false
+             */
+            isFeatured: boolean;
+        };
+        OpportunityListResponseDto: {
+            /** @description Cards in the current page, post-merge. */
+            items: components["schemas"]["OpportunityListItemDto"][];
+            /**
+             * @description Opaque cursor for the next page. Null when no more results are available.
+             * @example eyJzb3J0IjoibmV3ZXN0IiwicHJpbWFyeSI6IjIwMjYtMDUtMTVUMDA6MDA6MDAuMDAwWiIsImlkIjoiY2t4eXoxMjMifQ
+             */
+            nextCursor: string | null;
+            /**
+             * @description Total rows matching the current filter combo (type, status, search, tags), summed across pillar adapters. Cursor-blind, so stable across paginated requests with the same filters.
+             * @example 137
+             */
+            total: number;
+        };
         SubscribeDto: {
             /**
              * @description Email address to subscribe
@@ -17921,6 +19801,304 @@ export interface operations {
         requestBody?: never;
         responses: {
             /** @description Milestone statistics retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BuilderCrowdfundingV2Controller_submitForReview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BuilderCrowdfundingV2Controller_withdrawSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BuilderCrowdfundingV2Controller_reviseAndResubmit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BuilderCrowdfundingV2Controller_publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishCrowdfundingEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BuilderCrowdfundingV2Controller_cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelCrowdfundingEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BuilderCrowdfundingV2Controller_claimMilestone: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClaimCrowdfundingMilestoneDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BackerCrowdfundingV2Controller_contribute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContributeCrowdfundingDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommunityCrowdfundingV2Controller_getTally: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommunityCrowdfundingV2Controller_castVote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CastCrowdfundingVoteDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CommunityCrowdfundingV2Controller_getMyVote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingV2Controller_approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApproveCrowdfundingCampaignDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingV2Controller_reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectCrowdfundingCampaignDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingV2Controller_pause: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PauseCrowdfundingCampaignDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminCrowdfundingV2Controller_unpause: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -23204,6 +25382,284 @@ export interface operations {
             };
         };
     };
+    OrganizationHackathonsEscrowController_publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Hackathon draft id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishHackathonEscrowDto"];
+            };
+        };
+        responses: {
+            /** @description Escrow op created; unsigned XDR ready for wallet signing. Hackathon transitioned to DRAFT_AWAITING_FUNDING. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+            /** @description Validation error or hackathon not in DRAFT status */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationHackathonsEscrowController_cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Hackathon id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelHackathonEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsEscrowController_selectWinners: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Hackathon id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelectHackathonWinnersDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsEscrowController_submitSigned: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Hackathon id */
+                id: string;
+                /** @description EscrowOp cuid returned by the publish call */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitSignedXdrDto"];
+            };
+        };
+        responses: {
+            /** @description Signed XDR submitted; op is now PENDING_CONFIRM. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationHackathonsEscrowController_getOp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Hackathon id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonParticipantEscrowController_submit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon id */
+                id: string;
+                /** @description HackathonSubmission cuid */
+                submissionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitHackathonDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonParticipantEscrowController_withdrawSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon id */
+                id: string;
+                /** @description HackathonSubmission cuid */
+                submissionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WithdrawHackathonSubmissionDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonParticipantEscrowController_contribute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContributeHackathonDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonParticipantEscrowController_submitSigned: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitSignedXdrDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    HackathonParticipantEscrowController_getOp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Hackathon id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
     OrganizationsController_getOrganizations: {
         parameters: {
             query?: never;
@@ -26453,6 +28909,85 @@ export interface operations {
             };
         };
     };
+    PricingController_preview: {
+        parameters: {
+            query: {
+                pillar: "Hackathon" | "Bounty" | "Grant" | "Crowdfunding";
+                organizationId: string;
+                /** @description Budget in stroops (7-decimal). String to preserve precision. */
+                budgetStroops: string;
+                /** @description Override fee bps from a sales authority. 0 = waiver. */
+                salesOverrideBps?: number;
+                /** @description Free-text reason for the audit log. */
+                salesOverrideReason?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PricingPreviewResponseDto"];
+                };
+            };
+        };
+    };
+    AdminOpsController_pause: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminOpsController_unpause: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AdminOpsController_setFeeBps: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     PricesController_getAll: {
         parameters: {
             query?: never;
@@ -26745,6 +29280,854 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    OrganizationBountiesEscrowController_publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Bounty draft id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishBountyEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+            /** @description Validation failed or bounty not in draft status */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationBountiesEscrowController_cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelBountyEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationBountiesEscrowController_selectWinners: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelectBountyWinnersDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationBountiesEscrowController_submitSigned: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Bounty id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitSignedXdrDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationBountiesEscrowController_getOp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Bounty id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_apply: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplyBountyDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_withdrawApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WithdrawApplicationDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_submit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitBountyDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_withdrawSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WithdrawSubmissionDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_contribute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContributeBountyDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_submitSigned: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitSignedXdrDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyParticipantEscrowController_getOp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Bounty id */
+                id: string;
+                /** @description EscrowOp cuid */
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    BountyApplicationController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBountyApplicationDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BountyApplicationController_getMine: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BountyApplicationController_withdraw: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BountyApplicationController_edit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EditBountyApplicationDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationBountyShortlistController_list: {
+        parameters: {
+            query?: {
+                /** @description Filter by application status */
+                status?: "SUBMITTED" | "SHORTLISTED" | "SELECTED" | "DECLINED" | "WITHDRAWN";
+            };
+            header?: never;
+            path: {
+                bountyId: string;
+                organizationId: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationBountyShortlistController_selectForPick: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelectForPickDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationBountyShortlistController_createShortlist: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateShortlistDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationBountyShortlistController_decline: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeclineApplicationDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BountyShowdownJoinController_join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JoinShowdownDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BountyShowdownJoinController_leave: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bountyId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JoinShowdownDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    BountyPublicController_list: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                search?: unknown;
+                status?: unknown;
+                organizationId?: unknown;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BountyPublicListDto"];
+                };
+            };
+        };
+    };
+    BountyPublicController_findOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BountyPublicDto"];
+                };
+            };
+        };
+    };
+    OrganizationGrantsEscrowController_publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                /** @description Grant id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishGrantEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+            /** @description Draft not in DRAFT status */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationGrantsEscrowController_cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelGrantEscrowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationGrantsEscrowController_selectWinners: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelectGrantWinnersDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationGrantsEscrowController_claimMilestone: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClaimGrantMilestoneDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationGrantsEscrowController_submitSigned: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                id: string;
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitSignedXdrDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationGrantsEscrowController_getOp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                id: string;
+                opRowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    GrantContributeEscrowController_contribute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Grant id */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContributeGrantDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EscrowOpResponseDto"];
+                };
+            };
+        };
+    };
+    GrantsPublicController_list: {
+        parameters: {
+            query?: {
+                /** @description Pillar-specific status filter (open, closed, in_progress). */
+                status?: string;
+                /** @description Case-insensitive substring match against project title and summary. */
+                search?: string;
+                /** @description Filter by the underlying project category. */
+                category?: string;
+                /** @description Page number (1-indexed). */
+                page?: number;
+                /** @description Items per page. */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Grants page */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GrantPublicListResponseDto"];
+                };
+            };
+        };
+    };
+    OpportunitiesController_list: {
+        parameters: {
+            query?: {
+                /** @description Which pillar to query. "all" fans out across the four adapters; the others restrict to a single adapter. */
+                type?: "all" | "bounty" | "hackathon" | "grant" | "crowdfunding";
+                /** @description Pillar-specific status filter. Adapters match case-insensitively against their own enum and return [] when no value matches. */
+                status?: string;
+                /** @description Case-insensitive substring match against title and summary across adapters. */
+                search?: string;
+                /** @description Comma-separated tag list. Pillar-aware: bounty has no tag field and returns [] for any tags filter. */
+                tags?: string;
+                /** @description Sort mode. "deadline" sorts ascending by the next deadline (NULLS LAST); "prize_desc" sorts by reward descending. */
+                sort?: "newest" | "deadline" | "prize_desc";
+                /** @description Opaque pagination cursor returned by the previous response. Omit to start from page 1. */
+                cursor?: string;
+                /** @description Items per page. Capped at 50. */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Opportunities page */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpportunityListResponseDto"];
+                };
             };
         };
     };

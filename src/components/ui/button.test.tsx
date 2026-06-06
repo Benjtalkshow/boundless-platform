@@ -12,16 +12,17 @@ describe('Button', () => {
     ).toBeInTheDocument();
   });
 
-  it('exposes the variant and size as data attributes', () => {
+  it('exposes the design-system axes as data attributes', () => {
     render(
-      <Button variant='outline' size='lg'>
+      <Button appearance='outline' intent='secondary' size='large'>
         Outline
       </Button>
     );
 
     const button = screen.getByRole('button', { name: 'Outline' });
-    expect(button).toHaveAttribute('data-variant', 'outline');
-    expect(button).toHaveAttribute('data-size', 'lg');
+    expect(button).toHaveAttribute('data-appearance', 'outline');
+    expect(button).toHaveAttribute('data-intent', 'secondary');
+    expect(button).toHaveAttribute('data-size', 'large');
   });
 
   it('calls onClick when pressed', () => {
