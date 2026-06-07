@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { CareersHero, JobBoard } from '@/features/marketing';
+import { CareersHero, CtaSection, JobBoard } from '@/features/marketing';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -10,8 +10,13 @@ export const metadata: Metadata = {
 export default function CareersPage() {
   return (
     <>
-      <CareersHero />
-      <JobBoard />
+      <CareersHero>
+        <JobBoard />
+      </CareersHero>
+      {/* Closing CTA appears on mobile only per the careers design. */}
+      <div className='lg:hidden'>
+        <CtaSection />
+      </div>
     </>
   );
 }
