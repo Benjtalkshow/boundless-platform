@@ -26,6 +26,12 @@ export { CtaSection } from './components/cta-section';
 export { CtaTicker } from './components/cta-ticker';
 export { ExplorePath } from './components/explore-path';
 export { Faq } from './components/faq';
+export { FaqAccordion } from './components/faq-accordion';
+export {
+  FAQ_ITEMS,
+  FAQ_LAST_UPDATED,
+  type FaqItem,
+} from './components/faq-data';
 export { FeatureListSection } from './components/feature-list-section';
 export { FourSteps } from './components/four-steps';
 export { FundingPaths } from './components/funding-paths';
