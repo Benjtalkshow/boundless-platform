@@ -10,19 +10,13 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <>
-      {/* The hero gradient peaks at its bottom edge: dark at the title, teal
-          tint by the foot of the card list. */}
+      {/* The hero's `fadeBottom` gradient peaks teal around the card list, then
+          resolves to ink at its bottom edge — so it meets the brand-kit's dark
+          section in one continuous gradient, with no seam. */}
       <BlogHero>
         <BlogList />
       </BlogHero>
-
-      {/* Bridge: start from the exact teal-tinted colour the hero ends on
-          (#0d1111 under 8% #2eedaa) so there is no seam into the cards, then
-          resolve to flat ink well before the footer so the band rhythms with
-          the footer's dark + glow on both edges. */}
-      <div className='bg-[linear-gradient(180deg,#10231d_0%,var(--color-ink)_55%)]'>
-        <BrandKitCta className='bg-transparent' />
-      </div>
+      <BrandKitCta />
     </>
   );
 }
