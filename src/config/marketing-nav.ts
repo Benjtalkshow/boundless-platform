@@ -151,6 +151,7 @@ export const footerColumns: NavGroup[] = [
     items: [
       { label: 'Documentation', href: '/docs' },
       { label: 'API Reference', href: '/docs/api' },
+      { label: 'FAQs', href: '/faq' },
       { label: 'Whitepaper', href: '/whitepaper' },
       { label: 'GitHub', href: 'https://github.com/boundless-fi' },
     ],
