@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 export default function BrandKitPage() {
   return (
     <>
-      <BrandKitHero />
-      <LogoShowcase />
+      <BrandKitHero>
+        <LogoShowcase />
+      </BrandKitHero>
       <ColorPalette />
       <DownloadAssets />
     </>
