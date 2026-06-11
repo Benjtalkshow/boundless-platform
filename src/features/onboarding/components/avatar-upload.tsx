@@ -4,6 +4,7 @@ import { Camera, User } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface AvatarUploadProps {
@@ -30,10 +31,12 @@ export function AvatarUpload({
 
   return (
     <div className={cn('relative size-16', className)}>
-      <button
+      <Button
         type='button'
+        intent='secondary'
+        appearance='text'
         onClick={() => inputRef.current?.click()}
-        className='relative block size-16 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40'
+        className='size-16 rounded-full p-0 focus-visible:ring-primary-500/40'
         aria-label='Upload profile photo'
       >
         <span className='flex size-16 items-center justify-center overflow-hidden rounded-full bg-primary-50'>
@@ -57,7 +60,7 @@ export function AvatarUpload({
         <span className='absolute right-0 bottom-0 flex size-5 items-center justify-center rounded-full border border-white bg-[#5c6f6b]'>
           <Camera className='size-3 text-white' />
         </span>
-      </button>
+      </Button>
       <input
         ref={inputRef}
         type='file'
