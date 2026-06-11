@@ -231,6 +231,7 @@ export function FilterRail({
         <div className='flex items-center gap-2'>
           <Input
             type='number'
+            inputSize='small'
             placeholder='0'
             aria-label='Minimum reward'
             value={value.min}
@@ -240,6 +241,7 @@ export function FilterRail({
           <span className='text-muted-foreground'>-</span>
           <Input
             type='number'
+            inputSize='small'
             placeholder='0'
             aria-label='Maximum reward'
             value={value.max}

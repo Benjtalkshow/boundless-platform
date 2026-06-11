@@ -1,35 +1,49 @@
+import { Mail } from 'lucide-react';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { SignInForm } from '@/features/auth';
+  AuthCard,
+  AuthFooterPill,
+  OrDivider,
+  safeRedirect,
+  SocialAuthButtons,
+} from '@/features/auth';
 
 export const metadata: Metadata = { title: 'Sign in' };
 
-export default function SignInPage() {
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string }>;
+}) {
+  const { redirect } = await searchParams;
+  const target = safeRedirect(redirect);
+  const emailHref =
+    target === '/dashboard'
+      ? '/sign-in/email'
+      : `/sign-in/email?redirect=${encodeURIComponent(target)}`;
+
   return (
-    <div className='flex flex-1 flex-col items-center justify-center px-6 py-16'>
-      <Card className='w-full max-w-sm'>
-        <CardHeader>
-          <CardTitle>Sign in</CardTitle>
-          <CardDescription>
-            Welcome back. Sign in to continue to Boundless.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {/* `SignInForm` reads `useSearchParams`, which needs a Suspense
-              boundary so the route can prerender without bailing out. */}
-          <Suspense fallback={null}>
-            <SignInForm />
-          </Suspense>
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <AuthCard title='Log into your account'>
+        <div className='flex w-full flex-col gap-4'>
+          <Button asChild intent='primary' shape='pill' className='w-full'>
+            <Link href={emailHref}>
+              <Mail className='size-5' />
+              Sign in with your email
+            </Link>
+          </Button>
+          <OrDivider />
+          <SocialAuthButtons verb='Sign in' callbackURL={target} />
+        </div>
+      </AuthCard>
+      <AuthFooterPill
+        prompt="Don't have an account?"
+        actionLabel='Sign up'
+        href='/sign-up'
+      />
+    </>
   );
 }
