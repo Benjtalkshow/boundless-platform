@@ -35,15 +35,10 @@ type Values = z.infer<typeof schema>;
 interface ResetPasswordNewFormProps {
   /** Email the reset code was issued for. */
   email: string;
-  /** The verified one-time code carried from the previous step. */
-  otp: string;
 }
 
 /** Sets a new password using a verified email reset code. */
-export function ResetPasswordNewForm({
-  email,
-  otp,
-}: ResetPasswordNewFormProps) {
+export function ResetPasswordNewForm({ email }: ResetPasswordNewFormProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -54,6 +49,8 @@ export function ResetPasswordNewForm({
   });
 
   async function onSubmit({ password }: Values) {
+    const otpKey = `boundless:resetOtp:${email}`;
+    const otp = sessionStorage.getItem(otpKey);
     if (!email || !otp) {
       toast.error('This reset link is incomplete. Request a new code.');
       router.push('/reset-password');
@@ -72,6 +69,7 @@ export function ResetPasswordNewForm({
       return;
     }
 
+    sessionStorage.removeItem(otpKey);
     toast.success('Password updated. Sign in with your new password.');
     router.push('/sign-in');
   }

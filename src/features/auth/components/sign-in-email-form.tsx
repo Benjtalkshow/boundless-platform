@@ -21,6 +21,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { signIn } from '@/lib/auth';
 
+import { safeRedirect } from '../lib/safe-redirect';
+
 const schema = z.object({
   email: z.email('Enter a valid email address.'),
   password: z.string().min(1, 'Password is required.'),
@@ -31,7 +33,7 @@ type Values = z.infer<typeof schema>;
 export function SignInEmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect') ?? '/dashboard';
+  const redirectTo = safeRedirect(searchParams.get('redirect'));
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<Values>({

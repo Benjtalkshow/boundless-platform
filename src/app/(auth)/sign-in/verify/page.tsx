@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import { AuthCard, OtpVerifyForm } from '@/features/auth';
 
@@ -10,6 +11,7 @@ export default async function SignInVerifyPage({
   searchParams: Promise<{ email?: string }>;
 }) {
   const { email = '' } = await searchParams;
+  if (!email) redirect('/sign-in/email');
 
   return (
     <AuthCard

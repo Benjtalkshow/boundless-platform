@@ -32,10 +32,21 @@ export function SocialAuthButtons({
 
   async function handleSocial(provider: Provider) {
     setPending(provider);
-    const { error } = await signIn.social({ provider, callbackURL });
-    if (error) {
+    try {
+      const { error } = await signIn.social({ provider, callbackURL });
+      if (error) {
+        toast.error(
+          error.message ?? `Could not continue with ${provider}. Try again.`
+        );
+        setPending(null);
+      }
+      // On success the browser navigates to the provider, so we keep the
+      // loading state until the redirect happens.
+    } catch (error) {
       toast.error(
-        error.message ?? `Could not continue with ${provider}. Try again.`
+        error instanceof Error
+          ? error.message
+          : `Could not continue with ${provider}. Try again.`
       );
       setPending(null);
     }

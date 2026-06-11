@@ -53,11 +53,11 @@ export function OtpVerifyForm({
       return;
     }
 
-    // mode === 'reset': carry the verified code to the set-new-password step,
-    // which calls emailOtp.resetPassword with this email + otp.
-    router.push(
-      `/reset-password/new?email=${encodeURIComponent(email)}&otp=${otp}`
-    );
+    // mode === 'reset': carry the verified code to the set-new-password step
+    // via sessionStorage (not the URL) so the OTP never lands in history or a
+    // referrer header. The next step reads and clears it.
+    sessionStorage.setItem(`boundless:resetOtp:${email}`, otp);
+    router.push(`/reset-password/new?email=${encodeURIComponent(email)}`);
   }
 
   return (

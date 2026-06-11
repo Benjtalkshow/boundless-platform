@@ -24,7 +24,7 @@ export function OtpInput({
   const refs = React.useRef<(HTMLInputElement | null)[]>([]);
 
   function setDigit(index: number, digit: string) {
-    const next = value.split('');
+    const next = Array.from({ length }, (_, i) => value[i] ?? '');
     next[index] = digit;
     onChange(next.join('').slice(0, length));
   }
@@ -86,6 +86,7 @@ export function OtpInput({
                 inputMode='numeric'
                 autoComplete='one-time-code'
                 maxLength={1}
+                aria-label={`Digit ${index + 1} of ${length}`}
                 disabled={disabled}
                 autoFocus={autoFocus && index === 0}
                 value={value[index] ?? ''}

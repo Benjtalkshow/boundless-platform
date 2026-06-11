@@ -10,4 +10,5 @@ export { SignInEmailForm } from './components/sign-in-email-form';
 export { SignUpEmailForm } from './components/sign-up-email-form';
 export { SocialAuthButtons } from './components/social-auth-buttons';
 export { useAuth } from './hooks/use-auth';
+export { safeRedirect } from './lib/safe-redirect';
 export { signIn, signOut, signUp, useSession } from '@/lib/auth';
