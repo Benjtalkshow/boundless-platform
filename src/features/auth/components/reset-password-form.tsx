@@ -17,9 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { authClient } from '@/lib/auth';
-
-import { AuthInput } from './auth-input';
 
 const schema = z.object({ email: z.email('Enter a valid email address.') });
 type Values = z.infer<typeof schema>;
@@ -53,17 +52,18 @@ export function ResetPasswordForm() {
         <FormField
           control={form.control}
           name='email'
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem className='gap-2'>
               <FormLabel className='text-[#929f9c]'>
                 Your email address
               </FormLabel>
               <FormControl>
-                <AuthInput
+                <Input
                   type='email'
                   autoComplete='email'
                   placeholder='jamie@gmail.com'
-                  icon={<Mail className='size-5' />}
+                  rightIcon={<Mail className='size-5' />}
+                  state={fieldState.error ? 'error' : undefined}
                   {...field}
                 />
               </FormControl>

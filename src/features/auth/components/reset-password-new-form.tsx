@@ -18,9 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { authClient } from '@/lib/auth';
-
-import { AuthInput } from './auth-input';
 
 const schema = z
   .object({
@@ -87,15 +86,16 @@ export function ResetPasswordNewForm({
           <FormField
             control={form.control}
             name='password'
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem className='gap-2'>
                 <FormLabel className='text-[#929f9c]'>New password</FormLabel>
                 <FormControl>
-                  <AuthInput
+                  <Input
                     type={showPassword ? 'text' : 'password'}
                     autoComplete='new-password'
                     placeholder='Enter a new password'
-                    trailing={
+                    state={fieldState.error ? 'error' : undefined}
+                    rightIcon={
                       <button
                         type='button'
                         onClick={() => setShowPassword(v => !v)}
@@ -121,17 +121,18 @@ export function ResetPasswordNewForm({
           <FormField
             control={form.control}
             name='confirmPassword'
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem className='gap-2'>
                 <FormLabel className='text-[#929f9c]'>
                   Confirm new password
                 </FormLabel>
                 <FormControl>
-                  <AuthInput
+                  <Input
                     type={showConfirm ? 'text' : 'password'}
                     autoComplete='new-password'
                     placeholder='Re-enter your new password'
-                    trailing={
+                    state={fieldState.error ? 'error' : undefined}
+                    rightIcon={
                       <button
                         type='button'
                         onClick={() => setShowConfirm(v => !v)}

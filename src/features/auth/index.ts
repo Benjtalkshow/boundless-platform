@@ -1,6 +1,5 @@
 export { AuthCard } from './components/auth-card';
 export { AuthFooterPill } from './components/auth-footer-pill';
-export { AuthInput } from './components/auth-input';
 export { AuthTerms } from './components/auth-terms';
 export { OrDivider } from './components/or-divider';
 export { OtpInput } from './components/otp-input';
