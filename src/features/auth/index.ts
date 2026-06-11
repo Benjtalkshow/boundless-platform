@@ -1,4 +1,5 @@
 export { AuthCard } from './components/auth-card';
+export { AuthFlowProvider, useAuthFlow } from './components/auth-flow-provider';
 export { AuthFooterPill } from './components/auth-footer-pill';
 export { AuthTerms } from './components/auth-terms';
 export { OrDivider } from './components/or-divider';
