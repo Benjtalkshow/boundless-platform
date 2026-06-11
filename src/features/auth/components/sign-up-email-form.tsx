@@ -28,6 +28,7 @@ export function SignUpEmailForm() {
   const router = useRouter();
   const form = useForm<Values>({
     resolver: zodResolver(schema),
+    mode: 'onTouched',
     defaultValues: { email: '' },
   });
 

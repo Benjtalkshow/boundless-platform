@@ -38,6 +38,7 @@ export function SignInEmailForm() {
 
   const form = useForm<Values>({
     resolver: zodResolver(schema),
+    mode: 'onTouched',
     defaultValues: { email: '', password: '' },
   });
 

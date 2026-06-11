@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
  * `disabled` are driven by the native attributes.
  */
 const inputFrameVariants = cva(
-  'flex w-full min-w-0 items-center gap-3 overflow-hidden border transition-colors',
+  'flex w-full min-w-0 items-center gap-3 overflow-hidden border shadow-[0_0_0_0_transparent] transition-[color,background-color,border-color,box-shadow] duration-200 ease-out',
   {
     variants: {
       inputSize: {
@@ -27,9 +27,11 @@ const inputFrameVariants = cva(
       },
       state: {
         default:
-          'border-neutral-600 focus-within:border-primary-500 focus-within:bg-ink-soft hover:border-neutral-500',
-        success: 'border-[#22c55e] bg-ink-soft',
-        error: 'border-[#f19f9d] focus-within:border-[#f19f9d]',
+          'border-neutral-600 focus-within:border-primary-500 focus-within:bg-ink-soft focus-within:shadow-[0_0_0_4px_rgba(46,237,170,0.12)] hover:border-neutral-500',
+        success:
+          'border-[#22c55e] bg-ink-soft focus-within:shadow-[0_0_0_4px_rgba(34,197,94,0.12)]',
+        error:
+          'border-[#f19f9d] focus-within:border-[#f19f9d] focus-within:shadow-[0_0_0_4px_rgba(224,46,42,0.12)]',
       },
     },
     defaultVariants: { inputSize: 'large', shape: 'rounded', state: 'default' },
@@ -88,6 +90,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
   const generatedId = React.useId();
   const inputId = id ?? generatedId;
   const resolvedState = state ?? 'default';
+  const isStatusIcon =
+    !rightIcon && (resolvedState === 'success' || resolvedState === 'error');
   const trailing =
     rightIcon ??
     (resolvedState === 'success' || resolvedState === 'error'
@@ -119,7 +123,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
           )}
         >
           {leftIcon ? (
-            <span className='flex size-5 shrink-0 items-center justify-center text-[#7a8f8b]'>
+            <span className='flex size-5 shrink-0 items-center justify-center text-[#7a8f8b] transition-colors duration-200'>
               {leftIcon}
             </span>
           ) : null}
@@ -143,7 +147,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
                 <span className='text-sm text-[#667185]'>{addOn}</span>
               ) : null}
               {trailing ? (
-                <span className='flex size-5 items-center justify-center text-[#7a8f8b]'>
+                <span
+                  className={cn(
+                    'flex size-5 items-center justify-center text-[#7a8f8b] transition-colors duration-200',
+                    isStatusIcon &&
+                      'animate-in duration-300 fade-in-0 zoom-in-75 motion-reduce:animate-none'
+                  )}
+                >
                   {trailing}
                 </span>
               ) : null}

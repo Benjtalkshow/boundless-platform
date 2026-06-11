@@ -75,7 +75,7 @@ export function OtpInput({
       {groups.map((group, groupIndex) => (
         <React.Fragment key={groupIndex}>
           {groupIndex > 0 ? <span className='h-px w-3 bg-[#2e3a38]' /> : null}
-          <div className='flex overflow-hidden rounded-lg border border-[#2e3a38]'>
+          <div className='flex overflow-hidden rounded-lg border border-[#2e3a38] transition-colors duration-200 focus-within:border-primary-500'>
             {group.map(index => (
               <input
                 key={index}
@@ -94,7 +94,7 @@ export function OtpInput({
                 onKeyDown={event => handleKeyDown(event, index)}
                 onPaste={handlePaste}
                 className={cn(
-                  'h-10 w-9 bg-transparent text-center text-sm font-medium text-[#f1fff1] outline-none focus:bg-white/5 disabled:opacity-50',
+                  'h-10 w-9 bg-transparent text-center text-sm font-medium text-[#f1fff1] caret-primary-500 transition-colors duration-150 outline-none focus:bg-primary-500/10 disabled:opacity-50',
                   index > 0 && index !== half && 'border-l border-[#2e3a38]'
                 )}
               />

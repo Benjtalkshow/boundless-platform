@@ -45,6 +45,7 @@ export function ResetPasswordNewForm({ email }: ResetPasswordNewFormProps) {
 
   const form = useForm<Values>({
     resolver: zodResolver(schema),
+    mode: 'onTouched',
     defaultValues: { password: '', confirmPassword: '' },
   });
 
