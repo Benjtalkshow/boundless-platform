@@ -1,15 +1,17 @@
 import {
   Book,
   ChevronDownIcon,
-  Coins,
+  Database,
   SearchIcon,
   UserRound,
+  Wallet2,
 } from 'lucide-react';
 import Link from 'next/link';
 
 import { BoundlessLogo } from '@/components/layout/boundless-logo';
 import { SocialGlyph } from '@/components/layout/brand-icons';
 import { PillButton } from '@/components/layout/pill-button';
+import { formatCompact, formatNumber } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
 export type AppRole = 'contributor' | 'organizer' | 'judge';
@@ -20,8 +22,10 @@ interface AppNavProps {
   signedIn?: boolean;
   /** Display name for the signed-in user. */
   userName?: string;
-  /** Pre-formatted credit balance, e.g. "$0.00". */
-  credits?: string;
+  /** Credit balance; rendered compact (e.g. 1500 -> "1.5K"). */
+  credits?: number;
+  /** Wallet balance in USD; rendered compact (e.g. 1_200_000 -> "$1.2M"). */
+  wallet?: number;
 }
 
 type BadgeMeta = { label: string; color: string; bg: string };
@@ -129,21 +133,34 @@ function SearchField() {
     </button>
   );
 }
-
-function Credits({
+function Credits({ value }: { value: number }) {
+  return (
+    <div
+      className='flex shrink-0 items-center gap-2'
+      title={formatNumber(value)}
+    >
+      <Database className='size-4 text-[#72736f]' aria-hidden />
+      <KbdChip pill>{formatCompact(value)}</KbdChip>
+    </div>
+  );
+}
+function Wallet({
   value,
   showLabel = true,
 }: {
-  value: string;
+  value: number;
   showLabel?: boolean;
 }) {
   return (
-    <div className='flex shrink-0 items-center gap-2'>
-      <Coins className='size-4 text-[#72736f]' aria-hidden />
+    <div
+      className='flex shrink-0 items-center gap-2'
+      title={formatNumber(value, { currency: 'USD' })}
+    >
+      <Wallet2 className='size-4 text-[#72736f]' aria-hidden />
       {showLabel ? (
-        <span className='text-sm font-medium text-[#72736f]'>Credits</span>
+        <span className='text-sm font-medium text-[#72736f]'>Wallet</span>
       ) : null}
-      <KbdChip pill>{value}</KbdChip>
+      <KbdChip pill>{formatCompact(value, { currency: 'USD' })}</KbdChip>
     </div>
   );
 }
@@ -199,7 +216,8 @@ export function AppNav({
   role = 'organizer',
   signedIn = true,
   userName = 'davidemulo',
-  credits = '$0.00',
+  credits = 28,
+  wallet = 1_200_000,
 }: AppNavProps) {
   const explorer = role === 'contributor' && !signedIn;
   const identity = explorer
@@ -208,6 +226,7 @@ export function AppNav({
 
   // organizer always surfaces credits; members see them once signed in.
   const showCredits = role === 'organizer' || signedIn;
+  const showWallet = role === 'organizer' || signedIn;
   const discord = (
     <SocialGlyph name='discord' className='size-4 text-[#5865f2]' />
   );
@@ -228,6 +247,7 @@ export function AppNav({
         <div className='flex items-center gap-5'>
           <SearchField />
           {showCredits ? <Credits value={credits} /> : null}
+          {showWallet ? <Wallet value={wallet} /> : null}
           {signedIn && role === 'contributor' ? (
             <IconButton label='Documentation'>
               <Book className='size-4' />
@@ -282,7 +302,8 @@ export function AppNav({
             badge={identity.badge}
             avatar={identity.avatar}
           />
-          <Credits value={credits} showLabel={false} />
+          <Credits value={credits} />
+          <Wallet value={wallet} showLabel={false} />
         </div>
       </div>
     </header>

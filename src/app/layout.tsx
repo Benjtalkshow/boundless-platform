@@ -40,7 +40,7 @@ export default function RootLayout({
     <html
       lang='en'
       suppressHydrationWarning
-      className={`${jakarta.variable} ${geistMono.variable} ${bebasNeue.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${bebasNeue.variable} h-full antialiased`}
     >
       <body className='flex min-h-full flex-col'>
         <Providers>{children}</Providers>

@@ -21,6 +21,7 @@ export { Faq } from './components/faq';
 export { FeatureListSection } from './components/feature-list-section';
 export { FourSteps } from './components/four-steps';
 export { FundingPaths } from './components/funding-paths';
+export { GetStartedModal } from './components/get-started-modal';
 export { default as HeroBackground } from './components/hero-background';
 export { HeroSection } from './components/hero-section';
 export { IntroSection } from './components/intro-section';
