@@ -54,6 +54,19 @@ export function ProfileSetupModal({
     defaultValues: { firstName: '', lastName: '', bio: '', location: '' },
   });
 
+  // Clear avatar and form values when the modal closes (render-time state sync)
+  // so reopening never shows a previous session's data.
+  const [wasOpen, setWasOpen] = React.useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (!open) {
+      form.reset({ firstName: '', lastName: '', bio: '', location: '' });
+      setAvatar(null);
+      setPendingImage(null);
+      setCropOpen(false);
+    }
+  }
+
   function handleSelectFile(file: File) {
     const reader = new FileReader();
     reader.onload = () => {

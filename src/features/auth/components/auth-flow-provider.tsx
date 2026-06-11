@@ -43,10 +43,12 @@ export function useAuthFlow() {
  */
 export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isPending } = useAuth();
 
   const requireAuth = React.useCallback(
     (options: RequireAuthOptions = {}) => {
+      // Session still resolving: don't redirect an actually-authed user.
+      if (isPending) return false;
       if (isAuthenticated) {
         options.onAuthed?.();
         return true;
@@ -60,7 +62,7 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
       router.push(`${base}?redirect=${encodeURIComponent(current)}`);
       return false;
     },
-    [isAuthenticated, router]
+    [isAuthenticated, isPending, router]
   );
 
   const value = React.useMemo(
