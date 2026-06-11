@@ -1,3 +1,14 @@
-export { SignInForm } from './components/sign-in-form';
+export { AuthCard } from './components/auth-card';
+export { AuthFooterPill } from './components/auth-footer-pill';
+export { AuthInput } from './components/auth-input';
+export { AuthTerms } from './components/auth-terms';
+export { OrDivider } from './components/or-divider';
+export { OtpInput } from './components/otp-input';
+export { OtpVerifyForm } from './components/otp-verify-form';
+export { ResetPasswordForm } from './components/reset-password-form';
+export { ResetPasswordNewForm } from './components/reset-password-new-form';
+export { SignInEmailForm } from './components/sign-in-email-form';
+export { SignUpEmailForm } from './components/sign-up-email-form';
+export { SocialAuthButtons } from './components/social-auth-buttons';
 export { useAuth } from './hooks/use-auth';
 export { signIn, signOut, signUp, useSession } from '@/lib/auth';

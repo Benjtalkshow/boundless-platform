@@ -10,27 +10,27 @@ import {
   SocialAuthButtons,
 } from '@/features/auth';
 
-export const metadata: Metadata = { title: 'Sign in' };
+export const metadata: Metadata = { title: 'Create your account' };
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <>
-      <AuthCard title='Log into your account'>
+      <AuthCard title='Create your account'>
         <div className='flex w-full flex-col gap-4'>
           <Button asChild intent='primary' shape='pill' className='w-full'>
-            <Link href='/sign-in/email'>
+            <Link href='/sign-up/email'>
               <Mail className='size-5' />
-              Sign in with your email
+              Sign up with your email
             </Link>
           </Button>
           <OrDivider />
-          <SocialAuthButtons verb='Sign in' />
+          <SocialAuthButtons verb='Sign up' />
         </div>
       </AuthCard>
       <AuthFooterPill
-        prompt="Don't have an account?"
-        actionLabel='Sign up'
-        href='/sign-up'
+        prompt='Already have an account?'
+        actionLabel='Sign In'
+        href='/sign-in'
       />
     </>
   );
