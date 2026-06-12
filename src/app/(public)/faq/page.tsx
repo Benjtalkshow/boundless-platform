@@ -7,11 +7,13 @@ import {
   HeroBackground,
   Section,
 } from '@/features/marketing';
+import { buildPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'FAQs',
   description: 'Answers to common questions about Boundless.',
-};
+  path: '/faq',
+});
 
 export default function FaqPage() {
   return (

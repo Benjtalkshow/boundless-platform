@@ -2,17 +2,14 @@ import './globals.css';
 
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
-import { Bebas_Neue, Geist_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { Bebas_Neue, Plus_Jakarta_Sans } from 'next/font/google';
 
+import { JsonLd } from '@/components/seo/json-ld';
+import { env } from '@/lib/env';
 import { Providers } from '@/providers';
 
 const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
   subsets: ['latin'],
 });
 
@@ -23,6 +20,9 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
+  metadataBase: env.NEXT_PUBLIC_APP_URL
+    ? new URL(env.NEXT_PUBLIC_APP_URL)
+    : undefined,
   title: {
     default: 'Boundless',
     template: '%s | Boundless',
@@ -43,6 +43,7 @@ export default function RootLayout({
       className={`${jakarta.variable} ${bebasNeue.variable} h-full antialiased`}
     >
       <body className='flex min-h-full flex-col'>
+        <JsonLd />
         <Providers>{children}</Providers>
         <Analytics />
       </body>

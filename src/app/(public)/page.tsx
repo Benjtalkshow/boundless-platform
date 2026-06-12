@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import {
@@ -12,6 +13,15 @@ import {
   Testimonials,
   TrustBar,
 } from '@/features/marketing';
+import { buildPageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Boundless | Hackathons, Bounties, Grants & Crowdfunding on Stellar',
+  description:
+    'Boundless is where builders find hackathons, bounties, and grants, and where ideas get crowdfunded. Build, earn, and belong on Stellar.',
+  path: '/',
+  absoluteTitle: true,
+});
 
 export default function HomePage() {
   return (
