@@ -46,7 +46,7 @@ export function FaqAccordion({
               className='flex w-full items-start gap-4 text-left'
             >
               {isOpen ? (
-                <Minus className='mt-0.5 size-6 shrink-0 text-white' />
+                <Minus className='mt-0.5 size-6 shrink-0 text-primary' />
               ) : (
                 <Plus className='mt-0.5 size-6 shrink-0 text-primary' />
               )}

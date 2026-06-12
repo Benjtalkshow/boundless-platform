@@ -4,8 +4,9 @@ test.describe('foundation smoke', () => {
   test('home page renders the hero', async ({ page }) => {
     await page.goto('/');
 
+    // Scope to the h1 hero; other sections also use "Discover Opportunities".
     await expect(
-      page.getByRole('heading', { name: /discover opportunities/i })
+      page.getByRole('heading', { name: /discover opportunities/i, level: 1 })
     ).toBeVisible();
   });
 
