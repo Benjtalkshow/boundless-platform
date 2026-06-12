@@ -17,7 +17,7 @@ export function JsonLd() {
       '@type': 'Organization',
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/brand/boundless-logo-dark.svg`,
+      logo: `${SITE_URL}/logo.png`,
       description: SITE_DESCRIPTION,
       sameAs: SITE_SOCIALS,
     },
