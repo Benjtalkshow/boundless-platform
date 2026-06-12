@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 
 import { BlogHero, BlogList, BrandKitCta } from '@/features/marketing';
+import { buildPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'Blog',
   description: 'The latest news, stories, and opportunities from Boundless.',
-};
+  path: '/blog',
+});
 
 export default function BlogPage() {
   return (
