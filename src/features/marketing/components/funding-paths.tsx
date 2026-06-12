@@ -59,7 +59,7 @@ const STEPS: Step[] = [
 export function FundingPaths() {
   return (
     <Section
-      className='bg-[linear-gradient(180deg,rgba(46,237,170,0.08)_0%,rgba(13,17,17,0)_50%),var(--color-ink)]'
+      className='bg-ink bg-[linear-gradient(180deg,rgba(46,237,170,0.08)_0%,rgba(13,17,17,0)_50%)]'
       innerClassName='flex flex-col gap-8'
     >
       <h2 className='font-heading text-3xl leading-none font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl lg:tracking-[-1.92px]'>
