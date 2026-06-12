@@ -15,6 +15,6 @@ export const SITE_DESCRIPTION =
 /** Official profiles, used for Organization `sameAs` structured data. */
 export const SITE_SOCIALS = [
   'https://x.com/boundless_fi',
-  'https://github.com/boundless-fi',
-  'https://discord.gg/boundless',
+  'https://github.com/boundlessfi',
+  'https://discord.gg/7zJKnpCTKE',
 ];

@@ -31,7 +31,7 @@ export function OptionCard({
       aria-checked={selected}
       data-slot='option-card'
       className={cn(
-        'flex w-full items-center gap-4 overflow-hidden rounded-2xl border-[0.8px] bg-[#141c1c] py-2 pr-4 pl-2 text-left transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
+        'flex w-full items-center gap-4 overflow-hidden rounded-2xl border-[0.8px] bg-ink-soft py-2 pr-4 pl-2 text-left transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
         selected
           ? 'border-primary-500'
           : 'border-neutral-600 hover:border-neutral-500',

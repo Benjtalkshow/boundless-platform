@@ -40,7 +40,7 @@ export function CtaPill({
               SHADOW_ACTIVE
             )
           : cn(
-              'h-[39px] w-[140px] bg-white/[0.08] font-normal text-white',
+              'h-[39px] w-[140px] bg-white/8 font-normal text-white',
               SHADOW_IDLE
             ),
         className

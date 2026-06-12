@@ -39,6 +39,7 @@ export { GetStartedModal } from './components/get-started-modal';
 export { default as HeroBackground } from './components/hero-background';
 export { HeroSection } from './components/hero-section';
 export { IntroSection } from './components/intro-section';
+export { LaunchAppModal } from './components/launch-app-modal';
 export { MarketingButton } from './components/marketing-button';
 export { NewsSection } from './components/news-section';
 export { PartnerLogos } from './components/partner-logos';

@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { headerMenus } from '@/config/marketing-nav';
+import { LaunchAppModal } from '@/features/marketing';
 
 type HeaderVariant = 'site' | 'blog';
 
@@ -136,7 +137,13 @@ function MegaMenu() {
   );
 }
 
-function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
+function MobileMenu({
+  onNavigate,
+  onLaunch,
+}: {
+  onNavigate: () => void;
+  onLaunch: () => void;
+}) {
   return (
     <div
       id='site-mobile-menu'
@@ -177,10 +184,15 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
             </div>
           </div>
         ))}
-        <PillButton asChild className='w-full'>
-          <Link href='/dashboard' onClick={onNavigate}>
-            Launch App
-          </Link>
+        <PillButton
+          type='button'
+          className='w-full'
+          onClick={() => {
+            onNavigate();
+            onLaunch();
+          }}
+        >
+          Launch App
         </PillButton>
       </div>
     </div>
@@ -194,6 +206,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [launchOpen, setLaunchOpen] = useState(false);
   const pathname = usePathname();
   const variant: HeaderVariant = (pathname ?? '').startsWith('/blog')
     ? 'blog'
@@ -213,8 +226,8 @@ export function SiteHeader() {
               // Newsletter subscribe; wire to the newsletter when it ships.
               <PillButton type='button'>Subscribe</PillButton>
             ) : (
-              <PillButton asChild>
-                <Link href='/dashboard'>Launch App</Link>
+              <PillButton type='button' onClick={() => setLaunchOpen(true)}>
+                Launch App
               </PillButton>
             )}
           </div>
@@ -229,8 +242,8 @@ export function SiteHeader() {
               </>
             ) : (
               <>
-                <PillButton asChild>
-                  <Link href='/dashboard'>Launch App</Link>
+                <PillButton type='button' onClick={() => setLaunchOpen(true)}>
+                  Launch App
                 </PillButton>
                 <button
                   type='button'
@@ -249,8 +262,13 @@ export function SiteHeader() {
       </div>
 
       {variant === 'site' && open ? (
-        <MobileMenu onNavigate={() => setOpen(false)} />
+        <MobileMenu
+          onNavigate={() => setOpen(false)}
+          onLaunch={() => setLaunchOpen(true)}
+        />
       ) : null}
+
+      <LaunchAppModal open={launchOpen} onOpenChange={setLaunchOpen} />
     </header>
   );
 }

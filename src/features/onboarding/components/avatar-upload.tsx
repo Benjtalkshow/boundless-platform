@@ -57,7 +57,7 @@ export function AvatarUpload({
             />
           )}
         </span>
-        <span className='absolute right-0 bottom-0 flex size-5 items-center justify-center rounded-full border border-white bg-[#5c6f6b]'>
+        <span className='absolute right-0 bottom-0 flex size-5 items-center justify-center rounded-full border border-white bg-neutral-500'>
           <Camera className='size-3 text-white' />
         </span>
       </Button>

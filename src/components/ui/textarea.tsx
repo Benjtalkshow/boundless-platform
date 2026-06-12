@@ -51,7 +51,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           data-slot='textarea'
           aria-describedby={describedBy || undefined}
           className={cn(
-            'min-h-[120px] w-full resize-none rounded-md border border-neutral-600 bg-transparent px-3 py-2 text-sm text-[#f1fff1] caret-primary-500 shadow-[0_0_0_0_transparent] transition-[color,background-color,border-color,box-shadow] duration-200 ease-out outline-none placeholder:text-[#7a8f8b]/70 hover:border-neutral-500 focus:border-primary-500 focus:bg-ink-soft focus:shadow-[0_0_0_4px_rgba(46,237,170,0.12)] disabled:cursor-not-allowed disabled:opacity-50',
+            'min-h-[120px] w-full resize-none rounded-md border border-neutral-600 bg-transparent px-3 py-2 text-sm text-[#f1fff1] caret-primary-500 shadow-[0_0_0_0_transparent] transition-[color,background-color,border-color,box-shadow] duration-200 ease-out outline-none placeholder:text-neutral-400/70 hover:border-neutral-500 focus:border-primary-500 focus:bg-ink-soft focus:shadow-[0_0_0_4px_rgba(46,237,170,0.12)] disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
           {...props}

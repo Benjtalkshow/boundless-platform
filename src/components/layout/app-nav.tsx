@@ -111,7 +111,7 @@ function KbdChip({ children, pill }: { children: string; pill?: boolean }) {
   return (
     <span
       className={cn(
-        'flex items-center justify-center bg-white/[0.08] px-2 py-0.5 text-xs font-semibold text-[#8b8f97]',
+        'flex items-center justify-center bg-white/8 px-2 py-0.5 text-xs font-semibold text-[#8b8f97]',
         pill ? 'rounded-full' : 'rounded'
       )}
     >

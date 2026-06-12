@@ -39,7 +39,7 @@ const inputFrameVariants = cva(
 );
 
 const STATUS_ICON: Record<'success' | 'error', React.ReactNode> = {
-  success: <CircleCheck className='size-5 text-[#22c55e]' />,
+  success: <CircleCheck className='size-5 text-success-500' />,
   error: <CircleX className='size-5 text-[#e02e2a]' />,
 };
 
@@ -117,13 +117,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
           className={cn(
             inputFrameVariants({ inputSize, shape, state: resolvedState }),
             readOnly &&
-              'border-[#2c3a37]/50 bg-ink-soft focus-within:border-[#2c3a37]/50 hover:border-[#2c3a37]/50',
+              'border-neutral-700/50 bg-ink-soft focus-within:border-neutral-700/50 hover:border-neutral-700/50',
             disabled && 'cursor-not-allowed opacity-50',
             className
           )}
         >
           {leftIcon ? (
-            <span className='flex size-5 shrink-0 items-center justify-center text-[#7a8f8b] transition-colors duration-200'>
+            <span className='flex size-5 shrink-0 items-center justify-center text-neutral-400 transition-colors duration-200'>
               {leftIcon}
             </span>
           ) : null}
@@ -136,7 +136,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
             disabled={disabled}
             aria-invalid={resolvedState === 'error' || undefined}
             className={cn(
-              'min-w-0 flex-1 bg-transparent text-sm text-[#f1fff1] caret-primary-500 outline-none placeholder:text-[#7a8f8b]/70 read-only:cursor-default disabled:cursor-not-allowed',
+              'min-w-0 flex-1 bg-transparent text-sm text-[#f1fff1] caret-primary-500 outline-none placeholder:text-neutral-400/70 read-only:cursor-default disabled:cursor-not-allowed',
               inputClassName
             )}
             {...props}
@@ -149,7 +149,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
               {trailing ? (
                 <span
                   className={cn(
-                    'flex size-5 items-center justify-center text-[#7a8f8b] transition-colors duration-200',
+                    'flex size-5 items-center justify-center text-neutral-400 transition-colors duration-200',
                     isStatusIcon &&
                       'animate-in duration-300 fade-in-0 zoom-in-75 motion-reduce:animate-none'
                   )}
