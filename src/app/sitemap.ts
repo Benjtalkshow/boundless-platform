@@ -4,14 +4,40 @@ import { EXPLORE, PILLARS } from '@/config/pillars';
 import { BLOG_POSTS } from '@/features/marketing';
 import { SITE_URL } from '@/lib/site';
 
+const MONTHS = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+];
+
+/**
+ * Deterministically parse the "DD Month YYYY" blog date format (UTC), falling
+ * back when the value is not in that shape. Avoids the implementation-defined
+ * behaviour of `new Date(string)` for non-ISO inputs.
+ */
 function parseDate(value: string, fallback: Date): Date {
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? fallback : parsed;
+  const match = /^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/.exec(value.trim());
+  if (match) {
+    const day = Number(match[1]);
+    const month = MONTHS.indexOf(match[2].toLowerCase());
+    const year = Number(match[3]);
+    if (month !== -1) return new Date(Date.UTC(year, month, day));
+  }
+  return fallback;
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const url = (path: string) => `${SITE_URL}${path}`;
+  const url = (path: string) => new URL(path || '/', SITE_URL).toString();
 
   const marketing: MetadataRoute.Sitemap = [
     { url: url(''), lastModified: now, changeFrequency: 'weekly', priority: 1 },
