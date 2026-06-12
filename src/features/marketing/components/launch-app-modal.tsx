@@ -37,7 +37,7 @@ const ROLES: RoleOption[] = [
     value: 'organiser',
     title: 'Organiser (Create & Host)',
     description:
-      'Launch/Host bounties, hackathons, grants and crowdfunding campaigns',
+      'Launch/Host bounties, hackathons, grants and crowdfunding campaigns.',
     icon: '/illustrations/role-organiser.svg',
   },
 ];

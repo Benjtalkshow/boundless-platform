@@ -1,28 +1,6 @@
-import { Bookmark, type LucideIcon, Users } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { Bookmark, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-
-function OutlineButton({
-  icon: Icon,
-  children,
-}: {
-  icon: LucideIcon;
-  children: ReactNode;
-}) {
-  return (
-    <Button
-      appearance='outline'
-      intent='secondary'
-      shape='pill'
-      size='small'
-      className='shrink-0'
-    >
-      <Icon className='size-4' strokeWidth={1.75} aria-hidden />
-      {children}
-    </Button>
-  );
-}
 
 /** Page header for a discovery view: title with result count, subtext, actions. */
 export function DiscoverHeader({
