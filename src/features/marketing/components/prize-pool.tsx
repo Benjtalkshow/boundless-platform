@@ -35,25 +35,49 @@ function PrizeRow({
         <span className='text-foreground'>{amount}</span>
         <span className='text-neutral-300'>{currency}</span>
       </div>
-      {/* Dot straddles the timeline line to the left of the row. */}
+      {/* Dot centered on the 2px timeline (34px padding + 1px to its center,
+          minus half the dot). */}
       <span
         aria-hidden
-        className='absolute top-1 -left-[41px] size-4 rounded-full border-4 border-[#11230f] bg-primary'
+        className='absolute top-1 -left-[43px] size-4 rounded-full border-4 border-[#11230f] bg-primary'
       />
     </div>
   );
 }
 
-function PrizesBlock({
-  total,
-  currency,
-  label,
+function TiersBlock({
   tiers,
+  currency,
   ariaHidden,
-}: Required<Omit<PrizePoolProps, 'className'>> & { ariaHidden?: boolean }) {
+}: {
+  tiers: PrizeTier[];
+  currency: string;
+  ariaHidden?: boolean;
+}) {
   return (
-    <div aria-hidden={ariaHidden} className='flex flex-col gap-5 pt-5'>
-      <div className='flex items-center gap-3'>
+    <div
+      aria-hidden={ariaHidden}
+      className='flex flex-col gap-4 border-l-2 border-primary/20 pb-4 pl-[34px]'
+    >
+      {tiers.map((tier, index) => (
+        <PrizeRow key={index} {...tier} currency={currency} />
+      ))}
+    </div>
+  );
+}
+
+/** Total prize pool: a fixed header above an infinitely scrolling tier list. */
+export function PrizePool({
+  total = '300,000',
+  currency = 'USDC',
+  label = 'Total Prize Pool',
+  tiers = DEFAULT_TIERS,
+  className,
+}: PrizePoolProps) {
+  return (
+    <div className={cn('group flex h-[200px] w-[234px] flex-col', className)}>
+      {/* Fixed header */}
+      <div className='flex shrink-0 items-center gap-3'>
         <Image
           src='/brand/usdc.png'
           alt=''
@@ -72,37 +96,12 @@ function PrizesBlock({
         </div>
       </div>
 
-      <div className='px-[18px]'>
-        <div className='flex flex-col gap-4 border-l-2 border-primary/20 pl-[34px]'>
-          {tiers.map((tier, index) => (
-            <PrizeRow key={index} {...tier} currency={currency} />
-          ))}
+      {/* Only the tiers scroll, in two copies for a seamless loop. */}
+      <div className='relative mt-5 overflow-hidden pl-[18px]'>
+        <div className='flex animate-prize-scroll flex-col will-change-transform group-hover:[animation-play-state:paused] motion-reduce:animate-none'>
+          <TiersBlock tiers={tiers} currency={currency} />
+          <TiersBlock tiers={tiers} currency={currency} ariaHidden />
         </div>
-      </div>
-    </div>
-  );
-}
-
-/** Total prize pool with an infinitely scrolling tier breakdown. */
-export function PrizePool({
-  total = '300,000',
-  currency = 'USDC',
-  label = 'Total Prize Pool',
-  tiers = DEFAULT_TIERS,
-  className,
-}: PrizePoolProps) {
-  const block = { total, currency, label, tiers };
-  return (
-    <div
-      className={cn(
-        'group relative h-[200px] w-[234px] overflow-hidden',
-        className
-      )}
-    >
-      {/* Track holds two identical copies so the loop is seamless. */}
-      <div className='flex animate-prize-scroll flex-col will-change-transform group-hover:[animation-play-state:paused] motion-reduce:animate-none'>
-        <PrizesBlock {...block} />
-        <PrizesBlock {...block} ariaHidden />
       </div>
     </div>
   );

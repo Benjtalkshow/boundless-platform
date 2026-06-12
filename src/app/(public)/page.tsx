@@ -3,7 +3,6 @@ import Link from 'next/link';
 import {
   CtaSection,
   Faq,
-  FourSteps,
   FundingPaths,
   HeroSection,
   MarketingButton,
@@ -55,7 +54,6 @@ export default function HomePage() {
       </HeroSection>
       <TrustBar />
       <FundingPaths />
-      <FourSteps />
       <Personas />
       <Testimonials />
       <Faq />
