@@ -118,7 +118,7 @@ export const headerMenus: NavGroup[] = [
       },
       {
         label: 'GitHub',
-        href: 'https://github.com/boundless-fi',
+        href: 'https://github.com/boundlessfi',
         description: 'Explore our open source',
         icon: Terminal,
       },
@@ -149,11 +149,11 @@ export const footerColumns: NavGroup[] = [
   {
     label: 'Resources',
     items: [
-      { label: 'Documentation', href: '/docs' },
+      { label: 'Documentation', href: 'https://docs.boundlessfi.xyz' },
       { label: 'API Reference', href: '/docs/api' },
       { label: 'FAQs', href: '/faq' },
       { label: 'Whitepaper', href: '/whitepaper' },
-      { label: 'GitHub', href: 'https://github.com/boundless-fi' },
+      { label: 'GitHub', href: 'https://github.com/boundlessfi' },
     ],
   },
   {
@@ -175,13 +175,13 @@ export interface SocialLink {
 }
 
 export const socialLinks: SocialLink[] = [
-  { key: 'discord', label: 'Discord', href: 'https://discord.gg/boundless' },
+  { key: 'discord', label: 'Discord', href: 'https://discord.gg/7zJKnpCTKE' },
   {
     key: 'linkedin',
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/boundless',
+    href: 'https://www.linkedin.com/company/boundlesshq',
   },
-  { key: 'telegram', label: 'Telegram', href: 'https://t.me/boundless' },
+  { key: 'telegram', label: 'Telegram', href: 'https://t.me/boundlessfi' },
   { key: 'x', label: '(formerly twitter)', href: 'https://x.com/boundless_fi' },
   { key: 'support', label: 'Support', href: '/support' },
 ];

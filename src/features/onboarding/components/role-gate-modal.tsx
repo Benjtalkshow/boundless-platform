@@ -96,7 +96,7 @@ export function RoleGateModal({
         <div className='flex w-full flex-col gap-8'>
           {/* Usage */}
           <div className='flex flex-col gap-3'>
-            <p className='text-body-sm font-medium text-[#c2d0cd]'>
+            <p className='text-body-sm font-medium text-neutral-200'>
               How are you planning to use Boundless?
             </p>
             <div className='flex gap-3'>
@@ -131,7 +131,7 @@ export function RoleGateModal({
 
           {/* Source */}
           <div className='flex flex-col gap-3'>
-            <p className='text-body-sm font-medium text-[#c2d0cd]'>
+            <p className='text-body-sm font-medium text-neutral-200'>
               How did you hear about boundless?
             </p>
             <Select value={source} onValueChange={setSource}>
@@ -150,7 +150,7 @@ export function RoleGateModal({
 
           {/* Use cases */}
           <div className='flex flex-col gap-3'>
-            <p className='text-body-sm font-medium text-[#c2d0cd]'>
+            <p className='text-body-sm font-medium text-neutral-200'>
               What do you want to use Boundless for?
             </p>
             <div className='grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2'>

@@ -115,7 +115,7 @@ export function OpportunityCard({
             strokeWidth={1.75}
             aria-hidden
           />
-          <span className='rounded-[12px] bg-[rgba(234,253,247,0.08)] px-2 py-0.5 text-xs font-medium text-[#21a879]'>
+          <span className='rounded-[12px] bg-[rgba(234,253,247,0.08)] px-2 py-0.5 text-xs font-medium text-primary-700'>
             {category}
           </span>
         </span>
@@ -133,7 +133,7 @@ export function OpportunityCard({
       <span aria-hidden className='h-px w-full bg-[#1f2a28]' />
 
       <div className='flex items-center gap-3'>
-        <span className='flex min-w-0 flex-1 items-center gap-1 text-xs font-medium text-[#3ba7ff]'>
+        <span className='flex min-w-0 flex-1 items-center gap-1 text-xs font-medium text-info-500'>
           <Calendar
             className='size-4 shrink-0'
             strokeWidth={1.75}

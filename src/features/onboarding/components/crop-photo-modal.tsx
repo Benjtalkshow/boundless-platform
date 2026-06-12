@@ -178,7 +178,7 @@ export function CropPhotoModal({
           </div>
 
           <div className='flex w-full max-w-[196px] items-center gap-1'>
-            <ImageIcon className='size-4 shrink-0 text-[#7a8f8b]' />
+            <ImageIcon className='size-4 shrink-0 text-neutral-400' />
             <input
               type='range'
               min={1}
@@ -189,7 +189,7 @@ export function CropPhotoModal({
               aria-label='Zoom'
               className='h-1 flex-1 cursor-pointer appearance-none rounded-full bg-[#2e3a38] accent-primary-500'
             />
-            <ImageIcon className='size-6 shrink-0 text-[#7a8f8b]' />
+            <ImageIcon className='size-6 shrink-0 text-neutral-400' />
           </div>
         </div>
 

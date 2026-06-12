@@ -1,4 +1,4 @@
-import { Bookmark, type LucideIcon, Trophy, Users } from 'lucide-react';
+import { Bookmark, type LucideIcon, Users } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
