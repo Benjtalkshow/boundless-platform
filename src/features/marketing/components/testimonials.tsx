@@ -130,19 +130,20 @@ export function Testimonials() {
   return (
     <section className='hidden overflow-hidden bg-ink py-20 lg:block'>
       <div className='px-5 lg:px-[100px]'>
-        <div className='mx-auto flex w-full max-w-[1240px] items-start justify-between gap-8'>
-          <div className='flex flex-col gap-3'>
-            <h2 className='font-heading text-3xl leading-none font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl lg:tracking-[-1.92px]'>
-              Trusted by{' '}
-              <span className='text-primary'>Builders Worldwide</span>
-            </h2>
-            <p className='max-w-md text-base leading-[1.45] text-text-muted'>
-              Hear how communities, founders and contributors are creating
-              impact through Boundless.
-            </p>
-          </div>
+        <div className='mx-auto w-full max-w-[1240px]'>
+          <div className='flex items-start justify-between gap-8'>
+            <div className='flex flex-col gap-3'>
+              <h2 className='font-heading text-3xl leading-none font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl lg:tracking-[-1.92px]'>
+                Trusted by{' '}
+                <span className='text-primary'>Builders Worldwide</span>
+              </h2>
+              <p className='max-w-md text-base leading-[1.45] text-text-muted'>
+                Hear how communities, founders and contributors are creating
+                impact through Boundless.
+              </p>
+            </div>
 
-          {/* Liquid-glass CTA, scaled from a 282px reference to this ~44px
+            {/* Liquid-glass CTA, scaled from a 282px reference to this ~44px
               pill. The lit border runs only along the top-left -> bottom-right
               diagonal (where light enters and exits): a 135deg gradient ring,
               bright at those two corners and transparent at the top-right and
@@ -150,27 +151,27 @@ export function Testimonials() {
               highlight sets the light direction and diagonal inset bevels form
               the refractive lens edge. The fill stays dark/translucent over the
               10px backdrop blur, with only a faint inner frost. */}
-          <a
-            href='https://x.com/boundless_fi'
-            target='_blank'
-            rel='noreferrer'
-            className='relative inline-flex shrink-0 items-center justify-center gap-2 rounded-[60px] bg-[radial-gradient(80%_80%_at_15%_16%,rgba(255,255,255,0.14)_0%,rgba(255,255,255,0)_70%)] px-4 py-3 text-sm text-white shadow-[0px_5px_10px_0px_rgba(0,0,0,0.05),0px_15px_30px_0px_rgba(0,0,0,0.05),0px_30px_60px_0px_rgba(0,0,0,0.1),inset_4px_4px_1px_-4px_rgba(255,255,255,0.5),inset_3px_3px_2px_-3px_rgba(179,179,179,0.45),inset_-3px_-3px_2px_-3px_rgba(179,179,179,0.45),inset_0px_0px_24px_0px_rgba(242,242,242,0.08)] backdrop-blur-[10px]'
-          >
-            <span
-              aria-hidden
-              className='pointer-events-none absolute inset-0 rounded-[60px] bg-[linear-gradient(135deg,rgba(255,255,255,0.85)_0%,rgba(255,255,255,0)_42%,rgba(255,255,255,0)_58%,rgba(255,255,255,0.85)_100%)] mask-[linear-gradient(#fff_0_0),linear-gradient(#fff_0_0)] mask-exclude [mask-clip:content-box,border-box] p-px'
-            />
-            <SocialGlyph name='x' className='size-5' />
-            Follow Boundless
-            <ArrowUpRight className='size-5' strokeWidth={1.75} aria-hidden />
-          </a>
+            <a
+              href='https://x.com/boundless_fi'
+              target='_blank'
+              rel='noreferrer'
+              className='relative inline-flex shrink-0 items-center justify-center gap-2 rounded-[60px] bg-[radial-gradient(80%_80%_at_15%_16%,rgba(255,255,255,0.14)_0%,rgba(255,255,255,0)_70%)] px-4 py-3 text-sm text-white shadow-[0px_5px_10px_0px_rgba(0,0,0,0.05),0px_15px_30px_0px_rgba(0,0,0,0.05),0px_30px_60px_0px_rgba(0,0,0,0.1),inset_4px_4px_1px_-4px_rgba(255,255,255,0.5),inset_3px_3px_2px_-3px_rgba(179,179,179,0.45),inset_-3px_-3px_2px_-3px_rgba(179,179,179,0.45),inset_0px_0px_24px_0px_rgba(242,242,242,0.08)] backdrop-blur-[10px]'
+            >
+              <span
+                aria-hidden
+                className='pointer-events-none absolute inset-0 rounded-[60px] bg-[linear-gradient(135deg,rgba(255,255,255,0.85)_0%,rgba(255,255,255,0)_42%,rgba(255,255,255,0)_58%,rgba(255,255,255,0.85)_100%)] mask-[linear-gradient(#fff_0_0),linear-gradient(#fff_0_0)] mask-exclude [mask-clip:content-box,border-box] p-px'
+              />
+              <SocialGlyph name='x' className='size-5' />
+              Follow Boundless
+              <ArrowUpRight className='size-5' strokeWidth={1.75} aria-hidden />
+            </a>
+          </div>
+          {/* Marquee contained to the section width with a soft edge fade. */}
+          <div className='mt-14 flex flex-col gap-5 overflow-hidden mask-[linear-gradient(to_right,transparent,#000_7%,#000_93%,transparent)]'>
+            <Row items={ROW_ONE} direction='left' />
+            <Row items={ROW_TWO} direction='right' />
+          </div>
         </div>
-      </div>
-
-      {/* Full-bleed marquee with a soft fade at both edges. */}
-      <div className='mt-14 flex flex-col gap-5 mask-[linear-gradient(to_right,transparent,#000_7%,#000_93%,transparent)]'>
-        <Row items={ROW_ONE} direction='left' />
-        <Row items={ROW_TWO} direction='right' />
       </div>
     </section>
   );
