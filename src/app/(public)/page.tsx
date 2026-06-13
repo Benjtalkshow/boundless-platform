@@ -5,6 +5,7 @@ import {
   CtaSection,
   Faq,
   FundingPaths,
+  FundingPrograms,
   HeroSection,
   MarketingButton,
   NewsSection,
@@ -63,6 +64,7 @@ export default function HomePage() {
         </div>
       </HeroSection>
       <TrustBar />
+      <FundingPrograms />
       <FundingPaths />
       <Personas />
       <Testimonials />
