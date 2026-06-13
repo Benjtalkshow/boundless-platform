@@ -89,7 +89,7 @@ export function LaunchAppModal({ open, onOpenChange }: LaunchAppModalProps) {
             <DialogTitle className='font-heading text-h5 font-semibold text-white'>
               Choose how you want to explore Boundless
             </DialogTitle>
-            <DialogDescription className='text-body-sm text-[#e8e9e9]'>
+            <DialogDescription className='text-body-sm text-secondary-50'>
               You can always switch later.
             </DialogDescription>
           </div>

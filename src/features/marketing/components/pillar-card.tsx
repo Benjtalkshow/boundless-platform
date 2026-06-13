@@ -83,7 +83,7 @@ export function PillarCard({ className, animationDelay }: PillarCardProps) {
     >
       <div className='absolute top-[10px] left-[10px] h-[37px] w-[240px] overflow-hidden'>
         <div
-          className='flex animate-card-rotate flex-col group-hover:[animation-play-state:paused] motion-reduce:animate-none'
+          className='flex animate-card-rotate flex-col group-hover:paused motion-reduce:animate-none'
           style={animationDelay ? { animationDelay } : undefined}
         >
           {rows.map((pillar, index) => (

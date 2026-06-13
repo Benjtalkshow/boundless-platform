@@ -39,7 +39,7 @@ function PrizeRow({
           minus half the dot). */}
       <span
         aria-hidden
-        className='absolute top-1 -left-[43px] size-4 rounded-full border-4 border-[#11230f] bg-primary'
+        className='absolute top-1 left-[-43px] size-4 rounded-full border-4 border-[#11230f] bg-primary'
       />
     </div>
   );
@@ -98,7 +98,7 @@ export function PrizePool({
 
       {/* Only the tiers scroll, in two copies for a seamless loop. */}
       <div className='relative mt-5 overflow-hidden pl-[18px]'>
-        <div className='flex animate-prize-scroll flex-col will-change-transform group-hover:[animation-play-state:paused] motion-reduce:animate-none'>
+        <div className='flex animate-prize-scroll flex-col will-change-transform group-hover:paused motion-reduce:animate-none'>
           <TiersBlock tiers={tiers} currency={currency} />
           <TiersBlock tiers={tiers} currency={currency} ariaHidden />
         </div>

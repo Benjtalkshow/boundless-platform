@@ -153,7 +153,7 @@ export function HeroBackground({
           height: '100%',
         }}
       />
-      <div className='relative z-[1]'>{children}</div>
+      <div className='relative z-1'>{children}</div>
     </div>
   );
 }
